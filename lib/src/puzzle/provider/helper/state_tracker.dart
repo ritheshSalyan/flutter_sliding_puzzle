@@ -1,4 +1,4 @@
-mixin StateTracker<T> {
+mixin StackTracker<T> {
   final List<T> _stack = [];
 
   int get moves => _stack.length;
