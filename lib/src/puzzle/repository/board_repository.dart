@@ -21,9 +21,19 @@ class BoardRepository<T> {
         );
       }
     }
-    tiles.removeLast();
+
+    ///
+    /// For WhiteSpace. Since [tiles] are sorted in order
+    ///
+    final space = tiles.removeLast();
 
     return BoardRepository<int>(
-        PuzzleBoard<int>(tiles: tiles, xDim: dim, yDim: dim));
+      PuzzleBoard<int>(
+        tiles: tiles,
+        xDim: dim,
+        yDim: dim,
+        whiteSpace: space.currentPos,
+      ),
+    );
   }
 }

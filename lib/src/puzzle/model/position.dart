@@ -17,10 +17,8 @@ class BoardPosition {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
-    return other is BoardPosition &&
-      other.x == x &&
-      other.y == y;
+
+    return other is BoardPosition && other.x == x && other.y == y;
   }
 
   @override

@@ -1,23 +1,30 @@
 import 'package:flutter/foundation.dart';
 
-import 'package:sliding_puzzle/src/puzzle/model/tiles.dart';
+import 'model.dart';
 
 class PuzzleBoard<T> {
   final List<Tile<T>> tiles;
   final int xDim;
   final int yDim;
-
-  PuzzleBoard({required this.tiles, required this.xDim, required this.yDim});
+  final BoardPosition whiteSpace;
+  PuzzleBoard({
+    required this.tiles,
+    required this.xDim,
+    required this.yDim,
+    required this.whiteSpace,
+  });
 
   PuzzleBoard<T> copyWith({
     List<Tile<T>>? tiles,
     int? xDim,
     int? yDim,
+    BoardPosition? whiteSpace,
   }) {
     return PuzzleBoard<T>(
       tiles: tiles ?? this.tiles,
       xDim: xDim ?? this.xDim,
       yDim: yDim ?? this.yDim,
+      whiteSpace: whiteSpace ?? this.whiteSpace,
     );
   }
 
@@ -28,9 +35,15 @@ class PuzzleBoard<T> {
     return other is PuzzleBoard<T> &&
       listEquals(other.tiles, tiles) &&
       other.xDim == xDim &&
-      other.yDim == yDim;
+      other.yDim == yDim &&
+      other.whiteSpace == whiteSpace;
   }
 
   @override
-  int get hashCode => tiles.hashCode ^ xDim.hashCode ^ yDim.hashCode;
+  int get hashCode {
+    return tiles.hashCode ^
+      xDim.hashCode ^
+      yDim.hashCode ^
+      whiteSpace.hashCode;
+  }
 }
