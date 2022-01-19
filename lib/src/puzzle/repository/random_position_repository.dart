@@ -19,11 +19,13 @@ class RandomPositionRepository {
         possiblePositions.add(BoardPosition(i, j));
       }
     }
+
+    possiblePositions.shuffle();
   }
 
   BoardPosition generateRandomPosition() {
-
-    int pos = Random().nextInt(possiblePositions.length - 1);
+    if (possiblePositions.length == 1) return possiblePositions.removeLast();
+    int pos = Random().nextInt(possiblePositions.length);
     return possiblePositions.removeAt(pos);
   }
 }

@@ -1,6 +1,4 @@
-
 import '../model/model.dart';
-
 import 'random_position_repository.dart';
 
 class BoardRepository<T> {
@@ -18,7 +16,7 @@ class BoardRepository<T> {
           Tile(
             correctPos: BoardPosition(i, j),
             currentPos: positionGenerator.generateRandomPosition(),
-            data: i + j,
+            data: (i * dim) + j + 1,
           ),
         );
       }
