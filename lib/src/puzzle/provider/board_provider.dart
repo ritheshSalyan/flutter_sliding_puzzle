@@ -1,34 +1,57 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sliding_puzzle/src/puzzle/model/board.dart';
-import 'package:sliding_puzzle/src/puzzle/model/model.dart';
-import 'package:sliding_puzzle/src/puzzle/repository/board_repository.dart';
+import 'package:sliding_puzzle/src/puzzle/provider/input/keyboard/keyboard_controller.dart';
 
 import '../puzzle.dart';
-import 'helper/state_tracker.dart';
+import 'board_controller.dart';
+import 'observer/state_tracker.dart';
 
-final puzzelBoardProvider = StateProvider<PuzzleBoard>((ref) {
-  return BoardRepository.square(4).board;
-});
-
-class PuzzelProvider extends ChangeNotifier with StackTracker<PuzzleBoard> {
+class BoardAnimationController extends ChangeNotifier
+    with StackTracker<PuzzleBoard>, KeyboardController {
   final Ref _ref;
-  PuzzelProvider(
+  BoardAnimationController(
     this._ref,
   );
 
-  static final provider = ChangeNotifierProvider<PuzzelProvider>((ref) {
-    return PuzzelProvider(ref);
+  static final provider = ChangeNotifierProvider<BoardAnimationController>((ref) {
+    return BoardAnimationController(ref);
   });
 
   void shuffle() {
-    _ref.read(puzzelBoardProvider.notifier).state =
-        BoardRepository.square(4).board;
+    _ref.refresh(BoardLogicController.provider);
   }
 
   void moveTile(Tile tile) {
-    saveState(_ref.read(puzzelBoardProvider));
-    var moveTile = _ref.read(puzzelBoardProvider).moveTile(tile);
-    _ref.read(puzzelBoardProvider.notifier).state = moveTile;
+    saveState(_ref.read(BoardLogicController.provider));
+    _ref.read(BoardLogicController.provider.notifier).moveTile(tile);
   }
+
+  BoardLogicController get boardController =>
+      _ref.read(BoardLogicController.provider.notifier);
+
+  @override
+  void moveUp() {
+    boardController.moveUp();
+  }
+
+  @override
+  void moveDown() {
+    boardController.moveDown();
+  }
+
+  @override
+  void moveLeft() {
+    boardController.moveLeft();
+  }
+
+  @override
+  void moveRight() {
+    boardController.moveRight();
+  }
+
+  
+  
+
 }
+
+

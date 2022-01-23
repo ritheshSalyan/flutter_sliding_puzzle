@@ -1,11 +1,11 @@
 // import 'package:sliding_puzzle/src/puzzle/model/model.dart';
+// import 'package:sliding_puzzle/src/puzzle/provider/board_provider.dart';
 
 // import '../../../extensions/extensions.dart';
 // import '../../commands/board_command.dart';
 
 // class MoveTile implements PuzzleCommand {
-//   final Tile? tile;
-//   PuzzleBoard board;
+//   BoardController controller
 //   MoveTile._(this.tile, this.board);
 
 //   factory MoveTile.left(PuzzleBoard board) {

@@ -21,24 +21,45 @@ extension BoardGetterMethods on PuzzleBoard {
     return tilePosition.isAdjucent(whiteSpace);
   }
 
+  MovablePosition getMovablePosition(Tile tile) {
+    final tilePosition = tile.currentPos;
+
+    if (whiteSpace.isImmidiateLeft(tilePosition)) return MovablePosition.left;
+    if (whiteSpace.isImmidiateRight(tilePosition)) return MovablePosition.right;
+    if (whiteSpace.isImmidiateTop(tilePosition)) return MovablePosition.top;
+    if (whiteSpace.isImmidiateBottom(tilePosition)) return MovablePosition.down;
+    return MovablePosition.none;
+  }
+
   Tile? getLeftMoveableTile() {
     return tiles.firstWhereOrNull(
       (element) => element.currentPos.isImmidiateLeft(whiteSpace),
     );
   }
+
   Tile? getRightMoveableTile() {
     return tiles.firstWhereOrNull(
       (element) => element.currentPos.isImmidiateRight(whiteSpace),
     );
   }
+
   Tile? geTopMoveableTile() {
     return tiles.firstWhereOrNull(
       (element) => element.currentPos.isImmidiateTop(whiteSpace),
     );
   }
+
   Tile? getBottomMoveableTile() {
     return tiles.firstWhereOrNull(
       (element) => element.currentPos.isImmidiateBottom(whiteSpace),
     );
   }
+}
+
+enum MovablePosition {
+  top,
+  down,
+  left,
+  right,
+  none,
 }
