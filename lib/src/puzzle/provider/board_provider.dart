@@ -1,21 +1,28 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sliding_puzzle/src/puzzle/provider/animation/custom_animation_controller.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/input/keyboard/keyboard_controller.dart';
 
 import '../puzzle.dart';
 import 'board_controller.dart';
 import 'observer/state_tracker.dart';
 
-class BoardAnimationController extends ChangeNotifier
+class BoardUIController extends ChangeNotifier
     with StackTracker<PuzzleBoard>, KeyboardController {
   final Ref _ref;
-  BoardAnimationController(
+  BoardUIController(
     this._ref,
   );
 
-  static final provider = ChangeNotifierProvider<BoardAnimationController>((ref) {
-    return BoardAnimationController(ref);
+  static final provider = ChangeNotifierProvider<BoardUIController>((ref) {
+    return BoardUIController(ref);
   });
+  late AnimationControllers animationControllers;
+
+  void createAnimationControllers(TickerProvider vsync) {
+    animationControllers = AnimationControllers.create(vsync);
+  }
 
   void shuffle() {
     _ref.refresh(BoardLogicController.provider);
@@ -48,10 +55,4 @@ class BoardAnimationController extends ChangeNotifier
   void moveRight() {
     boardController.moveRight();
   }
-
-  
-  
-
 }
-
-

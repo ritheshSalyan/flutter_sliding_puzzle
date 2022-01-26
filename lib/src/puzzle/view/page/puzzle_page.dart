@@ -13,11 +13,11 @@ class PuzzlePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: CustomKeyboardActionListner(
-          controller: ref.watch(BoardAnimationController.provider),
+          controller: ref.watch(BoardUIController.provider),
           child: const BoardView()),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          ref.read(BoardAnimationController.provider).shuffle();
+          ref.read(BoardUIController.provider).shuffle();
         },
       ),
       bottomNavigationBar: Row(

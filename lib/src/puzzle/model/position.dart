@@ -1,4 +1,4 @@
-class BoardPosition {
+class BoardPosition extends Comparable<BoardPosition> {
   final int x;
   final int y;
 
@@ -23,4 +23,21 @@ class BoardPosition {
 
   @override
   int get hashCode => x.hashCode ^ y.hashCode;
+
+  @override
+  int compareTo(BoardPosition other) {
+    if (y < other.y) {
+      return -1;
+    } else if (y > other.y) {
+      return 1;
+    } else {
+      if (x < other.x) {
+        return -1;
+      } else if (x > other.x) {
+        return 1;
+      } else {
+        return 0;
+      }
+    }
+  }
 }
