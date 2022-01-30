@@ -4,16 +4,19 @@ class BoardRotationController {
   final ValueNotifier<Offset> boardAngle = ValueNotifier(Offset.zero);
   Offset _previousValue = Offset.zero;
   Offset get previousValue => _previousValue;
+
+  final minAngle = -25.0;
+  final maxAngle = 25.0;
   void rotateBy(Offset offset) {
     double x = 0;
     double y = 0;
     Offset currentAngle = boardAngle.value;
-    if ((currentAngle.dx + offset.dx < 21) &&
-        (currentAngle.dx + offset.dx > -21)) {
+    if ((currentAngle.dx + offset.dx < maxAngle) &&
+        (currentAngle.dx + offset.dx > minAngle)) {
       x = offset.dx;
     }
-    if ((currentAngle.dy + offset.dy < 21) &&
-        (currentAngle.dy + offset.dy > -21)) {
+    if ((currentAngle.dy + offset.dy < maxAngle) &&
+        (currentAngle.dy + offset.dy > minAngle)) {
       y = offset.dy;
     }
     _previousValue = boardAngle.value;
