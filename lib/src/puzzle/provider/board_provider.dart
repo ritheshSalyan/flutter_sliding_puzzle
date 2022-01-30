@@ -3,6 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/animation/custom_animation_controller.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/input/keyboard/keyboard_controller.dart';
+import 'package:sliding_puzzle/src/puzzle/provider/tile_state.dart';
+import 'package:sliding_puzzle/src/puzzle/view/widgets/animation/board_rotation_controller.dart';
 
 import '../puzzle.dart';
 import 'board_controller.dart';
@@ -19,9 +21,10 @@ class BoardUIController extends ChangeNotifier
     return BoardUIController(ref);
   });
   late AnimationControllers animationControllers;
-
+  final BoardRotationController boardRotationController =
+      BoardRotationController();
   void createAnimationControllers(TickerProvider vsync) {
-    animationControllers = AnimationControllers.create(vsync);
+    // animationControllers = AnimationControllers.create(vsync);
   }
 
   void shuffle() {
@@ -30,7 +33,17 @@ class BoardUIController extends ChangeNotifier
 
   void moveTile(Tile tile) {
     saveState(_ref.read(BoardLogicController.provider));
-    _ref.read(BoardLogicController.provider.notifier).moveTile(tile);
+    final previousPos = tile.currentPos;
+    final camMove =
+        _ref.read(BoardLogicController.provider.notifier).moveTile(tile);
+    if (camMove) {
+      final newTile = _ref
+          .read(BoardLogicController.provider)
+          .tiles
+          .firstWhere((element) => element.correctPos == tile.correctPos);
+      _ref.read(TileStateNotifier.provider(tile.correctPos).notifier).state =
+          TileState(newTile.currentPos, previousPosition: previousPos);
+    }
   }
 
   BoardLogicController get boardController =>
@@ -38,21 +51,33 @@ class BoardUIController extends ChangeNotifier
 
   @override
   void moveUp() {
-    boardController.moveUp();
+    var moveUp = boardController.moveUp();
+    if (moveUp != null) moveTile(moveUp);
   }
 
   @override
   void moveDown() {
-    boardController.moveDown();
+    var tile = boardController.moveDown();
+    if (tile != null) {
+      moveTile(tile);
+    }
   }
 
   @override
   void moveLeft() {
-    boardController.moveLeft();
+    var tile = boardController.moveLeft();
+    if (tile != null) {
+      moveTile(tile);
+    }
   }
 
   @override
   void moveRight() {
-    boardController.moveRight();
+    var tile = boardController.moveRight();
+    if (tile != null) {
+      moveTile(tile);
+    }
   }
+
+  void rotateBoardBy() {}
 }

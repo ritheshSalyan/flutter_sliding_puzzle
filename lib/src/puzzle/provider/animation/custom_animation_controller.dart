@@ -34,11 +34,3 @@ class TileAnimationController {
     );
   }
 }
-
-class BoardRotationController {
-  ValueNotifier<Offset> offset = ValueNotifier(Offset.zero);
-
-  void onDragUpdate(DragUpdateDetails details) {
-    offset.value += details.delta;
-  }
-}

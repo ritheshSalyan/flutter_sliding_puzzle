@@ -30,17 +30,17 @@ class CubePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final cubeSize = size.shortestSide / 2;
     final height = size.shortestSide * 0.75;
     final width = size.shortestSide * 0.75;
-    final depth = (25.0) * (index + 1); // height * 0.5;
+    final depth = (10.0) * (index + 1); // height * 0.5;
+    final cubeSize = depth; //size.shortestSide / 2;
 
     ///
 
     final side = Rect.fromLTRB(-cubeSize, -cubeSize, cubeSize, cubeSize);
-    final v1 = vector.Vector3(cubeSize, cubeSize, 0);
-    final v2 = vector.Vector3(-cubeSize, cubeSize, 0);
-    final v3 = vector.Vector3(-cubeSize, -cubeSize, 0);
+    final v1 = vector.Vector3(1, 1, 0);
+    final v2 = vector.Vector3(-1, 1, 0);
+    final v3 = vector.Vector3(-1, -1, 0);
 
     _positions = [
       Face(height, width,
@@ -80,7 +80,7 @@ class CubePainter extends CustomPainter {
     final cameraMatrix = vector.Matrix4.identity()
       ..translate(size.width / 2, size.height / 2)
       ..multiply(vector.Matrix4.identity()
-        ..setEntry(3, 2, 0.0008)
+        ..setEntry(3, 2, 0.0001)
         ..rotateX(angleY)
         ..rotateY(angleX));
     final cameraPos = cameraMatrix.transform3(vector.Vector3.zero());
@@ -106,6 +106,27 @@ class CubePainter extends CustomPainter {
           Paint()
             ..color =
                 colors[i].withBrightness(directionBrightness * 0.6 + 0.4));
+      const textStyle = TextStyle(
+        color: Colors.black,
+        fontSize: 30,
+      );
+      final textSpan = TextSpan(
+        text: '$index',
+        style: textStyle,
+      );
+      final textPainter = TextPainter(
+        text: textSpan,
+        textDirection: TextDirection.ltr,
+      );
+      textPainter.layout(
+        minWidth: 0,
+        maxWidth: size.width,
+      );
+      // var rectsize = _positions[i].rect.size;
+      final xCenter = (-textPainter.width) / 2;
+      final yCenter = (-textPainter.height) / 2;
+      final offset = Offset(xCenter, yCenter);
+      textPainter.paint(canvas, offset);
       canvas.restore();
     }
   }
@@ -148,23 +169,23 @@ vector.Vector3 normalVector3(
   );
 }
 
-vector.Vector3 reflect(vector.Vector3 d, vector.Vector3 n) {
-  return d - n * 2 * d.dot(n);
-}
+// vector.Vector3 reflect(vector.Vector3 d, vector.Vector3 n) {
+//   return d - n * 2 * d.dot(n);
+// }
 
-vector.Vector3? intersectLineWithPlane(
-  vector.Vector3 vectorPoint,
-  vector.Vector3 vectorDirection,
-  vector.Vector3 planePoint,
-  vector.Vector3 planeNormal,
-) {
-  final vn = vectorDirection.dot(planeNormal);
-  if (vn.abs() < 0.00000000000001) {
-    return null;
-  }
-  final d = (planePoint - vectorPoint).dot(planeNormal) / vn;
-  return vectorPoint + vectorDirection * d;
-}
+// vector.Vector3? intersectLineWithPlane(
+//   vector.Vector3 vectorPoint,
+//   vector.Vector3 vectorDirection,
+//   vector.Vector3 planePoint,
+//   vector.Vector3 planeNormal,
+// ) {
+//   final vn = vectorDirection.dot(planeNormal);
+//   if (vn.abs() < 0.00000000000001) {
+//     return null;
+//   }
+//   final d = (planePoint - vectorPoint).dot(planeNormal) / vn;
+//   return vectorPoint + vectorDirection * d;
+// }
 
 extension ColorUtil on Color {
   Color withBrightness(double value) {

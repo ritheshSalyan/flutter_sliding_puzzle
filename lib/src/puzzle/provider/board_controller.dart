@@ -22,29 +22,27 @@ class BoardLogicController extends StateNotifier<PuzzleBoard> {
     return canMove;
   }
 
-  bool moveLeft() {
-    final tile = state.getLeftMoveableTile();
-    if (tile != null) state = state.moveTile(tile);
-    return tile != null;
+  Tile? moveLeft() {
+    return state.getLeftMoveableTile();
+    // if (tile != null) state = state.moveTile(tile);
+    // return tile != null;
   }
 
-  bool moveRight() {
-    final tile = state.getRightMoveableTile();
-    if (tile != null) state = state.moveTile(tile);
-    return tile != null;
+  Tile? moveRight() {
+    return state.getRightMoveableTile();
+    // if (tile != null) state = state.moveTile(tile);
+    // return tile != null;
   }
 
-  bool moveUp() {
-    final tile = state.geTopMoveableTile();
-    if (tile != null) state = state.moveTile(tile);
-    return tile != null;
+  Tile? moveUp() {
+    return state.geTopMoveableTile();
+    // if (tile != null) state = state.moveTile(tile);
+    // return tile != null;
   }
 
-  bool moveDown() {
-    final tile = state.getBottomMoveableTile();
-    if (tile != null) state = state.moveTile(tile);
-    return tile != null;
+  Tile? moveDown() {
+    return state.getBottomMoveableTile();
+    // if (tile != null) state = state.moveTile(tile);
+    // return tile != null;
   }
 }
-
-

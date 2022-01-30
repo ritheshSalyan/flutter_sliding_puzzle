@@ -15,6 +15,4 @@ extension TileMovementMethods<T> on PuzzleBoard {
     tiles.add(newTile);
     return copyWith(tiles: tiles, whiteSpace: tilePos);
   }
-
-  
 }
