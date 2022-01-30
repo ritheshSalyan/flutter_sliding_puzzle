@@ -1,9 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:sliding_puzzle/src/puzzle/provider/board_controller.dart';
 import 'package:sliding_puzzle/src/puzzle/view/widgets/depth_builder.dart';
 import 'package:sliding_puzzle/src/puzzle/view/widgets/input/keyboard_listner.dart';
 
@@ -44,31 +41,22 @@ class PuzzlePage extends ConsumerWidget {
         children: [
           IconButton(
               onPressed: () {
-                log(ref
-                    .read(BoardLogicController.provider.notifier)
-                    .moveLeft()
-                    .toString());
+                ref.read(BoardUIController.provider).moveLeft();
               },
               icon: const Icon(Icons.arrow_left)),
           IconButton(
               onPressed: () {
-                log("${ref.read(BoardLogicController.provider.notifier).moveRight()}");
+                ref.read(BoardUIController.provider).moveRight();
               },
               icon: const Icon(Icons.arrow_right)),
           IconButton(
               onPressed: () {
-                log(ref
-                    .read(BoardLogicController.provider.notifier)
-                    .moveUp()
-                    .toString());
+                ref.read(BoardUIController.provider).moveUp();
               },
               icon: const Icon(Icons.arrow_upward)),
           IconButton(
               onPressed: () {
-                log(ref
-                    .read(BoardLogicController.provider.notifier)
-                    .moveDown()
-                    .toString());
+                ref.read(BoardUIController.provider).moveDown();
               },
               icon: const Icon(Icons.arrow_downward)),
         ],

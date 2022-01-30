@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math.dart' as vector;
@@ -18,7 +19,7 @@ class CubePainter extends CustomPainter {
   final double angleX;
   final double angleY;
   final int index;
-
+  final ui.Image? image;
   List<Face> _positions = [];
 
   CubePainter({
@@ -26,21 +27,22 @@ class CubePainter extends CustomPainter {
     required this.angleY,
     required this.colors,
     required this.index,
+    this.image,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
     final height = size.shortestSide * 0.75;
     final width = size.shortestSide * 0.75;
-    final depth = (10.0) * (index + 1); // height * 0.5;
+    final depth = (width / 10) * (index + 1); // height * 0.5;
     final cubeSize = depth; //size.shortestSide / 2;
 
     ///
 
     final side = Rect.fromLTRB(-cubeSize, -cubeSize, cubeSize, cubeSize);
-    final v1 = vector.Vector3(1, 1, 0);
-    final v2 = vector.Vector3(-1, 1, 0);
-    final v3 = vector.Vector3(-1, -1, 0);
+    final v1 = vector.Vector3(depth, depth, 0);
+    final v2 = vector.Vector3(-depth, depth, 0);
+    final v3 = vector.Vector3(-depth, -depth, 0);
 
     _positions = [
       Face(height, width,
@@ -70,8 +72,8 @@ class CubePainter extends CustomPainter {
             ..rotate(vector.Vector3(1, 0, 0), math.pi / 2)
             ..translate(0.0, 0.0, -width / 2)),
       Face(
-          height,
-          width,
+          height / 2,
+          width / 2,
           vector.Matrix4.identity()
             ..rotate(vector.Vector3(0, 1, 0), math.pi)
             ..translate(0.0, 0.0, -depth / 2)),
@@ -83,7 +85,7 @@ class CubePainter extends CustomPainter {
         ..setEntry(3, 2, 0.0001)
         ..rotateX(angleY)
         ..rotateY(angleX));
-    final cameraPos = cameraMatrix.transform3(vector.Vector3.zero());
+    // cameraMatrix.transform3(vector.Vector3.zero());
 
     List<int> sortedKeys = createZOrder(cameraMatrix, side);
     for (int i in sortedKeys) {
@@ -99,19 +101,11 @@ class CubePainter extends CustomPainter {
       canvas.transform(Float64List.fromList(finalMatrix.storage));
 
       final directionBrightness = normalVector.dot(light).clamp(0.0, 1.0);
-      canvas.drawRect(
-          _positions[i].rect,
 
-          /// Side
-          Paint()
-            ..color =
-                colors[i].withBrightness(directionBrightness * 0.6 + 0.4));
       const textStyle = TextStyle(
-        color: Colors.black,
-        fontSize: 30,
-      );
+          color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold);
       final textSpan = TextSpan(
-        text: '$index',
+        text: '${index + 1}',
         style: textStyle,
       );
       final textPainter = TextPainter(
@@ -126,6 +120,30 @@ class CubePainter extends CustomPainter {
       final xCenter = (-textPainter.width) / 2;
       final yCenter = (-textPainter.height) / 2;
       final offset = Offset(xCenter, yCenter);
+
+      if (image != null) {
+        canvas.drawImageNine(
+            image!,
+            Rect.fromCenter(
+                center: offset,
+                width: image!.width * 1.0,
+                height: image!.height * 1.0),
+            _positions[i].rect,
+            Paint()
+              ..colorFilter = ui.ColorFilter.mode(
+                  Colors.black
+                      .withOpacity((0.9 - (directionBrightness * 0.9)) + 0.1),
+                  ui.BlendMode.darken));
+      } else {
+        canvas.drawRect(
+            _positions[i].rect,
+
+            /// Side
+            Paint()
+              ..color =
+                  colors[i].withBrightness(directionBrightness * 0.6 + 0.4));
+      }
+
       textPainter.paint(canvas, offset);
       canvas.restore();
     }

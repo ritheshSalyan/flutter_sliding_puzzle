@@ -5,8 +5,8 @@ class BoardRotationController {
   Offset _previousValue = Offset.zero;
   Offset get previousValue => _previousValue;
 
-  final minAngle = -25.0;
-  final maxAngle = 25.0;
+  final minAngle = -23.0;
+  final maxAngle = 23.0;
   void rotateBy(Offset offset) {
     double x = 0;
     double y = 0;

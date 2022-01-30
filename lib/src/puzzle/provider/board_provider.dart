@@ -1,12 +1,14 @@
-import 'dart:developer';
+import 'dart:async';
+import 'dart:typed_data';
+import 'dart:ui' as UI;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sliding_puzzle/src/puzzle/provider/animation/custom_animation_controller.dart';
+import 'package:sliding_puzzle/src/puzzle/provider/input/board_rotation_controller.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/input/keyboard/keyboard_controller.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/tile_state.dart';
-import 'package:sliding_puzzle/src/puzzle/view/widgets/animation/board_rotation_controller.dart';
 
 import '../puzzle.dart';
 import 'board_controller.dart';
@@ -20,17 +22,26 @@ class BoardUIController extends ChangeNotifier
     this._ref,
   ) {
     initializeGyro();
+    loadUiImage("assets/images/lava.jpg").then((value) {
+      image = value;
+      notifyListeners();
+    });
+  }
+  Future<UI.Image> loadUiImage(String imageAssetPath) async {
+    final ByteData data = await rootBundle.load(imageAssetPath);
+    final Completer<UI.Image> completer = Completer();
+    UI.decodeImageFromList(Uint8List.view(data.buffer), (UI.Image img) {
+      return completer.complete(img);
+    });
+    return completer.future;
   }
 
+  UI.Image? image;
   static final provider = ChangeNotifierProvider<BoardUIController>((ref) {
     return BoardUIController(ref);
   });
-  late AnimationControllers animationControllers;
   final BoardRotationController boardRotationController =
       BoardRotationController();
-  void createAnimationControllers(TickerProvider vsync) {
-    // animationControllers = AnimationControllers.create(vsync);
-  }
 
   void shuffle() {
     _ref.refresh(BoardLogicController.provider);
@@ -56,13 +67,13 @@ class BoardUIController extends ChangeNotifier
 
   @override
   void moveUp() {
-    var moveUp = boardController.moveUp();
+    var moveUp = boardController.getMoveUpTile();
     if (moveUp != null) moveTile(moveUp);
   }
 
   @override
   void moveDown() {
-    var tile = boardController.moveDown();
+    var tile = boardController.getMoveDownTile();
     if (tile != null) {
       moveTile(tile);
     }
@@ -70,7 +81,7 @@ class BoardUIController extends ChangeNotifier
 
   @override
   void moveLeft() {
-    var tile = boardController.moveLeft();
+    var tile = boardController.getMoveLeftTile();
     if (tile != null) {
       moveTile(tile);
     }
@@ -78,7 +89,7 @@ class BoardUIController extends ChangeNotifier
 
   @override
   void moveRight() {
-    var tile = boardController.moveRight();
+    var tile = boardController.getMoveRightTile();
     if (tile != null) {
       moveTile(tile);
     }
@@ -98,13 +109,12 @@ class BoardUIController extends ChangeNotifier
   void onGyroChange(Offset offset) {
     if (offset.dx.abs() == 0 && offset.dy.abs() == 0) return;
     // log("Gyro Event: $offset ");
-    rotateBoardBy(offset * -10);
+    rotateBoardBy(offset * -_sensitivity);
   }
 
   @override
   void dispose() {
     super.dispose();
     cancelGyro();
-    animationControllers.idelTilesController.animationController.dispose();
   }
 }

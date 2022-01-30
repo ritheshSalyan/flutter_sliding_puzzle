@@ -33,14 +33,3 @@ class TileState {
     this.previousPosition = previousPosition ?? currentPosition;
   }
 }
-
-// class IdleTileState extends TileState {
-//   @override
-//   BoardPosition get currentPosition => BoardPosition(1, 1);
-
-//   IdleTileState();
-// }
-
-// abstract class TileMovementState extends TileState {
-//   Offset get position;
-// }

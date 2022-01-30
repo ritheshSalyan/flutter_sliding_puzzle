@@ -80,7 +80,8 @@ class TileBuilder extends HookConsumerWidget {
                     // animate.value ??
                     const Color.fromARGB(255, 255, 255, 0),
                   ],
-                  index: index),
+                  index: index,
+                  image: ref.watch(BoardUIController.provider).image),
             );
           }),
         ),
