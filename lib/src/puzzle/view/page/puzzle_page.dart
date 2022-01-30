@@ -19,18 +19,12 @@ class PuzzlePage extends ConsumerWidget {
           child: GestureDetector(
             behavior: HitTestBehavior.translucent,
             onPanUpdate: (details) {
-              ref
-                  .read(BoardUIController.provider)
-                  .boardRotationController
-                  .rotateBy(details.delta);
+              ref.read(BoardUIController.provider).rotateBoardBy(details.delta);
 
               // setState(() => _offset += details.delta);
             },
             onPanEnd: (details) {
-              ref
-                  .read(BoardUIController.provider)
-                  .boardRotationController
-                  .reset();
+              ref.read(BoardUIController.provider).resetRotation();
             },
             child: Stack(
               children: const [
@@ -91,7 +85,7 @@ class Background extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     var size = MediaQuery.of(context).size;
-    final boardController = ref.watch(BoardUIController.provider);
+    // final boardController = ref.watch(BoardUIController.provider);
 
     // return
     //  ValueListenableBuilder<Offset>(

@@ -57,51 +57,6 @@ class TileBuilder extends HookConsumerWidget {
         width: tileWidth,
         height: tileHeight,
         child: InkWell(
-          highlightColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          // onPanStart: (details) {
-          //   _movablePosition = ref
-          //       .read(BoardLogicController.provider)
-          //       .getMovablePosition(tile);
-          // },
-          // onPanUpdate: (details) {
-          //   final delta = details.delta;
-
-          //   switch (_movablePosition) {
-          //     case MovablePosition.top:
-          //       if (top + delta.dy > top) {
-          //         extraOffset += Offset(0, delta.dy);
-          //       }
-          //       break;
-          //     case MovablePosition.down:
-          //       if (top + delta.dy < top) {
-          //         extraOffset += Offset(0, delta.dy);
-          //       }
-          //       break;
-          //     case MovablePosition.left:
-          //       if (left + delta.dx > left) {
-          //         extraOffset += Offset(delta.dx, 0);
-          //       }
-          //       break;
-          //     case MovablePosition.right:
-          //       if (left + delta.dx < left) {
-          //         extraOffset += Offset(delta.dx, 0);
-          //       }
-          //       break;
-          //     case MovablePosition.none:
-          //       // TODO: Handle this case.
-          //       break;
-          //   }
-          //   setState(() {});
-          // },
-          // onPanEnd: (details) {
-          //   if ((extraOffset.dx.abs() > tileWidth / 2) ||
-          //       (extraOffset.dy.abs() > tileHeight / 2)) {
-          //     ref.read(BoardAnimationController.provider).moveTile(tile);
-          //   }
-          //   extraOffset = Offset.zero;
-          //   setState(() {});
-          // },
           onTap: () {
             ref.read(BoardUIController.provider).moveTile(tile);
             // log("Can Move ${tile.data} ${board.canMoveTile(tile)}");

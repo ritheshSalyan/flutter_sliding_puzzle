@@ -14,17 +14,18 @@ class DepthBuilder extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final _animationController =
         useAnimationController(duration: const Duration(milliseconds: 250));
-    Animation<Offset> animation = const AlwaysStoppedAnimation(Offset.zero);
     var rotationController =
         ref.watch(BoardUIController.provider).boardRotationController;
 
+    Animation<Offset> animation =
+        AlwaysStoppedAnimation(rotationController.boardAngle.value);
     useValueChanged(useValueListenable(rotationController.boardAngle),
         (_, void __) {
       animation = Tween<Offset>(
               begin: rotationController.previousValue,
               end: rotationController.boardAngle.value)
           .animate(CurvedAnimation(
-              parent: _animationController, curve: Curves.easeInCubic));
+              parent: _animationController, curve: Curves.linearToEaseOut));
       _animationController.forward(from: 0);
     });
     return AnimatedBuilder(

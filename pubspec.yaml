@@ -35,6 +35,8 @@ dependencies:
   flutter_modular: ^4.4.0
   flutter_riverpod: ^1.0.3
   hooks_riverpod: ^1.0.3
+  sensors_plus: ^1.2.1
+  universal_platform: ^1.0.0+1
   vector_math: ^2.1.1
 
 dev_dependencies:

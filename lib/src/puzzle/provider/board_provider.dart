@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,14 +10,17 @@ import 'package:sliding_puzzle/src/puzzle/view/widgets/animation/board_rotation_
 
 import '../puzzle.dart';
 import 'board_controller.dart';
+import 'input/gyro/gyro_controller.dart';
 import 'observer/state_tracker.dart';
 
 class BoardUIController extends ChangeNotifier
-    with StackTracker<PuzzleBoard>, KeyboardController {
+    with StackTracker<PuzzleBoard>, KeyboardController, GyroController {
   final Ref _ref;
   BoardUIController(
     this._ref,
-  );
+  ) {
+    initializeGyro();
+  }
 
   static final provider = ChangeNotifierProvider<BoardUIController>((ref) {
     return BoardUIController(ref);
@@ -79,5 +84,27 @@ class BoardUIController extends ChangeNotifier
     }
   }
 
-  void rotateBoardBy() {}
+  void rotateBoardBy(Offset offset) {
+    boardRotationController.rotateBy(offset);
+  }
+
+  void resetRotation() {
+    boardRotationController.reset();
+  }
+
+  final _sensitivity = 10.0;
+
+  @override
+  void onGyroChange(Offset offset) {
+    if (offset.dx.abs() == 0 && offset.dy.abs() == 0) return;
+    // log("Gyro Event: $offset ");
+    rotateBoardBy(offset * -10);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    cancelGyro();
+    animationControllers.idelTilesController.animationController.dispose();
+  }
 }
