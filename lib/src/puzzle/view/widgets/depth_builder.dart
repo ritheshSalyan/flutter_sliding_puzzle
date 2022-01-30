@@ -23,7 +23,8 @@ class DepthBuilder extends HookConsumerWidget {
       animation = Tween<Offset>(
               begin: rotationController.previousValue,
               end: rotationController.boardAngle.value)
-          .animate(_animationController);
+          .animate(CurvedAnimation(
+              parent: _animationController, curve: Curves.easeInCubic));
       _animationController.forward(from: 0);
     });
     return AnimatedBuilder(

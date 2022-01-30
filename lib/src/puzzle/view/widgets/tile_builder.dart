@@ -46,11 +46,13 @@ class TileBuilder extends HookConsumerWidget {
       //  return null;
     });
 
-    var animate = ColorTween(begin: Colors.red, end: Colors.blue)
-        .animate(_animationController);
+    var positionTween = Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.linearToEaseOut,
+    ));
 
     return AnimatedBuilder(
-      animation: _animationController,
+      animation: positionTween,
       child: SizedBox(
         width: tileWidth,
         height: tileHeight,
@@ -104,41 +106,28 @@ class TileBuilder extends HookConsumerWidget {
             ref.read(BoardUIController.provider).moveTile(tile);
             // log("Can Move ${tile.data} ${board.canMoveTile(tile)}");
           },
-          child: AnimatedBuilder(
-              animation: animate,
-              builder: (context, snapshot) {
-                return DepthBuilder(builder: (context, offset) {
-                  return CustomPaint(
-                    foregroundPainter: CubePainter(
-                        angleX: -0.01 * offset.dx,
-                        angleY: 0.01 * offset.dy,
-                        colors: [
-                          animate.value ??
-                              const Color.fromARGB(255, 255, 255, 0),
-                          animate.value ??
-                              const Color.fromARGB(255, 255, 255, 0),
-                          animate.value ??
-                              const Color.fromARGB(255, 255, 255, 0),
-                          animate.value ??
-                              const Color.fromARGB(255, 255, 255, 0),
-                          animate.value ??
-                              const Color.fromARGB(255, 255, 255, 0),
-                          animate.value ??
-                              const Color.fromARGB(255, 255, 255, 0),
-                        ],
-                        index: index),
-                  );
-                });
-              }),
-          //  Container(
-          //   decoration: BoxDecoration(
-          //     color: Colors.red,
-          //     border: Border.all(color: Colors.blue),
-          //   ),
-          //   child: Center(
-          //     child: Text("${tile.data}"),
-          //   ),
-          // ),
+          child: DepthBuilder(builder: (context, offset) {
+            return CustomPaint(
+              foregroundPainter: CubePainter(
+                  angleX: -0.01 * offset.dx,
+                  angleY: 0.01 * offset.dy,
+                  colors: [
+                    // animate.value ??
+                    const Color.fromARGB(255, 255, 255, 0),
+                    // animate.value ??
+                    const Color.fromARGB(255, 255, 255, 0),
+                    // animate.value ??
+                    const Color.fromARGB(255, 255, 255, 0),
+                    // animate.value ??
+                    const Color.fromARGB(255, 255, 255, 0),
+                    // animate.value ??
+                    const Color.fromARGB(255, 255, 255, 0),
+                    // animate.value ??
+                    const Color.fromARGB(255, 255, 255, 0),
+                  ],
+                  index: index),
+            );
+          }),
         ),
       ),
       builder: (BuildContext context, Widget? child) {
@@ -150,7 +139,7 @@ class TileBuilder extends HookConsumerWidget {
               tileHeight *
                   (tileState.currentPosition.x - tileState.previousPosition.x)
                       .sign *
-                  (_animationController.value);
+                  (positionTween.value);
         }
 
         double getLeft() {
@@ -161,7 +150,7 @@ class TileBuilder extends HookConsumerWidget {
               tileWidth *
                   (tileState.currentPosition.y - tileState.previousPosition.y)
                       .sign *
-                  (_animationController.value);
+                  (positionTween.value);
         }
 
         return Positioned(top: getTop(), left: getLeft(), child: child!);
