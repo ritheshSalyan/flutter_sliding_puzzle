@@ -34,7 +34,8 @@ class CubePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final height = size.shortestSide * 0.75;
     final width = size.shortestSide * 0.75;
-    final depth = (width / 10) * (index + 1); // height * 0.5;
+    var d = (width / 7);
+    final depth = d * (index + 1); // height * 0.5;
     final cubeSize = depth; //size.shortestSide / 2;
 
     ///
@@ -80,11 +81,13 @@ class CubePainter extends CustomPainter {
     ];
 
     final cameraMatrix = vector.Matrix4.identity()
-      ..translate(size.width / 2, size.height / 2)
+      ..translate(size.width / 2, size.height / 2,depth )
       ..multiply(vector.Matrix4.identity()
         ..setEntry(3, 2, 0.0001)
         ..rotateX(angleY)
-        ..rotateY(angleX));
+        ..rotateY(angleX)
+        ..translate(0.0,0.0,)//-(d/2) *16 TODO: Touch here for depth correction.
+        );
     // cameraMatrix.transform3(vector.Vector3.zero());
 
     List<int> sortedKeys = createZOrder(cameraMatrix, side);

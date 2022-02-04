@@ -109,7 +109,7 @@ class BoardUIController extends ChangeNotifier
   void onGyroChange(Offset offset) {
     if (offset.dx.abs() == 0 && offset.dy.abs() == 0) return;
     // log("Gyro Event: $offset ");
-    rotateBoardBy(offset * -_sensitivity);
+    rotateBoardBy(offset * _sensitivity);
   }
 
   @override
