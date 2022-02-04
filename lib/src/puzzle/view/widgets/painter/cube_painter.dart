@@ -34,7 +34,7 @@ class CubePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final height = size.shortestSide * 0.75;
     final width = size.shortestSide * 0.75;
-    var d = (width );
+    var d = (width /2);
     final depth = d * (index + 1); // height * 0.5;
     // final cubeSize = depth; //size.shortestSide / 2;
 
@@ -149,7 +149,7 @@ class CubePainter extends CustomPainter {
                   colors[i].withBrightness(directionBrightness * 0.6 + 0.4));
       }
 
-      textPainter.paint(canvas, offset);
+      // textPainter.paint(canvas, offset);
       canvas.restore();
     }
   }

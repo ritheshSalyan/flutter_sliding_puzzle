@@ -62,27 +62,31 @@ class TileBuilder extends HookConsumerWidget {
             // log("Can Move ${tile.data} ${board.canMoveTile(tile)}");
           },
           child: DepthBuilder(builder: (context, offset) {
-            return CustomPaint(
-              foregroundPainter: CubePainter(
-                  angleX: -0.01 * offset.dx,
-                  angleY: 0.01 * offset.dy,
-                  colors: [
-                    // animate.value ??
-                    const Color.fromARGB(255, 255, 255, 0),
-                    // animate.value ??
-                    const Color.fromARGB(255, 255, 255, 0),
-                    // animate.value ??
-                    const Color.fromARGB(255, 255, 255, 0),
-                    // animate.value ??
-                    const Color.fromARGB(255, 255, 255, 0),
-                    // animate.value ??
-                    const Color.fromARGB(255, 255, 255, 0),
-                    // animate.value ??
-                    const Color.fromARGB(255, 255, 255, 0),
-                  ],
-                  index: index,
-                  image: ref.watch(BoardUIController.provider).image),
-            );
+            // return CanvasTouchDetector(
+            //   builder: (context,) {
+                return CustomPaint(
+                  foregroundPainter: CubePainter(
+                      angleX: -0.01 *( offset.dx + (tile.currentPos.y - 2)* 3  ),
+                      angleY: 0.01 * (offset.dy + (tile.currentPos.x -2 ) *  3),
+                      colors: [
+                        // animate.value ??
+                        const Color.fromARGB(255, 255, 255, 0),
+                        // animate.value ??
+                        const Color.fromARGB(255, 255, 255, 0),
+                        // animate.value ??
+                        const Color.fromARGB(255, 255, 255, 0),
+                        // animate.value ??
+                        const Color.fromARGB(255, 255, 255, 0),
+                        // animate.value ??
+                        const Color.fromARGB(255, 255, 255, 0),
+                        // animate.value ??
+                        const Color.fromARGB(255, 255, 255, 0),
+                      ],
+                      index: index,
+                      image: ref.watch(BoardUIController.provider).image),
+                );
+            //   }
+            // );
           }),
         ),
       ),

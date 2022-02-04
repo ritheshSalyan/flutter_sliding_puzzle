@@ -9,7 +9,7 @@ mixin GyroController {
   void initializeGyro() {
     if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS) {
       _subscription = gyroscopeEvents.listen((event) {
-        if (event.x.abs() > 0.1 && event.y.abs() > 0.1) {
+        if (event.x.abs() > 0.01 && event.y.abs() > 0.01) {
           // log("GyroController: $event ");
           onGyroChange(Offset(event.y, event.x));
         }

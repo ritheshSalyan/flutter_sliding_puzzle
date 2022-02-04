@@ -38,6 +38,7 @@ dependencies:
   sensors_plus: ^1.2.1
   universal_platform: ^1.0.0+1
   vector_math: ^2.1.1
+  touchable: ^1.0.0
 
 dev_dependencies:
   flutter_lints: ^1.0.0
