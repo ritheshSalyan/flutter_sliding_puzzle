@@ -34,13 +34,13 @@ class CubePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final height = size.shortestSide * 0.75;
     final width = size.shortestSide * 0.75;
-    var d = (width / 3);
+    var d = (width );
     final depth = d * (index + 1); // height * 0.5;
-    final cubeSize = depth; //size.shortestSide / 2;
+    // final cubeSize = depth; //size.shortestSide / 2;
 
     ///
 
-    final side = Rect.fromLTRB(-cubeSize, -cubeSize, cubeSize, cubeSize);
+    // final side = Rect.fromLTRB(-cubeSize, -cubeSize, cubeSize, cubeSize);
     final v1 = vector.Vector3(depth, depth, 0);
     final v2 = vector.Vector3(-depth, depth, 0);
     final v3 = vector.Vector3(-depth, -depth, 0);
@@ -54,6 +54,12 @@ class CubePainter extends CustomPainter {
           vector.Matrix4.identity()
             ..rotate(vector.Vector3(1, 0, 0), -math.pi / 2)
             ..translate(0.0, 0.0, -width / 2)),
+    Face(
+          height,
+          depth,
+          vector.Matrix4.identity()
+            ..rotate(vector.Vector3(1, 0, 0), math.pi / 2)
+            ..translate(0.0, 0.0, -width / 2)),
       Face(
           depth,
           width,
@@ -66,18 +72,13 @@ class CubePainter extends CustomPainter {
           vector.Matrix4.identity()
             ..rotate(vector.Vector3(0, 1, 0), math.pi / 2)
             ..translate(0.0, 0.0, -height / 2)),
-      Face(
-          height,
-          depth,
-          vector.Matrix4.identity()
-            ..rotate(vector.Vector3(1, 0, 0), math.pi / 2)
-            ..translate(0.0, 0.0, -width / 2)),
-      Face(
-          height / 2,
-          width / 2,
-          vector.Matrix4.identity()
-            ..rotate(vector.Vector3(0, 1, 0), math.pi)
-            ..translate(0.0, 0.0, -depth / 2)),
+
+      // Face(
+      //     height / 2,
+      //     width / 2,
+      //     vector.Matrix4.identity()
+      //       ..rotate(vector.Vector3(0, 1, 0), math.pi)
+      //       ..translate(0.0, 0.0, -depth / 2)),
     ];
 
     final cameraMatrix = vector.Matrix4.identity()
@@ -86,11 +87,11 @@ class CubePainter extends CustomPainter {
         ..setEntry(3, 2, 0.0001)
         ..rotateX(angleY)
         ..rotateY(angleX)
-        ..translate(0.0,0.0,)//-(d/2) *16 TODO: Touch here for depth correction.
+        ..translate(0.0,0.0,-depth/2 )//-(d/2) *16 TODO: Touch here for depth correction.
         );
     // cameraMatrix.transform3(vector.Vector3.zero());
 
-    List<int> sortedKeys = createZOrder(cameraMatrix, side);
+    List<int> sortedKeys = createZOrder(cameraMatrix,);
     for (int i in sortedKeys) {
       final finalMatrix = cameraMatrix.multiplied(_positions[i].matrix4);
       canvas.save();
@@ -129,8 +130,9 @@ class CubePainter extends CustomPainter {
             image!,
             Rect.fromCenter(
                 center: offset,
-                width: image!.width * 1.0,
-                height: image!.height * 1.0),
+                width: _positions[i].rect.width ,//image!.width * 1.0,
+                height: _positions[i].rect.height,// image!.height * 1.0
+                ),
             _positions[i].rect,
             Paint()
               ..colorFilter = ui.ColorFilter.mode(
@@ -152,7 +154,7 @@ class CubePainter extends CustomPainter {
     }
   }
 
-  List<int> createZOrder(vector.Matrix4 matrix, Rect side) {
+  List<int> createZOrder(vector.Matrix4 matrix,) {
     final renderOrder = <int, double>{};
     final pos = vector.Vector3.zero();
     for (int i = 0; i < _positions.length; i++) {
