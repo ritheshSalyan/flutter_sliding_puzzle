@@ -34,7 +34,7 @@ class CubePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final height = size.shortestSide * 0.75;
     final width = size.shortestSide * 0.75;
-    var d = (width / 7);
+    var d = (width / 3);
     final depth = d * (index + 1); // height * 0.5;
     final cubeSize = depth; //size.shortestSide / 2;
 
@@ -135,7 +135,7 @@ class CubePainter extends CustomPainter {
             Paint()
               ..colorFilter = ui.ColorFilter.mode(
                   Colors.black
-                      .withOpacity((0.9 - (directionBrightness * 0.9)) + 0.1),
+                      .withOpacity((0.7 - (directionBrightness * 0.7)) + 0.1),
                   ui.BlendMode.darken));
       } else {
         canvas.drawRect(

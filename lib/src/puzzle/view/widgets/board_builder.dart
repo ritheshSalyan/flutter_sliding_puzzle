@@ -39,18 +39,25 @@ class BoardView extends HookConsumerWidget {
               final tileWidth = (width / board.xDim);
               final tileHeight = (height / board.yDim);
 
-              return Stack(
-                children: List<Widget>.from((ref
-                        .read(BoardLogicController.provider)
-                        .tiles
-                      ..sort((a, b) => b.currentPos.compareTo(a.currentPos)))
-                    .map((tile) {
-                  return TileBuilder(
-                    tile: tile,
-                    tileWidth: tileWidth,
-                    tileHeight: tileHeight,
+              return DepthBuilder(
+                builder: (context, offset) {
+
+                  ////TODO: Optimize this.
+                  return Stack(
+                    children: List<Widget>.from((ref
+                            .read(BoardLogicController.provider)
+                            .tiles
+                          ..sort((a, b) => b.currentPos.y.compareTo(a.currentPos.y) * offset.dx.sign.toInt() +b.currentPos.x.compareTo(a.currentPos.x) * offset.dy.sign.toInt()
+                          ))
+                        .map((tile) {
+                      return TileBuilder(
+                        tile: tile,
+                        tileWidth: tileWidth,
+                        tileHeight: tileHeight,
+                      );
+                    })),
                   );
-                })),
+                }
               );
               // );
             }),
