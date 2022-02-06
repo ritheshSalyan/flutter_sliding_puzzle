@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sliding_puzzle/src/puzzle/model/model.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/board_controller.dart';
@@ -15,21 +14,37 @@ class TileStateNotifier extends StateNotifier<TileState> {
   });
 
   TileStateNotifier(BoardPosition initialPosition)
-      : super(TileState(initialPosition));
+      : super(TileIdleState(initialPosition));
 
-  void changeState(TileState state) {
-    this.state = state;
+  void changeState(BoardPosition currentPosition,BoardPosition previousPosition) {
+    state = TileMovementState(currentPosition, previousPosition);
   }
 
   void onCompleteAnimation() {
-    state = TileState(state.currentPosition);
+    state = TileIdleState(state.currentPosition);
   }
 }
 
-class TileState {
+abstract class TileState {
   final BoardPosition currentPosition;
-  late final BoardPosition previousPosition;
-  TileState(this.currentPosition, {BoardPosition? previousPosition}) {
-    this.previousPosition = previousPosition ?? currentPosition;
-  }
+
+  TileState(
+    this.currentPosition,
+  );
+}
+
+class TileIdleState extends TileState {
+  TileIdleState(BoardPosition currentPosition) : super(currentPosition);
+}
+
+class StartTileState extends TileState{
+  StartTileState(BoardPosition currentPosition) : super(currentPosition);
+
+}
+
+class TileMovementState extends TileState {
+  final BoardPosition previousPosition;
+
+  TileMovementState(BoardPosition currentPosition,this.previousPosition) : super(currentPosition);
+
 }

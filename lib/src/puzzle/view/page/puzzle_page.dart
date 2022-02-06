@@ -29,12 +29,15 @@ class PuzzlePage extends ConsumerWidget {
                 const Background(),
                 DeferredPointerHandler(
                   child: Center(
-                      child: SizedBox(
-                          width: (screensize.shortestSide * 0.75)
-                              .clamp(100, 500.0),
-                          height: (screensize.shortestSide * 0.75)
-                              .clamp(100, 500.0),
-                          child: const BoardView())),
+                    child: Container(
+                        transform: Matrix4.identity()..translate(20.0, 20.0, 0),
+                        // color: Colors.white,
+                        width:
+                            (screensize.shortestSide * 0.75).clamp(100, 500.0),
+                        height:
+                            (screensize.shortestSide * 0.75).clamp(100, 500.0),
+                        child: const BoardView()),
+                  ),
                 ),
               ],
             ),
@@ -90,7 +93,7 @@ class Background extends HookConsumerWidget {
       // log("DepthBuilder : $offset");
       return Transform(
         transform: Matrix4.identity()
-          ..translate(-20.0, -20.0, 0)
+          ..translate(-100.0, -100.0, 0)
           ..translate(-offset.dx, -offset.dy, 0)
           ..scale(1.5),
         child: Image.asset(

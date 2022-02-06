@@ -40,4 +40,9 @@ class BoardPosition extends Comparable<BoardPosition> {
       }
     }
   }
+
+  @override
+  String toString() {
+    return "<X:$x , Y:$y>";
+  }
 }

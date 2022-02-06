@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:typed_data';
 import 'dart:ui' as UI;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/input/board_rotation_controller.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/input/keyboard/keyboard_controller.dart';
@@ -22,19 +20,20 @@ class BoardUIController extends ChangeNotifier
     this._ref,
   ) {
     initializeGyro();
-    loadUiImage("assets/images/lava.jpg").then((value) {
-      image = value;
-      notifyListeners();
-    });
+    // loadUiImage("assets/images/lava.jpg").then((value) {
+    //   image = value;
+    //   notifyListeners();
+    // });
+    shuffle();
   }
-  Future<UI.Image> loadUiImage(String imageAssetPath) async {
-    final ByteData data = await rootBundle.load(imageAssetPath);
-    final Completer<UI.Image> completer = Completer();
-    UI.decodeImageFromList(Uint8List.view(data.buffer), (UI.Image img) {
-      return completer.complete(img);
-    });
-    return completer.future;
-  }
+  // Future<UI.Image> loadUiImage(String imageAssetPath) async {
+  //   final ByteData data = await rootBundle.load(imageAssetPath);
+  //   final Completer<UI.Image> completer = Completer();
+  //   UI.decodeImageFromList(Uint8List.view(data.buffer), (UI.Image img) {
+  //     return completer.complete(img);
+  //   });
+  //   return completer.future;
+  // }
 
   UI.Image? image;
   static final provider = ChangeNotifierProvider<BoardUIController>((ref) {
@@ -45,6 +44,18 @@ class BoardUIController extends ChangeNotifier
 
   void shuffle() {
     _ref.refresh(BoardLogicController.provider);
+
+    notifyListeners();
+    _playStartAnimation();
+  }
+
+  void _playStartAnimation() {
+    Future.delayed(const Duration(milliseconds: 100)).then((value) {
+      for (var tile in boardController.state.tiles) {
+        _ref.read(TileStateNotifier.provider(tile.correctPos).notifier).state =
+            StartTileState(tile.currentPos);
+      }
+    });
   }
 
   void moveTile(Tile tile) {
@@ -57,8 +68,9 @@ class BoardUIController extends ChangeNotifier
           .read(BoardLogicController.provider)
           .tiles
           .firstWhere((element) => element.correctPos == tile.correctPos);
-      _ref.read(TileStateNotifier.provider(tile.correctPos).notifier).state =
-          TileState(newTile.currentPos, previousPosition: previousPos);
+      _ref
+          .read(TileStateNotifier.provider(tile.correctPos).notifier)
+          .changeState(newTile.currentPos, previousPos);
     }
   }
 

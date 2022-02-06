@@ -1,11 +1,9 @@
-import 'package:defer_pointer/defer_pointer.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/board_controller.dart';
 import 'package:sliding_puzzle/src/puzzle/view/widgets/depth_builder.dart';
 
 import '../../puzzle.dart';
-
 
 class BoardView extends HookConsumerWidget {
   const BoardView({
@@ -22,16 +20,18 @@ class BoardView extends HookConsumerWidget {
         aspectRatio: 1,
         child: Stack(
           children: [
-            DepthBuilder(
-                builder: (context, offset) => Transform(
-                      transform: Matrix4.identity()..translate(-20.0, -20.0),
-                      child: Image.asset(
-                        "assets/images/lava.jpg",
-                        fit: BoxFit.fill,
-                        width: double.maxFinite,
-                        height: double.maxFinite,
-                      ),
-                    )),
+            // DepthBuilder(
+            //     builder: (context, offset) =>
+            Transform(
+              transform: Matrix4.identity()..translate(-20.0, -20.0),
+              child: Image.asset(
+                "assets/images/lava.jpg",
+                fit: BoxFit.fill,
+                width: double.maxFinite,
+                height: double.maxFinite,
+              ),
+            ),
+            //),
             LayoutBuilder(builder: (context, constraints) {
               final width = constraints.maxWidth;
               final height = constraints.maxHeight;
@@ -45,7 +45,6 @@ class BoardView extends HookConsumerWidget {
                         ..sort((a, b) => a.currentPos.compareTo(b.currentPos)))
                       .map((tile) {
                 return TileBuilder(
-                  // key: ValueKey(tile.correctPos),
                   tile: tile,
                   tileWidth: tileWidth,
                   tileHeight: tileHeight,
@@ -54,6 +53,12 @@ class BoardView extends HookConsumerWidget {
               return DepthBuilder(builder: (context, offset) {
                 return Stack(
                   clipBehavior: Clip.none,
+
+                  ///
+                  ///
+                  /// reorder children based on view angle to avoid overlapping of widgets.
+                  ///
+                  ///
                   children: list
                     ..sort((a, b) =>
                         b.tile.currentPos.y.compareTo(a.tile.currentPos.y) *
