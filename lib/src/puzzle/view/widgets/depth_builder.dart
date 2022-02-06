@@ -21,15 +21,13 @@ class DepthBuilder extends HookConsumerWidget {
         AlwaysStoppedAnimation(rotationController.boardAngle.value);
     useValueChanged(useValueListenable(rotationController.boardAngle),
         (Offset newOffset, Offset? previous) {
-          // if(newOffset.isNear(previous??Offset.zero)) return newOffset;
-          print("$newOffset $previous");
-          
+      // if(newOffset.isNear(previous??Offset.zero)) return newOffset;
+      // print("$newOffset $previous");
+
       animation = Tween<Offset>(
               begin: previous ?? rotationController.previousValue,
-              end: rotationController.boardAngle.value
-              )
-          .
-          animate(CurvedAnimation(
+              end: rotationController.boardAngle.value)
+          .animate(CurvedAnimation(
               parent: _animationController, curve: Curves.linear));
       _animationController.forward(from: 0);
       return rotationController.boardAngle.value;
@@ -37,7 +35,7 @@ class DepthBuilder extends HookConsumerWidget {
     return AnimatedBuilder(
       animation: animation,
       builder: (BuildContext context, Widget? child) {
-          print("${animation.value}");
+        // print("${animation.value}");
 
         return builder.call(context, animation.value);
       },

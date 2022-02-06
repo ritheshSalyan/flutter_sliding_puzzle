@@ -1,5 +1,5 @@
+import 'package:defer_pointer/defer_pointer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sliding_puzzle/src/puzzle/view/widgets/depth_builder.dart';
 import 'package:sliding_puzzle/src/puzzle/view/widgets/input/keyboard_listner.dart';
@@ -10,6 +10,7 @@ class PuzzlePage extends ConsumerWidget {
   const PuzzlePage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final screensize = MediaQuery.of(context).size;
     return Scaffold(
       body: CustomKeyboardActionListner(
           controller: ref.watch(BoardUIController.provider),
@@ -24,11 +25,17 @@ class PuzzlePage extends ConsumerWidget {
               ref.read(BoardUIController.provider).resetRotation();
             },
             child: Stack(
-              children: const [
-                Background(),
-                Center(
-                    child:
-                        SizedBox(width: 500, height: 500, child: BoardView())),
+              children: [
+                const Background(),
+                DeferredPointerHandler(
+                  child: Center(
+                      child: SizedBox(
+                          width: (screensize.shortestSide * 0.75)
+                              .clamp(100, 500.0),
+                          height: (screensize.shortestSide * 0.75)
+                              .clamp(100, 500.0),
+                          child: const BoardView())),
+                ),
               ],
             ),
           )),
@@ -84,10 +91,10 @@ class Background extends HookConsumerWidget {
       return Transform(
         transform: Matrix4.identity()
           ..translate(-20.0, -20.0, 0)
-          ..translate(-offset.dx * 0.5, -offset.dy * 0.5, 0)
+          ..translate(-offset.dx, -offset.dy, 0)
           ..scale(1.5),
         child: Image.asset(
-          "assets/images/rock.jpg",
+          "assets/images/lava_a.jpg",
           width: size.width * 1.5,
           height: size.height * 1.5,
           // fit: BoxFit.cover,

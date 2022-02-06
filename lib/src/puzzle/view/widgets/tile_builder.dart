@@ -5,8 +5,7 @@ import 'package:sliding_puzzle/src/puzzle/model/model.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/tile_state.dart';
 
 import '../../puzzle.dart';
-import 'depth_builder.dart';
-import 'painter/cube_painter.dart';
+import 'painter/custom_cube.dart';
 
 class TileBuilder extends HookConsumerWidget {
   final Tile tile;
@@ -53,42 +52,23 @@ class TileBuilder extends HookConsumerWidget {
 
     return AnimatedBuilder(
       animation: positionTween,
-      child: SizedBox(
-        width: tileWidth,
-        height: tileHeight,
-        child: InkWell(
+      child: InkWell(
+        child: //DepthBuilder(builder: (context, offset) {
+            // return CanvasTouchDetector(
+            //   builder: (context,) {
+
+            CustomCube(
+          width: tileWidth - 30,
+          height: tileHeight - 30,
+          depth: (index + 1) * tileWidth,
+          offsetY: (tile.currentPos.y - 2) * 3,
+          offsetX: (tile.currentPos.x - 2) * 3,
           onTap: () {
             ref.read(BoardUIController.provider).moveTile(tile);
             // log("Can Move ${tile.data} ${board.canMoveTile(tile)}");
           },
-          child: DepthBuilder(builder: (context, offset) {
-            // return CanvasTouchDetector(
-            //   builder: (context,) {
-                return CustomPaint(
-                  foregroundPainter: CubePainter(
-                      angleX: -0.01 *( offset.dx + (tile.currentPos.y - 2)* 3  ),
-                      angleY: 0.01 * (offset.dy + (tile.currentPos.x -2 ) *  3),
-                      colors: [
-                        // animate.value ??
-                        const Color.fromARGB(255, 255, 255, 0),
-                        // animate.value ??
-                        const Color.fromARGB(255, 255, 255, 0),
-                        // animate.value ??
-                        const Color.fromARGB(255, 255, 255, 0),
-                        // animate.value ??
-                        const Color.fromARGB(255, 255, 255, 0),
-                        // animate.value ??
-                        const Color.fromARGB(255, 255, 255, 0),
-                        // animate.value ??
-                        const Color.fromARGB(255, 255, 255, 0),
-                      ],
-                      index: index,
-                      image: ref.watch(BoardUIController.provider).image),
-                );
-            //   }
-            // );
-          }),
         ),
+       
       ),
       builder: (BuildContext context, Widget? child) {
         double getTop() {

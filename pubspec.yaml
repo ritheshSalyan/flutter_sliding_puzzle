@@ -39,6 +39,7 @@ dependencies:
   universal_platform: ^1.0.0+1
   vector_math: ^2.1.1
   touchable: ^1.0.0
+  defer_pointer: ^0.0.2
 
 dev_dependencies:
   flutter_lints: ^1.0.0
