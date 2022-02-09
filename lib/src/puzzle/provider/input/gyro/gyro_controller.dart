@@ -9,7 +9,7 @@ mixin GyroController {
 
   Offset _gyroEvents = Offset.zero;
   void initializeGyro() {
-    double stepSize = 1;
+    double stepSize = 0.5;
     if (UniversalPlatform.isAndroid ||
         UniversalPlatform.isIOS ||
         UniversalPlatform.isWeb) {
