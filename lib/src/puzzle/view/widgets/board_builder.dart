@@ -23,8 +23,6 @@ class BoardView extends HookConsumerWidget {
           final width = constraints.maxWidth;
           final height = constraints.maxHeight;
 
-          const space = 30;
-
           final tileWidth = (width / board.xDim);
           final tileHeight = (height / board.yDim);
           var list = List<TileBuilder>.from(

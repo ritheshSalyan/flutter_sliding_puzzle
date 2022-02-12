@@ -71,14 +71,16 @@ class TileBuilder extends HookConsumerWidget {
             curve: Curves.linearToEaseOut,
           ))
         : AlwaysStoppedAnimation(depth);
+    final space = tileWidth * 0.15;
+
     return AnimatedBuilder(
       animation: positionTween,
       child: AnimatedBuilder(
           animation: heightTween,
           builder: (context, snapshot) {
             return CustomCube(
-              width: tileWidth - 30,
-              height: tileHeight - 30,
+              width: tileWidth - space,
+              height: tileHeight - space,
               depth: heightTween.value, //(index + 1) * tileWidth,
               offsetY: (tile.currentPos.y - 2) * 3,
               offsetX: (tile.currentPos.x - 2) * 3,
@@ -117,7 +119,9 @@ class TileBuilder extends HookConsumerWidget {
         }
 
         return Positioned(
-            top: getTop() + 15, left: getLeft() + 15, child: child!);
+            top: getTop() + space / 2,
+            left: getLeft() + space / 2,
+            child: child!);
       },
     );
   }
