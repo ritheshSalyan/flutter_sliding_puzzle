@@ -16,8 +16,13 @@ class TileStateNotifier extends StateNotifier<TileState> {
   TileStateNotifier(BoardPosition initialPosition)
       : super(TileIdleState(initialPosition));
 
-  void changeState(BoardPosition currentPosition,BoardPosition previousPosition) {
+  void changeState(
+      BoardPosition currentPosition, BoardPosition previousPosition) {
     state = TileMovementState(currentPosition, previousPosition);
+  }
+
+  void startAnimation(BoardPosition currentPosition) {
+    state =  StartTileState(currentPosition);
   }
 
   void onCompleteAnimation() {
@@ -37,14 +42,13 @@ class TileIdleState extends TileState {
   TileIdleState(BoardPosition currentPosition) : super(currentPosition);
 }
 
-class StartTileState extends TileState{
+class StartTileState extends TileState {
   StartTileState(BoardPosition currentPosition) : super(currentPosition);
-
 }
 
 class TileMovementState extends TileState {
   final BoardPosition previousPosition;
 
-  TileMovementState(BoardPosition currentPosition,this.previousPosition) : super(currentPosition);
-
+  TileMovementState(BoardPosition currentPosition, this.previousPosition)
+      : super(currentPosition);
 }

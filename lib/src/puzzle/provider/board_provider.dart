@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui' as UI;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -20,22 +19,9 @@ class BoardUIController extends ChangeNotifier
     this._ref,
   ) {
     initializeGyro();
-    // loadUiImage("assets/images/lava.jpg").then((value) {
-    //   image = value;
-    //   notifyListeners();
-    // });
     shuffle();
   }
-  // Future<UI.Image> loadUiImage(String imageAssetPath) async {
-  //   final ByteData data = await rootBundle.load(imageAssetPath);
-  //   final Completer<UI.Image> completer = Completer();
-  //   UI.decodeImageFromList(Uint8List.view(data.buffer), (UI.Image img) {
-  //     return completer.complete(img);
-  //   });
-  //   return completer.future;
-  // }
 
-  UI.Image? image;
   static final provider = ChangeNotifierProvider<BoardUIController>((ref) {
     return BoardUIController(ref);
   });
@@ -52,8 +38,9 @@ class BoardUIController extends ChangeNotifier
   void _playStartAnimation() {
     Future.delayed(const Duration(milliseconds: 100)).then((value) {
       for (var tile in boardController.state.tiles) {
-        _ref.read(TileStateNotifier.provider(tile.correctPos).notifier).state =
-            StartTileState(tile.currentPos);
+        _ref
+            .read(TileStateNotifier.provider(tile.correctPos).notifier)
+            .startAnimation(tile.currentPos);
       }
     });
   }
