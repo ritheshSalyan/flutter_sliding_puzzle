@@ -42,7 +42,13 @@ class BoardView extends HookConsumerWidget {
             height: height,
             depth: 100,
             depthOffset: 100,
-            imagePath: "assets/images/lava_a.jpg",
+            faceWidgets: CubeFaceWidgets.all(Image.asset(
+              "assets/images/lava_a.jpg",
+              repeat: ImageRepeat.repeat,
+              fit: BoxFit.cover,
+              width: width,
+              height: height,
+            )),
           );
           return DepthBuilder(builder: (context, offset) {
             final angleY = (offset.dy) * 0.01;

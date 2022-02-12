@@ -83,6 +83,10 @@ class TileBuilder extends HookConsumerWidget {
               offsetY: (tile.currentPos.y - 2) * 3,
               offsetX: (tile.currentPos.x - 2) * 3,
               depthOffset: 0,
+              faceWidgets: CubeFaceWidgets.all(Container(
+                color: const Color(0xFF97857d),
+                child: const Center(),
+              )),
               onTap: () {
                 ref.read(BoardUIController.provider).moveTile(tile);
                 // log("Can Move ${tile.data} ${board.canMoveTile(tile)}");

@@ -14,11 +14,12 @@ class CustomCube extends StatelessWidget {
     required this.width,
     required this.height,
     required this.depth,
+    required this.faceWidgets,
     this.depthOffset = 0,
     this.offsetX = 0,
     this.offsetY = 0,
     this.onTap,
-    this.imagePath = "assets/images/rock.jpg",
+    // this.imagePath = "assets/images/rock.jpg",
   }) : super(key: key);
   static final light = vector.Vector3(0, 0, -1);
   final double width;
@@ -28,7 +29,7 @@ class CustomCube extends StatelessWidget {
   final double offsetY;
   final double depthOffset;
   final VoidCallback? onTap;
-  final String imagePath;
+  final CubeFaceWidgets faceWidgets;
   @override
   Widget build(BuildContext context) {
     final v1 = vector.Vector3(depth, depth, 0);
@@ -40,55 +41,53 @@ class CustomCube extends StatelessWidget {
       ///up Face
       ///
       CubeFace(
-        transform: vector.Matrix4.identity()
-          // ..setEntry(3, 2, perspective)
-          ..translate(0.0, 0.0, depthOffset)
-          ..rotateX(-pi / 2),
-        width: width,
-        height: depth,
-        color: Colors.purple,
-      ),
+          transform: vector.Matrix4.identity()
+            // ..setEntry(3, 2, perspective)
+            ..translate(0.0, 0.0, depthOffset)
+            ..rotateX(-pi / 2),
+          width: width,
+          height: depth,
+          child: faceWidgets.upFace),
 
       ///
       ///Right Face
       ///
       CubeFace(
-        transform: vector.Matrix4.identity()
-          // ..setEntry(3, 2, perspective)
-          ..translate(0.0, 0.0, depthOffset)
-          ..translate(width, 0, 0)
-          ..rotateY(pi / 2),
-        width: depth,
-        height: height,
-        color: Colors.blue,
-      ),
+          transform: vector.Matrix4.identity()
+            // ..setEntry(3, 2, perspective)
+            ..translate(0.0, 0.0, depthOffset)
+            ..translate(width, 0, 0)
+            ..rotateY(pi / 2),
+          width: depth,
+          height: height,
+          child: faceWidgets.rightFace),
 
       ///
       ///Left Face
       ///
       CubeFace(
-        transform: vector.Matrix4.identity()
-          // ..setEntry(3, 2, perspective)
-          ..translate(0.0, 0.0, depthOffset)
-          ..rotateY(pi / 2),
-        width: depth,
-        height: height,
-        color: Colors.pink,
-      ),
+          transform: vector.Matrix4.identity()
+            // ..setEntry(3, 2, perspective)
+            ..translate(0.0, 0.0, depthOffset)
+            ..rotateY(pi / 2),
+          width: depth,
+          height: height,
+          // color: Colors.pink,
+          child: faceWidgets.leftFace),
 
       ///
       ///down Face
       ///
       CubeFace(
-        transform: vector.Matrix4.identity()
-          // ..setEntry(3, 2, perspective)
-          ..translate(0.0, 0.0, depthOffset)
-          ..translate(0.0, height, 0)
-          ..rotateX(-pi / 2),
-        width: width,
-        height: depth,
-        color: Colors.teal,
-      ),
+          transform: vector.Matrix4.identity()
+            // ..setEntry(3, 2, perspective)
+            ..translate(0.0, 0.0, depthOffset)
+            ..translate(0.0, height, 0)
+            ..rotateX(-pi / 2),
+          width: width,
+          height: depth,
+          // color: Colors.teal,
+          child: faceWidgets.downFace),
 
       ///
       /// Top Face
@@ -100,7 +99,7 @@ class CustomCube extends StatelessWidget {
             ..translate(0.0, 0.0, -depth),
           width: width,
           height: height,
-          color: Colors.red),
+          child: faceWidgets.topFace),
     ];
     return DepthBuilder(builder: (context, offset) {
       final angleY = (offset.dy + offsetX) * 0.01;
@@ -149,17 +148,33 @@ class CustomCube extends StatelessWidget {
             child: DeferPointer(
               child: InkWell(
                 onTap: onTap,
-                child: Image.asset(
-                  imagePath, // "assets/images/rock.jpg",
+                child: SizedBox(
                   width: e.width,
                   height: e.height,
-                  fit: BoxFit.cover,
-                  repeat: ImageRepeat.repeat,
-                  color: Colors.black.withOpacity(
-                    (0.7 - (directionBrightness * 0.7)) + 0.1,
+                  child: Stack(
+                    children: [
+                      e.child,
+                      Container(
+                        color: Colors.black.withOpacity(
+                          (0.7 - (directionBrightness * 0.7)) + 0.1,
+                        ),
+                        child: const Center(),
+                      )
+                    ],
                   ),
-                  colorBlendMode: BlendMode.darken,
                 ),
+
+                // child: Image.asset(
+                //   "assets/images/rock.jpg",
+                // width: e.width,
+                // height: e.height,
+                //   fit: BoxFit.cover,
+                //   repeat: ImageRepeat.repeat,
+                // color: Colors.black.withOpacity(
+                //   (0.7 - (directionBrightness * 0.7)) + 0.1,
+                // ),
+                //   colorBlendMode: BlendMode.darken,
+                // ),
               ),
             ),
           );
@@ -197,13 +212,13 @@ class CubeFace {
   final double width;
   final double height;
   Rect get rect => Rect.fromLTRB(0, 0, width, height);
-  final Color color;
+  final Widget child;
 
   CubeFace({
     required this.transform,
     required this.width,
     required this.height,
-    required this.color,
+    required this.child,
   });
 }
 
@@ -219,4 +234,41 @@ vector.Vector3 normalVector3(
     (s1.z * s3.x) - (s1.x * s3.z),
     (s1.x * s3.y) - (s1.y * s3.x),
   );
+}
+
+class CubeFaceWidgets {
+  final Widget topFace;
+  final Widget leftFace;
+  final Widget rightFace;
+  final Widget upFace;
+  final Widget downFace;
+
+  CubeFaceWidgets({
+    required this.topFace,
+    required this.leftFace,
+    required this.rightFace,
+    required this.upFace,
+    required this.downFace,
+  });
+
+  factory CubeFaceWidgets.all(Widget face) {
+    return CubeFaceWidgets(
+      topFace: face,
+      leftFace: face,
+      rightFace: face,
+      upFace: face,
+      downFace: face,
+    );
+  }
+
+  factory CubeFaceWidgets.symetric(
+      Widget top, Widget vertical, Widget horizontal) {
+    return CubeFaceWidgets(
+      topFace: top,
+      leftFace: horizontal,
+      rightFace: horizontal,
+      upFace: vertical,
+      downFace: vertical,
+    );
+  }
 }

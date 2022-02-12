@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 
 class BoardRotationController {
   final ValueNotifier<Offset> boardAngle = ValueNotifier(Offset.zero);
-  Offset _previousValue = Offset.zero;
+  Offset _previousValue = const Offset(10, 10);
   Offset get previousValue => _previousValue;
 
-  static const minAngle = -30.0;
-  static const maxAngle = 30.0;
+  static const minAngle = -50.0;
+  static const maxAngle = 50.0;
   void rotateBy(Offset offset) {
     double x = offset.dx; // 0;
     double y = offset.dy; //0;
