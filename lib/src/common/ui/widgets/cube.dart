@@ -3,10 +3,10 @@ import 'dart:typed_data';
 
 import 'package:defer_pointer/defer_pointer.dart';
 import 'package:flutter/material.dart';
-import 'package:sliding_puzzle/src/puzzle/view/widgets/depth_builder.dart';
+import 'package:sliding_puzzle/src/common/ui/widgets/depth_builder.dart';
 import 'package:vector_math/vector_math.dart' as vector;
 
-import '../board_builder.dart';
+double perspective = 0.000000001;
 
 class CustomCube extends StatelessWidget {
   const CustomCube({
@@ -14,9 +14,11 @@ class CustomCube extends StatelessWidget {
     required this.width,
     required this.height,
     required this.depth,
+    this.depthOffset = 0,
     this.offsetX = 0,
     this.offsetY = 0,
     this.onTap,
+    this.imagePath = "assets/images/rock.jpg",
   }) : super(key: key);
   static final light = vector.Vector3(0, 0, -1);
   final double width;
@@ -24,7 +26,9 @@ class CustomCube extends StatelessWidget {
   final double depth;
   final double offsetX;
   final double offsetY;
+  final double depthOffset;
   final VoidCallback? onTap;
+  final String imagePath;
   @override
   Widget build(BuildContext context) {
     final v1 = vector.Vector3(depth, depth, 0);
@@ -32,12 +36,14 @@ class CustomCube extends StatelessWidget {
     final v3 = vector.Vector3(-depth, -depth, 0);
 
     List<CubeFace> faces = [
-
       ///
       ///up Face
       ///
       CubeFace(
-        transform: vector.Matrix4.identity()..rotateX(-pi / 2),
+        transform: vector.Matrix4.identity()
+          // ..setEntry(3, 2, perspective)
+          ..translate(0.0, 0.0, depthOffset)
+          ..rotateX(-pi / 2),
         width: width,
         height: depth,
         color: Colors.purple,
@@ -48,6 +54,8 @@ class CustomCube extends StatelessWidget {
       ///
       CubeFace(
         transform: vector.Matrix4.identity()
+          // ..setEntry(3, 2, perspective)
+          ..translate(0.0, 0.0, depthOffset)
           ..translate(width, 0, 0)
           ..rotateY(pi / 2),
         width: depth,
@@ -59,7 +67,10 @@ class CustomCube extends StatelessWidget {
       ///Left Face
       ///
       CubeFace(
-        transform: vector.Matrix4.identity()..rotateY(pi / 2),
+        transform: vector.Matrix4.identity()
+          // ..setEntry(3, 2, perspective)
+          ..translate(0.0, 0.0, depthOffset)
+          ..rotateY(pi / 2),
         width: depth,
         height: height,
         color: Colors.pink,
@@ -70,6 +81,8 @@ class CustomCube extends StatelessWidget {
       ///
       CubeFace(
         transform: vector.Matrix4.identity()
+          // ..setEntry(3, 2, perspective)
+          ..translate(0.0, 0.0, depthOffset)
           ..translate(0.0, height, 0)
           ..rotateX(-pi / 2),
         width: width,
@@ -81,7 +94,10 @@ class CustomCube extends StatelessWidget {
       /// Top Face
       ///
       CubeFace(
-          transform: vector.Matrix4.identity()..translate(0.0, 0.0, -depth),
+          transform: vector.Matrix4.identity()
+            // ..setEntry(3, 2, perspective)
+            ..translate(0.0, 0.0, depthOffset)
+            ..translate(0.0, 0.0, -depth),
           width: width,
           height: height,
           color: Colors.red),
@@ -90,27 +106,30 @@ class CustomCube extends StatelessWidget {
       final angleY = (offset.dy + offsetX) * 0.01;
       final angleX = (offset.dx + offsetY) * -0.01;
       final cameraMatrix = vector.Matrix4.identity()
-        ..translate(width, height, 0)
+        // ..translate(width, height, 0)
         ..multiply(vector.Matrix4.identity()
-              ..setEntry(3, 2, 0.0001)
+              ..setEntry(3, 2, perspective)
               ..rotateX(angleY)
               ..rotateY(angleX)
-              ..translate(0.0, 0.0, 0.0 // depth / 2,
-                  ) //-(d/2) *16 TODO: Touch here for depth correction.
+            // ..translate(0.0, 0.0, depthOffset // depth / 2,
+            //     ) //-(d/2) *16 TODO: Touch here for depth correction.
             );
       List<int> sortedKeys = createZOrder(faces, cameraMatrix);
       List<CubeFace> sortedFaces = [];
+
       ///
       /// Draw Only 3 Visible Faces.
       ///
-      for (var i in sortedKeys.reversed.toList().sublist(0, 3)) {
+      for (var i in sortedKeys.reversed.toList().sublist(0, 4)) {
         sortedFaces.insert(0, faces[i]);
       }
       return Container(
-        transform: Matrix4.identity()
-          ..setEntry(3, 2, 0.0001)
-          ..rotateX(angleY)
-          ..rotateY(angleX),
+        // alignment: Alignment.topCenter,
+        // transform: Matrix4.identity()
+        //   // ..translate(0.0, 0.0, -depthOffset // depth / 2,
+        //   //     )
+        //   ..rotateX(angleY)
+        //   ..rotateY(angleX),
         child: Stack(
             // clipBehavior: Clip.none,
             children: sortedFaces.map((e) {
@@ -124,17 +143,17 @@ class CustomCube extends StatelessWidget {
 
           return Transform(
             transform: Matrix4.fromFloat64List(
-              Float64List.fromList(e.transform.storage),
-            ),
+                Float64List.fromList(e.transform.storage)),
+
             // color: e.color,
             child: DeferPointer(
               child: InkWell(
                 onTap: onTap,
                 child: Image.asset(
-                  "assets/images/rock.jpg",
+                  imagePath, // "assets/images/rock.jpg",
                   width: e.width,
                   height: e.height,
-                  fit: BoxFit.fill,
+                  fit: BoxFit.cover,
                   repeat: ImageRepeat.repeat,
                   color: Colors.black.withOpacity(
                     (0.7 - (directionBrightness * 0.7)) + 0.1,

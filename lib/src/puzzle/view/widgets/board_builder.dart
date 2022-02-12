@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:sliding_puzzle/src/common/ui/widgets/cube.dart';
+import 'package:sliding_puzzle/src/common/ui/widgets/depth_builder.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/board_controller.dart';
-import 'package:sliding_puzzle/src/puzzle/view/widgets/depth_builder.dart';
 
 import '../../puzzle.dart';
 
@@ -18,59 +19,78 @@ class BoardView extends HookConsumerWidget {
     return Center(
       child: AspectRatio(
         aspectRatio: 1,
-        child: Stack(
-          children: [
-            // DepthBuilder(
-            //     builder: (context, offset) =>
-            Transform(
-              transform: Matrix4.identity()..translate(-20.0, -20.0),
-              child: Image.asset(
-                "assets/images/lava.jpg",
-                fit: BoxFit.fill,
-                width: double.maxFinite,
-                height: double.maxFinite,
+        child: LayoutBuilder(builder: (context, constraints) {
+          final width = constraints.maxWidth;
+          final height = constraints.maxHeight;
+
+          const space = 30;
+
+          final tileWidth = (width / board.xDim);
+          final tileHeight = (height / board.yDim);
+          var list = List<TileBuilder>.from(
+              (ref.read(BoardLogicController.provider).tiles
+                    ..sort((a, b) => a.currentPos.compareTo(b.currentPos)))
+                  .map((tile) {
+            return TileBuilder(
+              tile: tile,
+              tileWidth: tileWidth,
+              tileHeight: tileHeight,
+            );
+          }));
+          var customCube = CustomCube(
+            width: width,
+            height: height,
+            depth: 100,
+            depthOffset: 100,
+            imagePath: "assets/images/lava_a.jpg",
+          );
+          return DepthBuilder(builder: (context, offset) {
+            final angleY = (offset.dy) * 0.01;
+            final angleX = (offset.dx) * -0.01;
+            return Transform(
+              transform: Matrix4.identity()
+                // ..setEntry(3, 2, perspective)
+                ..rotateX(angleY)
+                ..rotateY(angleX)
+                ..translate(0.0, 0.0, 0),
+              alignment: FractionalOffset.center,
+              child: Stack(
+                children: [
+                  Container(
+                      // transform: Matrix4.identity()
+                      //   ..setEntry(3, 2, perspective)
+                      //   ..translate(0.0, 0.0, -50),
+                      child: customCube),
+                  // Image.asset(
+                  //   "assets/images/lava_a.jpg",
+                  //   width: double.maxFinite,
+                  //   height: double.maxFinite,
+                  //   fit: BoxFit.fill,
+                  // ),
+                  Container(
+                    // transform: Matrix4.identity()..translate(0.0, 0.0, 10),
+                    child: Stack(
+                      clipBehavior: Clip.none,
+
+                      ///
+                      ///
+                      /// reorder children based on view angle to avoid overlapping of widgets.
+                      ///
+                      ///
+                      children: list
+                        ..sort((a, b) =>
+                            b.tile.currentPos.y.compareTo(a.tile.currentPos.y) *
+                                offset.dx.sign.toInt() +
+                            b.tile.currentPos.x.compareTo(a.tile.currentPos.x) *
+                                offset.dy.sign.toInt()),
+                    ),
+                  )
+                ],
               ),
-            ),
-            //),
-            LayoutBuilder(builder: (context, constraints) {
-              final width = constraints.maxWidth;
-              final height = constraints.maxHeight;
-
-              const space = 30;
-
-              final tileWidth = (width / board.xDim);
-              final tileHeight = (height / board.yDim);
-              var list = List<TileBuilder>.from(
-                  (ref.read(BoardLogicController.provider).tiles
-                        ..sort((a, b) => a.currentPos.compareTo(b.currentPos)))
-                      .map((tile) {
-                return TileBuilder(
-                  tile: tile,
-                  tileWidth: tileWidth,
-                  tileHeight: tileHeight,
-                );
-              }));
-              return DepthBuilder(builder: (context, offset) {
-                return Stack(
-                  clipBehavior: Clip.none,
-
-                  ///
-                  ///
-                  /// reorder children based on view angle to avoid overlapping of widgets.
-                  ///
-                  ///
-                  children: list
-                    ..sort((a, b) =>
-                        b.tile.currentPos.y.compareTo(a.tile.currentPos.y) *
-                            offset.dx.sign.toInt() +
-                        b.tile.currentPos.x.compareTo(a.tile.currentPos.x) *
-                            offset.dy.sign.toInt()),
-                );
-              });
-              // );
-            }),
-          ],
-        ),
+            );
+          });
+          // );
+        }),
       ),
     );
   }

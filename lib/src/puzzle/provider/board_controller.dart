@@ -6,7 +6,7 @@ class BoardLogicController extends StateNotifier<PuzzleBoard> {
 //   final puzzelBoardProvider = StateProvider<PuzzleBoard>((ref) {
 //   return BoardRepository.square(4).board;
 // });
-  BoardLogicController({int dimension = 4})
+  BoardLogicController({int dimension = 3})
       : super(BoardRepository.square(dimension).board);
 
   static final provider =
@@ -36,6 +36,5 @@ class BoardLogicController extends StateNotifier<PuzzleBoard> {
 
   Tile? getMoveDownTile() {
     return state.getBottomMoveableTile();
-
   }
 }

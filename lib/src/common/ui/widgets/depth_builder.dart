@@ -22,14 +22,7 @@ class DepthBuilder extends HookConsumerWidget {
         useAnimationController(duration: const Duration(milliseconds: 500));
     useValueChanged(useValueListenable(rotationController.boardAngle),
         (Offset newOffset, Offset? previous) {
-      // if(newOffset.isNear(previous??Offset.zero)) return newOffset;
-      // print("$newOffset $previous");
-      // if (newOffset <
-      //         const Offset(BoardRotationController.maxAngle,
-      //             BoardRotationController.maxAngle) &&
-      //     newOffset >
-      //         const Offset(BoardRotationController.minAngle,
-      //             BoardRotationController.minAngle)) {
+
       final previousAnimationVal = animation.value;
 
       animation = Tween<Offset>(
