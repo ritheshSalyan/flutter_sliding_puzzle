@@ -32,9 +32,9 @@ class CustomCube extends StatelessWidget {
   final CubeFaceWidgets faceWidgets;
   @override
   Widget build(BuildContext context) {
-    final v1 = vector.Vector3(depth, depth, 0);
-    final v2 = vector.Vector3(-depth, depth, 0);
-    final v3 = vector.Vector3(-depth, -depth, 0);
+    final v1 = vector.Vector3(-depth, -depth, 0);
+    final v2 = vector.Vector3(depth, -depth, 0);
+    final v3 = vector.Vector3(depth, depth, 0);
 
     List<CubeFace> faces = [
       ///
