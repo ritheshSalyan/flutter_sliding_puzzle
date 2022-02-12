@@ -38,8 +38,8 @@ class BoardView extends HookConsumerWidget {
           var customCube = CustomCube(
             width: width,
             height: height,
-            depth: 100,
-            depthOffset: 100,
+            depth: 50,
+            depthOffset: 50,
             faceWidgets: CubeFaceWidgets.all(Image.asset(
               "assets/images/lava_a.jpg",
               repeat: ImageRepeat.repeat,
