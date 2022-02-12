@@ -1,7 +1,7 @@
 import 'package:defer_pointer/defer_pointer.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:sliding_puzzle/src/puzzle/view/widgets/depth_builder.dart';
+import 'package:sliding_puzzle/src/common/ui/widgets/depth_builder.dart';
 import 'package:sliding_puzzle/src/puzzle/view/widgets/input/keyboard_listner.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
@@ -13,13 +13,17 @@ class PuzzlePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screensize = MediaQuery.of(context).size;
-    return Scaffold(
+    return DeferredPointerHandler(
+    child: Scaffold(
+      appBar: AppBar(),
       body: CustomKeyboardActionListner(
           controller: ref.watch(BoardUIController.provider),
           child: GestureDetector(
             behavior: HitTestBehavior.translucent,
             onPanUpdate: (details) {
-              ref.read(BoardUIController.provider).rotateBoardBy(details.delta);
+              ref
+                  .read(BoardUIController.provider)
+                  .rotateBoardBy(details.delta);
 
               // setState(() => _offset += details.delta);
             },
@@ -29,8 +33,7 @@ class PuzzlePage extends ConsumerWidget {
             child: Stack(
               children: [
                 const Background(),
-                DeferredPointerHandler(
-                  child: Center(
+                Center(
                     child: Container(
                         transform: Matrix4.identity()..translate(20.0, 20.0, 0),
                         // color: Colors.white,
@@ -40,7 +43,6 @@ class PuzzlePage extends ConsumerWidget {
                             (screensize.shortestSide * 0.75).clamp(100, 500.0),
                         child: const BoardView()),
                   ),
-                ),
               ],
             ),
           )),
@@ -72,6 +74,7 @@ class PuzzlePage extends ConsumerWidget {
               },
               icon: const Icon(Icons.arrow_downward)),
         ],
+      ),
       ),
     );
   }
