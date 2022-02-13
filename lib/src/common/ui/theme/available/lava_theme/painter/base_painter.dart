@@ -5,7 +5,8 @@ import '../colors.dart';
 
 class LavaBasePainter extends CustomPainter {
   late final GradientPainter gradientPainter;
-  LavaBasePainter() {
+  final bool isVertical;
+  LavaBasePainter(this.isVertical) {
     gradientPainter = GradientPainter(colors: [
       LavaColorSystem.baseColor,
       LavaColorSystem.baseGlow,
@@ -17,7 +18,7 @@ class LavaBasePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    gradientPainter.paint(canvas, size);
+    gradientPainter.paint(canvas, size,topToBottom: isVertical);
   }
 
   @override

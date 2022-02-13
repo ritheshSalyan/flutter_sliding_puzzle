@@ -6,9 +6,9 @@ class BoardRotationController {
   Offset _previousValue = const Offset(-20, -20);
   Offset get previousValue => _previousValue;
 
-  static const minAngle = Offset( -50.0,-50.0);
-  static const maxAngle = Offset( 50.0, 50.0);
-  
+  static const minAngle = Offset(-50.0, -50.0);
+  static const maxAngle = Offset(50.0, 50.0);
+
   void rotateBy(Offset offset) {
     double x = offset.dx; // 0;
     double y = offset.dy; //0;
@@ -37,5 +37,9 @@ class BoardRotationController {
     _previousValue = boardAngle.value;
 
     boardAngle.value = Offset.zero;
+  }
+
+  void updatePrevious(Offset value) {
+    _previousValue = value;
   }
 }

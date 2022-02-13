@@ -109,7 +109,7 @@ class BoardUIController extends ChangeNotifier
     boardRotationController.reset();
   }
 
-  final _sensitivity = 5.0;
+  final _sensitivity = 30.0;
 
   @override
   void onGyroChange(Offset offset) {

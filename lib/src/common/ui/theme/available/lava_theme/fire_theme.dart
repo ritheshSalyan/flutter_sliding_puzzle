@@ -19,7 +19,7 @@ AppTheme fireTheme = AppTheme(
       ),
       CubeFaceTheme(
         baseColor: LavaColorSystem.baseColor,
-        spotPainter: LavaBasePainter(
+        spotPainter: LavaBasePainter(true
             // percentValue: 50,
             // boxHeight: 100,
 
@@ -28,7 +28,7 @@ AppTheme fireTheme = AppTheme(
       ),
       CubeFaceTheme(
         baseColor: LavaColorSystem.baseColor,
-        spotPainter: LavaBasePainter(
+        spotPainter: LavaBasePainter(false
             // percentValue: 50,
             // boxHeight: 100,
             ),

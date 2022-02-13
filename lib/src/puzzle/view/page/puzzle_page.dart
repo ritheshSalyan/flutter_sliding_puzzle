@@ -14,13 +14,10 @@ class PuzzlePage extends ConsumerWidget {
     return BoardInputWrapper(
       child: CommonScaffold(
         small: (context, constraints) {
-          return CustomScrollView(
-            slivers: [
-              SliverList(
-                  delegate: SliverChildListDelegate([
-                const TitleWidget(),
-              ])),
-              SliverFillRemaining(
+          return Column(
+            children: [
+              const TitleWidget(),
+              Expanded(
                 child: Center(
                   child: SizedBox(
                     // transform: Matrix4.identity()..translate(20.0, 20.0, 0),

@@ -22,15 +22,15 @@ class DepthBuilder extends HookConsumerWidget {
         useAnimationController(duration: const Duration(milliseconds: 500));
     useValueChanged(useValueListenable(rotationController.boardAngle),
         (Offset newOffset, Offset? previous) {
-      final previousAnimationVal = animation.value;
-
       animation = Tween<Offset>(
-              begin: (previous ?? rotationController.previousValue),
-              // rotationController.previousValue, // previous ??
-              end: rotationController.boardAngle.value)
-          .animate(
+        begin: rotationController.previousValue,
+        // rotationController.previousValue, // previous ??
+        end: rotationController.boardAngle.value,
+      ).animate(
         CurvedAnimation(parent: _animationController, curve: Curves.linear),
-      );
+      )..addListener(() {
+          rotationController.updatePrevious(animation.value);
+        });
       // }
       _animationController.forward(from: 0);
       return rotationController.boardAngle.value;
