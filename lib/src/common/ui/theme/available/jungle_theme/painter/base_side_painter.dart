@@ -25,9 +25,12 @@ class JungleBaseSidePainter extends CustomPainter {
       0.75,
     ],
   );
+
+  final bool isVertical;
+  JungleBaseSidePainter(this.isVertical);
   @override
   void paint(Canvas canvas, Size size) {
-    gradientPainter.paint(canvas, size);
+    gradientPainter.paint(canvas, size, topToBottom: isVertical);
     mudSpot.paint(canvas, size * 0.75);
     canvas.save();
 
@@ -37,5 +40,5 @@ class JungleBaseSidePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(JungleBaseSidePainter oldDelegate) => true;
+  bool shouldRepaint(JungleBaseSidePainter oldDelegate) => false;
 }

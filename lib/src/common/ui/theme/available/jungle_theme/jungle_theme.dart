@@ -11,52 +11,29 @@ AppTheme jungleTheme = AppTheme(
   boardTheme: BoardTheme(
     baseTheme: CubeTheme.symetric(
       CubeFaceTheme(
-        baseColor: JungleColorSystem.baseGreen, //LavaColorSystem.baseColor,
+        baseColor: JungleColorSystem.baseGreen,
         spotPainter: JungleBaseTopPainter(),
-        // spotPainter: WavePainter(
-        //   // percentValue: 50,
-        //   // boxHeight: 100,
-        //   waveColor: const Color(0xFF5d4843),
-        // ),
-        // spotColor: const Color(0xFF5d4843),
       ),
       CubeFaceTheme(
         baseColor: JungleColorSystem.baseGreen,
-        spotPainter: JungleBaseSidePainter(),
-        // spotPainter: LavaBasePainter(
-        //     // percentValue: 50,
-        //     // boxHeight: 100,
-
-        //     ),
-        // spotColor: const Color(0xFF5d4843),
+        spotPainter: JungleBaseSidePainter(true),
       ),
       CubeFaceTheme(
         baseColor: JungleColorSystem.baseGreen,
-        spotPainter: JungleBaseSidePainter(),
-
-        // spotPainter: LavaBasePainter(
-        //     // percentValue: 50,
-        //     // boxHeight: 100,
-        //     ),
-        // spotColor: const Color(0xFF5d4843),
+        spotPainter: JungleBaseSidePainter(false),
       ),
     ),
     tileTheme: () => CubeTheme.symetric(
         CubeFaceTheme(
             baseColor: JungleColorSystem.tileGreen,
-            spotPainter: JungleTileTopPainter()
-            // spotPainter: LavaTilePainter(LavaColorSystem.tileSpot),
-            // spotColor: LavaColorSystem.tileSpot,
-            ),
+            spotPainter: JungleTileTopPainter()),
         CubeFaceTheme(
           baseColor: JungleColorSystem.tileGreen,
-          spotPainter: JungleTileSidePainter(),
-          // spotColor: JungleColorSystem.baseGreen,
+          spotPainter: JungleTileSidePainter(true),
         ),
         CubeFaceTheme(
           baseColor: JungleColorSystem.tileGreen,
-          spotPainter: JungleTileSidePainter(),
-          // spotColor: LavaColorSystem.tileSpot,
+          spotPainter: JungleTileSidePainter(false),
         )),
   ),
 );

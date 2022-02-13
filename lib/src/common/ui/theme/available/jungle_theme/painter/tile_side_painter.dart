@@ -8,19 +8,24 @@ import 'package:sliding_puzzle/src/common/ui/widgets/painter/spot_painter.dart';
 class JungleTileSidePainter extends CustomPainter {
   late final SpotPainter mudSpot;
   late final SpotPainter greenPath;
-  final GradientPainter gradientPainter = GradientPainter(colors: [
-    JungleColorSystem.tileGreen,
-    JungleColorSystem.mudLight,
-    JungleColorSystem.mudLight,
-    JungleColorSystem.mudDark,
-  ], stpes: [
-    0.25,
-    0.25,
-    0.75,
-    0.75,
-  ], leftToRight: false);
+  final GradientPainter gradientPainter = GradientPainter(
+    colors: [
+      JungleColorSystem.tileGreen,
+      JungleColorSystem.mudLight,
+      JungleColorSystem.mudLight,
+      JungleColorSystem.mudDark,
+    ],
+    stpes: [
+      0.25,
+      0.25,
+      0.75,
+      0.75,
+    ],
+  );
 
-  JungleTileSidePainter() {
+  bool isVertical;
+
+  JungleTileSidePainter(this.isVertical) {
     greenPath = SpotPainter(
       JungleColorSystem.tileGreen,
       noOfSpots: Random().nextInt(3),
@@ -32,7 +37,7 @@ class JungleTileSidePainter extends CustomPainter {
   }
   @override
   void paint(Canvas canvas, Size size) {
-    gradientPainter.paint(canvas, size);
+    gradientPainter.paint(canvas, size, topToBottom: isVertical);
     mudSpot.paint(canvas, size * 0.75);
     canvas.save();
 
@@ -42,5 +47,5 @@ class JungleTileSidePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(JungleTileSidePainter oldDelegate) => true;
+  bool shouldRepaint(JungleTileSidePainter oldDelegate) => false;
 }

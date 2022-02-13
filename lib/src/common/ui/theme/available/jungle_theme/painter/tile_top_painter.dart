@@ -41,5 +41,5 @@ class JungleTileTopPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(JungleTileTopPainter oldDelegate) => true;
+  bool shouldRepaint(JungleTileTopPainter oldDelegate) => false;
 }

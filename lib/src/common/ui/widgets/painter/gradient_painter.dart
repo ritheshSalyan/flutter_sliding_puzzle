@@ -12,19 +12,16 @@ class GradientPainter {
   void paint(
     Canvas canvas,
     Size size, {
-    bool leftToRight = false,
+    bool topToBottom = false,
   }) {
-    var isInverse = //false;
-        leftToRight; // ? (size.width >= size.height) : (size.width <= size.height);
-    Size newSize = size; //Size(size.shortestSide, size.longestSide);
     Paint wavePaint = Paint()
       ..shader = ui.Gradient.linear(
-          isInverse
-              ? newSize.bottomCenter(Offset.zero)
-              : newSize.centerRight(Offset.zero),
-          isInverse
-              ? newSize.topCenter(Offset.zero)
-              : newSize.centerLeft(Offset.zero),
+          topToBottom
+              ? size.bottomCenter(Offset.zero)
+              : size.centerRight(Offset.zero),
+          topToBottom
+              ? size.topCenter(Offset.zero)
+              : size.centerLeft(Offset.zero),
           colors,
           stpes);
 
