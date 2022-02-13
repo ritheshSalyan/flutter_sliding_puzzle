@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:sliding_puzzle/src/common/ui/theme/theme_provider.dart';
 import 'package:sliding_puzzle/src/common/ui/widgets/cube.dart';
+import 'package:sliding_puzzle/src/common/ui/widgets/cube_face_widget.dart';
 import 'package:sliding_puzzle/src/common/ui/widgets/depth_builder.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/board_controller.dart';
 
@@ -40,13 +42,41 @@ class BoardView extends HookConsumerWidget {
             height: height,
             depth: 50,
             depthOffset: 50,
-            faceWidgets: CubeFaceWidgets.all(Image.asset(
-              "assets/images/lava_a.jpg",
-              repeat: ImageRepeat.repeat,
-              fit: BoxFit.cover,
-              width: width,
-              height: height,
-            )),
+            faceWidgets: CubeFaceWidgets(
+              topFace: (context, size) => CubeFaceWidget(
+                cubeTheme:
+                    ref.watch(ThemeNotifier.provider).boardTheme.baseTheme.top,
+                // color: const Color(0xFF97857d),
+                // child: const Center(),
+              ),
+              leftFace: (context, size) => CubeFaceWidget(
+                cubeTheme:
+                    ref.watch(ThemeNotifier.provider).boardTheme.baseTheme.left,
+                // color: const Color(0xFF97857d),
+                // child: const Center(),
+              ),
+              rightFace: (context, size) => CubeFaceWidget(
+                cubeTheme: ref
+                    .watch(ThemeNotifier.provider)
+                    .boardTheme
+                    .baseTheme
+                    .right,
+                // color: const Color(0xFF97857d),
+                // child: const Center(),
+              ),
+              upFace: (context, size) => CubeFaceWidget(
+                cubeTheme:
+                    ref.watch(ThemeNotifier.provider).boardTheme.baseTheme.up,
+                // color: const Color(0xFF97857d),
+                // child: const Center(),
+              ),
+              downFace: (context, size) => CubeFaceWidget(
+                cubeTheme:
+                    ref.watch(ThemeNotifier.provider).boardTheme.baseTheme.down,
+                // color: const Color(0xFF97857d),
+                // child: const Center(),
+              ),
+            ),
           );
           return DepthBuilder(builder: (context, offset) {
             final angleY = (offset.dy) * 0.01;

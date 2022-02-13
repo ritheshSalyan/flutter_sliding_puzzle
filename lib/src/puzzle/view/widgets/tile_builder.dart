@@ -3,7 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:sliding_puzzle/src/common/ui/theme/theme_provider.dart';
 import 'package:sliding_puzzle/src/common/ui/widgets/cube.dart';
+import 'package:sliding_puzzle/src/common/ui/widgets/cube_face_widget.dart';
 import 'package:sliding_puzzle/src/puzzle/model/model.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/tile_state.dart';
 
@@ -26,14 +28,6 @@ class TileBuilder extends HookConsumerWidget {
   int get index => tile.correctPos.x * 4 + tile.correctPos.y;
   @override
   Widget build(BuildContext context, ref) {
-    // final _animationController =
-    //     useAnimationController(duration: const Duration(milliseconds: 500));
-    // _animationController.addListener(() {
-    //   if (_animationController.status == AnimationStatus.completed) {
-    //     // _animationController.reverse();
-
-    //   }
-    // });
     var tileState = ref.watch(TileStateNotifier.provider(tile.correctPos));
     final _animationController = useAnimationController(
         duration: tileState is StartTileState
@@ -85,10 +79,50 @@ class TileBuilder extends HookConsumerWidget {
               offsetY: (tile.currentPos.y - 2) * 3,
               offsetX: (tile.currentPos.x - 2) * 3,
               depthOffset: 0,
-              faceWidgets: CubeFaceWidgets.all(Container(
-                color: const Color(0xFF97857d),
-                child: const Center(),
-              )),
+              faceWidgets: CubeFaceWidgets(
+                topFace: (context, size) => CubeFaceWidget(
+                  cubeTheme: ref
+                      .watch(ThemeNotifier.provider)
+                      .boardTheme
+                      .tileTheme
+                      .top,
+                  // color: const Color(0xFF97857d),
+                  // child: const Center(),
+                ),
+                leftFace: (context, size) => CubeFaceWidget(
+                  cubeTheme: ref
+                      .watch(ThemeNotifier.provider)
+                      .boardTheme
+                      .tileTheme
+                      .left,
+                  // color: const Color(0xFF97857d),
+                  // child: const Center(),
+                ),
+                rightFace: (context, size) => CubeFaceWidget(
+                  cubeTheme: ref
+                      .watch(ThemeNotifier.provider)
+                      .boardTheme
+                      .tileTheme
+                      .right,
+                  // color: const Color(0xFF97857d),
+                  // child: const Center(),
+                ),
+                upFace: (context, size) => CubeFaceWidget(
+                  cubeTheme:
+                      ref.watch(ThemeNotifier.provider).boardTheme.tileTheme.up,
+                  // color: const Color(0xFF97857d),
+                  // child: const Center(),
+                ),
+                downFace: (context, size) => CubeFaceWidget(
+                  cubeTheme: ref
+                      .watch(ThemeNotifier.provider)
+                      .boardTheme
+                      .tileTheme
+                      .down,
+                  // color: const Color(0xFF97857d),
+                  // child: const Center(),
+                ),
+              ),
               onTap: () {
                 ref.read(BoardUIController.provider).moveTile(tile);
                 // log("Can Move ${tile.data} ${board.canMoveTile(tile)}");
