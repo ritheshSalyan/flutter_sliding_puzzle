@@ -5,23 +5,26 @@ import 'package:flutter/material.dart';
 class GradientPainter {
   final List<Color> colors;
   final List<double>? stpes;
-  bool leftToRight;
   GradientPainter({
     required this.colors,
     this.stpes,
-    this.leftToRight = true,
   });
-  void paint(Canvas canvas, Size size) {
-    var isInverse =
-        leftToRight ? (size.width >= size.height) : (size.width < size.height);
+  void paint(
+    Canvas canvas,
+    Size size, {
+    bool leftToRight = false,
+  }) {
+    var isInverse = //false;
+        leftToRight; // ? (size.width >= size.height) : (size.width <= size.height);
+    Size newSize = size; //Size(size.shortestSide, size.longestSide);
     Paint wavePaint = Paint()
       ..shader = ui.Gradient.linear(
           isInverse
-              ? size.bottomCenter(Offset.zero)
-              : size.centerRight(Offset.zero),
+              ? newSize.bottomCenter(Offset.zero)
+              : newSize.centerRight(Offset.zero),
           isInverse
-              ? size.topCenter(Offset.zero)
-              : size.centerLeft(Offset.zero),
+              ? newSize.topCenter(Offset.zero)
+              : newSize.centerLeft(Offset.zero),
           colors,
           stpes);
 
