@@ -33,8 +33,18 @@ class TileStateNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  void endAnimation(int noOftiles) {
+    state = CompleteProgressTileState(state.currentPosition, noOftiles);
+    notifyListeners();
+  }
+
   void onCompleteAnimation() {
-    state = TileIdleState(state.currentPosition);
+    if (state is CompleteProgressTileState) {
+      state = CompleteTileState(state.currentPosition,
+          (state as CompleteProgressTileState).noOfTiles);
+    } else {
+      state = TileIdleState(state.currentPosition);
+    }
     notifyListeners();
   }
 }
@@ -59,5 +69,17 @@ class TileMovementState extends TileState {
   final BoardPosition previousPosition;
 
   TileMovementState(BoardPosition currentPosition, this.previousPosition)
+      : super(currentPosition);
+}
+
+class CompleteProgressTileState extends TileState {
+  final int noOfTiles;
+  CompleteProgressTileState(BoardPosition currentPosition, this.noOfTiles)
+      : super(currentPosition);
+}
+
+class CompleteTileState extends TileState {
+  final int noOfTiles;
+  CompleteTileState(BoardPosition currentPosition, this.noOfTiles)
       : super(currentPosition);
 }

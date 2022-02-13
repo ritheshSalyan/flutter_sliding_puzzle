@@ -28,9 +28,11 @@ class TileBuilder extends HookConsumerWidget {
     var tileState =
         ref.watch(TileStateNotifier.provider(tile.correctPos)).state;
     final _animationController = useAnimationController(
-        duration: tileState is StartTileState
-            ? const Duration(milliseconds: 1000)
-            : const Duration(milliseconds: 500));
+      duration:
+          tileState is StartTileState || tileState is CompleteProgressTileState
+              ? const Duration(milliseconds: 1000)
+              : const Duration(milliseconds: 500),
+    );
     useValueChanged(tileState, (_, void __) {
       if (tileState is TileMovementState &&
           tileState.currentPosition != tileState.previousPosition) {
@@ -41,6 +43,13 @@ class TileBuilder extends HookConsumerWidget {
           _animationController.reset();
         });
       } else if (tileState is StartTileState) {
+        _animationController.forward(from: 0).whenCompleteOrCancel(() {
+          ref
+              .read(TileStateNotifier.provider(tile.correctPos))
+              .onCompleteAnimation();
+          _animationController.reset();
+        });
+      } else if (tileState is CompleteProgressTileState) {
         _animationController.forward(from: 0).whenCompleteOrCancel(() {
           ref
               .read(TileStateNotifier.provider(tile.correctPos))
@@ -60,13 +69,23 @@ class TileBuilder extends HookConsumerWidget {
         ? tileWidth * 0.05
         : tileWidth * 0.15;
 
-    var depth = (index + 1) * tileWidth / 4 * 1.0;
+    var depth = (index + 1) * tileWidth / 4;
     Animation<double> heightTween = tileState is StartTileState
         ? Tween(begin: 1.0, end: depth).animate(CurvedAnimation(
             parent: _animationController,
             curve: Curves.linearToEaseOut,
           ))
-        : AlwaysStoppedAnimation(depth);
+        : tileState is CompleteProgressTileState
+            ? Tween(
+                    begin: depth,
+                    end: (tileState.noOfTiles + 1) * tileWidth / 4)
+                .animate(CurvedAnimation(
+                parent: _animationController,
+                curve: Curves.linearToEaseOut,
+              ))
+            : AlwaysStoppedAnimation((tileState is CompleteTileState)
+                ? ((tileState).noOfTiles + 1) * tileWidth / 4
+                : depth);
 
     return AnimatedBuilder(
       animation: positionTween,
@@ -76,9 +95,7 @@ class TileBuilder extends HookConsumerWidget {
             return CustomCube(
               width: tileWidth - space,
               height: tileHeight - space,
-              depth: heightTween.value, //(index + 1) * tileWidth,
-              // offsetY: (tile.currentPos.y - 2) * 3,
-              // offsetX: (tile.currentPos.x - 2) * 3,
+              depth: heightTween.value,
               depthOffset: 0,
               faceWidgets: CubeFaceWidgets(
                 topFace: (context, size) => CubeFaceWidget(
@@ -86,40 +103,30 @@ class TileBuilder extends HookConsumerWidget {
                       .watch(TileStateNotifier.provider(tile.correctPos))
                       .style
                       .top,
-                  // color: const Color(0xFF97857d),
-                  // child: const Center(),
                 ),
                 leftFace: (context, size) => CubeFaceWidget(
                   cubeTheme: ref
                       .watch(TileStateNotifier.provider(tile.correctPos))
                       .style
                       .left,
-                  // color: const Color(0xFF97857d),
-                  // child: const Center(),
                 ),
                 rightFace: (context, size) => CubeFaceWidget(
                   cubeTheme: ref
                       .watch(TileStateNotifier.provider(tile.correctPos))
                       .style
                       .right,
-                  // color: const Color(0xFF97857d),
-                  // child: const Center(),
                 ),
                 upFace: (context, size) => CubeFaceWidget(
                   cubeTheme: ref
                       .watch(TileStateNotifier.provider(tile.correctPos))
                       .style
                       .up,
-                  // color: const Color(0xFF97857d),
-                  // child: const Center(),
                 ),
                 downFace: (context, size) => CubeFaceWidget(
                   cubeTheme: ref
                       .watch(TileStateNotifier.provider(tile.correctPos))
                       .style
                       .down,
-                  // color: const Color(0xFF97857d),
-                  // child: const Center(),
                 ),
               ),
               onTap: () {
