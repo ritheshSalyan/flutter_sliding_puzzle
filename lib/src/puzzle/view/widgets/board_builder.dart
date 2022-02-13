@@ -18,71 +18,74 @@ class BoardView extends HookConsumerWidget {
   Widget build(BuildContext context, ref) {
     final board = ref.watch(BoardLogicController.provider);
 
-    return Stack(
-      children: [
-        Center(
-          child: AspectRatio(
-            aspectRatio: 1,
-            child: LayoutBuilder(builder: (context, constraints) {
-              final width = constraints.maxWidth;
-              final height = constraints.maxHeight;
+    return AbsorbPointer(
+      absorbing: ref.watch(BoardUIController.provider).isCompleted,
+      child: Stack(
+        children: [
+          Center(
+            child: AspectRatio(
+              aspectRatio: 1,
+              child: LayoutBuilder(builder: (context, constraints) {
+                final width = constraints.maxWidth;
+                final height = constraints.maxHeight;
 
-              final tileWidth = (width / board.xDim);
-              final tileHeight = (height / board.yDim);
-              var list = List<TileBuilder>.from(
-                  (ref.read(BoardLogicController.provider).tiles
-                        ..sort((a, b) => a.currentPos.compareTo(b.currentPos)))
-                      .map((tile) {
-                return TileBuilder(
-                  tile: tile,
-                  tileWidth: tileWidth,
-                  tileHeight: tileHeight,
+                final tileWidth = (width / board.xDim);
+                final tileHeight = (height / board.yDim);
+                var list = List<TileBuilder>.from((ref
+                        .read(BoardLogicController.provider)
+                        .tiles
+                      ..sort((a, b) => a.currentPos.compareTo(b.currentPos)))
+                    .map((tile) {
+                  return TileBuilder(
+                    tile: tile,
+                    tileWidth: tileWidth,
+                    tileHeight: tileHeight,
+                  );
+                }));
+                var base = BoardBase(
+                  width: width,
+                  height: height,
                 );
-              }));
-              var base = BoardBase(
-                width: width,
-                height: height,
-              );
-              return DepthBuilder(builder: (context, offset) {
-                final angleY = (offset.dy) * 0.01;
-                final angleX = (offset.dx) * -0.01;
-                return Transform(
-                  transform: Matrix4.identity()
-                    // ..setEntry(3, 2, perspective)
-                    ..rotateX(angleY)
-                    ..rotateY(angleX)
-                    ..translate(0.0, 0.0, 0),
-                  alignment: FractionalOffset.center,
-                  child: Stack(
-                    children: [
-                      base,
+                return DepthBuilder(builder: (context, offset) {
+                  final angleY = (offset.dy) * 0.01;
+                  final angleX = (offset.dx) * -0.01;
+                  return Transform(
+                    transform: Matrix4.identity()
+                      // ..setEntry(3, 2, perspective)
+                      ..rotateX(angleY)
+                      ..rotateY(angleX)
+                      ..translate(0.0, 0.0, 0),
+                    alignment: FractionalOffset.center,
+                    child: Stack(
+                      children: [
+                        base,
+                        Stack(
+                          clipBehavior: Clip.none,
 
-                      Stack(
-                        clipBehavior: Clip.none,
-
-                        ///
-                        ///
-                        /// reorder children based on view angle to avoid overlapping of widgets.
-                        ///
-                        ///
-                        children: list
-                          ..sort((a, b) =>
-                              b.tile.currentPos.y
-                                      .compareTo(a.tile.currentPos.y) *
-                                  offset.dx.sign.toInt() +
-                              b.tile.currentPos.x
-                                      .compareTo(a.tile.currentPos.x) *
-                                  offset.dy.sign.toInt()),
-                      )
-                    ],
-                  ),
-                );
-              });
-              // );
-            }),
+                          ///
+                          ///
+                          /// reorder children based on view angle to avoid overlapping of widgets.
+                          ///
+                          ///
+                          children: list
+                            ..sort((a, b) =>
+                                b.tile.currentPos.y
+                                        .compareTo(a.tile.currentPos.y) *
+                                    offset.dx.sign.toInt() +
+                                b.tile.currentPos.x
+                                        .compareTo(a.tile.currentPos.x) *
+                                    offset.dy.sign.toInt()),
+                        )
+                      ],
+                    ),
+                  );
+                });
+                // );
+              }),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

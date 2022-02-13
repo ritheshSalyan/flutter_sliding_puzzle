@@ -28,11 +28,11 @@ class JungleTileSidePainter extends CustomPainter {
   JungleTileSidePainter(this.isVertical) {
     greenPath = SpotPainter(
       JungleColorSystem.tileGreen,
-      noOfSpots: Random().nextInt(3),
+      noOfSpots: 1 + Random().nextInt(3),
     );
     mudSpot = SpotPainter(
       JungleColorSystem.mudLight,
-      noOfSpots: Random().nextInt(3),
+      noOfSpots: 1 + Random().nextInt(3),
     );
   }
   @override

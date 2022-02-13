@@ -46,6 +46,7 @@ class BoardUIController extends ChangeNotifier
   }
 
   void moveTile(Tile tile) {
+    if (isCompleted) return;
     saveState(_ref.read(BoardLogicController.provider));
     final previousPos = tile.currentPos;
     final camMove =
@@ -60,9 +61,18 @@ class BoardUIController extends ChangeNotifier
           .changeState(newTile.currentPos, previousPos);
       bool completed = boardController.isComplete();
       isCompleted = completed;
-      // if (completed) {
       notifyListeners();
-      // }
+      if (completed) {
+        triggerEndAnimation();
+      }
+    }
+  }
+
+  void triggerEndAnimation() {
+    for (var tile in boardController.state.tiles) {
+      _ref
+          .read(TileStateNotifier.provider(tile.correctPos).notifier)
+          .endAnimation(boardController.state.tiles.length);
     }
   }
 

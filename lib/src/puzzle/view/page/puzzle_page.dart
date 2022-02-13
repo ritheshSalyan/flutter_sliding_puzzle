@@ -16,7 +16,11 @@ class PuzzlePage extends ConsumerWidget {
         small: (context, constraints) {
           return Column(
             children: [
-              const TitleWidget(),
+              InkWell(
+                  onTap: () {
+                    ref.read(BoardUIController.provider).triggerEndAnimation();
+                  },
+                  child: const TitleWidget()),
               Expanded(
                 child: Center(
                   child: SizedBox(
@@ -76,35 +80,3 @@ class PuzzlePage extends ConsumerWidget {
     );
   }
 }
-
-
-  // floatingActionButton: FloatingActionButton(
-  //           onPressed: () {
-  //             ref.read(BoardUIController.provider).shuffle();
-  //           },
-  //         ),
-  //         bottomNavigationBar: Row(
-  //           children: [
-  //             IconButton(
-  //                 onPressed: () {
-  //                   ref.read(BoardUIController.provider).moveLeft();
-  //                 },
-  //                 icon: const Icon(Icons.arrow_left)),
-  //             IconButton(
-  //                 onPressed: () {
-  //                   ref.read(BoardUIController.provider).moveRight();
-  //                 },
-  //                 icon: const Icon(Icons.arrow_right)),
-  //             IconButton(
-  //                 onPressed: () {
-  //                   ref.read(BoardUIController.provider).moveUp();
-  //                 },
-  //                 icon: const Icon(Icons.arrow_upward)),
-  //             IconButton(
-  //                 onPressed: () {
-  //                   ref.read(BoardUIController.provider).moveDown();
-  //                 },
-  //                 icon: const Icon(Icons.arrow_downward)),
-  //           ],
-  //         ),
-        
