@@ -16,8 +16,8 @@ class CustomCube extends StatelessWidget {
     required this.depth,
     required this.faceWidgets,
     this.depthOffset = 0,
-    this.offsetX = 0,
-    this.offsetY = 0,
+    // this.offsetX = 0,
+    // this.offsetY = 0,
     this.onTap,
     // this.imagePath = "assets/images/rock.jpg",
   }) : super(key: key);
@@ -25,8 +25,8 @@ class CustomCube extends StatelessWidget {
   final double width;
   final double height;
   final double depth;
-  final double offsetX;
-  final double offsetY;
+  // final double offsetX;
+  // final double offsetY;
   final double depthOffset;
   final VoidCallback? onTap;
   final CubeFaceWidgets faceWidgets;
@@ -102,8 +102,8 @@ class CustomCube extends StatelessWidget {
           child: faceWidgets.topFace),
     ];
     return DepthBuilder(builder: (context, offset) {
-      final angleY = (offset.dy + offsetX) * 0.01;
-      final angleX = (offset.dx + offsetY) * -0.01;
+      final angleY = (offset.dy) * 0.01;
+      final angleX = (offset.dx) * -0.01;
       final cameraMatrix = vector.Matrix4.identity()
         // ..translate(width, height, 0)
         ..multiply(vector.Matrix4.identity()
