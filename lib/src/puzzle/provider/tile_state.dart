@@ -1,16 +1,17 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sliding_puzzle/src/common/ui/theme/app_theme.dart';
 import 'package:sliding_puzzle/src/common/ui/theme/theme_provider.dart';
 import 'package:sliding_puzzle/src/puzzle/model/model.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/board_controller.dart';
 
-class TileStateNotifier extends StateNotifier<TileState> {
+class TileStateNotifier extends ChangeNotifier {
   static final provider =
-      StateNotifierProvider.family<TileStateNotifier, TileState, BoardPosition>(
+      ChangeNotifierProvider.family<TileStateNotifier, BoardPosition>(
           (ref, position) {
     return TileStateNotifier(
       ref
-          .watch(BoardLogicController.provider)
+          .read(BoardLogicController.provider)
           .tiles
           .firstWhere((tile) => tile.correctPos == position)
           .currentPos,
@@ -19,19 +20,22 @@ class TileStateNotifier extends StateNotifier<TileState> {
   });
   final CubeTheme style;
   TileStateNotifier(BoardPosition initialPosition, this.style)
-      : super(TileIdleState(initialPosition));
-
+      : state = TileIdleState(initialPosition);
+  TileState state;
   void changeState(
       BoardPosition currentPosition, BoardPosition previousPosition) {
     state = TileMovementState(currentPosition, previousPosition);
+    notifyListeners();
   }
 
   void startAnimation(BoardPosition currentPosition) {
     state = StartTileState(currentPosition);
+    notifyListeners();
   }
 
   void onCompleteAnimation() {
     state = TileIdleState(state.currentPosition);
+    notifyListeners();
   }
 }
 

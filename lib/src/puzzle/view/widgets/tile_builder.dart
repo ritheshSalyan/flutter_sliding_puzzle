@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -27,7 +25,8 @@ class TileBuilder extends HookConsumerWidget {
   int get index => tile.correctPos.x * 4 + tile.correctPos.y;
   @override
   Widget build(BuildContext context, ref) {
-    var tileState = ref.watch(TileStateNotifier.provider(tile.correctPos));
+    var tileState =
+        ref.watch(TileStateNotifier.provider(tile.correctPos)).state;
     final _animationController = useAnimationController(
         duration: tileState is StartTileState
             ? const Duration(milliseconds: 1000)
@@ -44,7 +43,7 @@ class TileBuilder extends HookConsumerWidget {
       } else if (tileState is StartTileState) {
         _animationController.forward(from: 0).whenCompleteOrCancel(() {
           ref
-              .read(TileStateNotifier.provider(tile.correctPos).notifier)
+              .read(TileStateNotifier.provider(tile.correctPos))
               .onCompleteAnimation();
           _animationController.reset();
         });
@@ -59,7 +58,7 @@ class TileBuilder extends HookConsumerWidget {
         : const AlwaysStoppedAnimation(1.0);
     final space = tile.correctPos == tile.currentPos ? 0 : tileWidth * 0.15;
 
-    var depth = (index + 3) * min(tileWidth, 50.0) * 1.0;
+    var depth = (index + 1) * tileWidth / 4 * 1.0;
     Animation<double> heightTween = tileState is StartTileState
         ? Tween(begin: 1.0, end: depth).animate(CurvedAnimation(
             parent: _animationController,
@@ -76,14 +75,13 @@ class TileBuilder extends HookConsumerWidget {
               width: tileWidth - space,
               height: tileHeight - space,
               depth: heightTween.value, //(index + 1) * tileWidth,
-              offsetY: (tile.currentPos.y - 2) * 3,
-              offsetX: (tile.currentPos.x - 2) * 3,
+              // offsetY: (tile.currentPos.y - 2) * 3,
+              // offsetX: (tile.currentPos.x - 2) * 3,
               depthOffset: 0,
               faceWidgets: CubeFaceWidgets(
                 topFace: (context, size) => CubeFaceWidget(
                   cubeTheme: ref
-                      .watch(
-                          TileStateNotifier.provider(tile.correctPos).notifier)
+                      .watch(TileStateNotifier.provider(tile.correctPos))
                       .style
                       .top,
                   // color: const Color(0xFF97857d),
@@ -91,8 +89,7 @@ class TileBuilder extends HookConsumerWidget {
                 ),
                 leftFace: (context, size) => CubeFaceWidget(
                   cubeTheme: ref
-                      .watch(
-                          TileStateNotifier.provider(tile.correctPos).notifier)
+                      .watch(TileStateNotifier.provider(tile.correctPos))
                       .style
                       .left,
                   // color: const Color(0xFF97857d),
@@ -100,8 +97,7 @@ class TileBuilder extends HookConsumerWidget {
                 ),
                 rightFace: (context, size) => CubeFaceWidget(
                   cubeTheme: ref
-                      .watch(
-                          TileStateNotifier.provider(tile.correctPos).notifier)
+                      .watch(TileStateNotifier.provider(tile.correctPos))
                       .style
                       .right,
                   // color: const Color(0xFF97857d),
@@ -109,8 +105,7 @@ class TileBuilder extends HookConsumerWidget {
                 ),
                 upFace: (context, size) => CubeFaceWidget(
                   cubeTheme: ref
-                      .watch(
-                          TileStateNotifier.provider(tile.correctPos).notifier)
+                      .watch(TileStateNotifier.provider(tile.correctPos))
                       .style
                       .up,
                   // color: const Color(0xFF97857d),
@@ -118,8 +113,7 @@ class TileBuilder extends HookConsumerWidget {
                 ),
                 downFace: (context, size) => CubeFaceWidget(
                   cubeTheme: ref
-                      .watch(
-                          TileStateNotifier.provider(tile.correctPos).notifier)
+                      .watch(TileStateNotifier.provider(tile.correctPos))
                       .style
                       .down,
                   // color: const Color(0xFF97857d),
