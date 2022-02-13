@@ -39,7 +39,7 @@ class BoardView extends HookConsumerWidget {
                   tileHeight: tileHeight,
                 );
               }));
-              var customCube = BoardBase(
+              var base = BoardBase(
                 width: width,
                 height: height,
               );
@@ -55,36 +55,24 @@ class BoardView extends HookConsumerWidget {
                   alignment: FractionalOffset.center,
                   child: Stack(
                     children: [
-                      Container(
-                          // transform: Matrix4.identity()
-                          //   ..setEntry(3, 2, perspective)
-                          //   ..translate(0.0, 0.0, -50),
-                          child: customCube),
-                      // Image.asset(
-                      //   "assets/images/lava_a.jpg",
-                      //   width: double.maxFinite,
-                      //   height: double.maxFinite,
-                      //   fit: BoxFit.fill,
-                      // ),
-                      Container(
-                        // transform: Matrix4.identity()..translate(0.0, 0.0, 10),
-                        child: Stack(
-                          clipBehavior: Clip.none,
+                      base,
 
-                          ///
-                          ///
-                          /// reorder children based on view angle to avoid overlapping of widgets.
-                          ///
-                          ///
-                          children: list
-                            ..sort((a, b) =>
-                                b.tile.currentPos.y
-                                        .compareTo(a.tile.currentPos.y) *
-                                    offset.dx.sign.toInt() +
-                                b.tile.currentPos.x
-                                        .compareTo(a.tile.currentPos.x) *
-                                    offset.dy.sign.toInt()),
-                        ),
+                      Stack(
+                        clipBehavior: Clip.none,
+
+                        ///
+                        ///
+                        /// reorder children based on view angle to avoid overlapping of widgets.
+                        ///
+                        ///
+                        children: list
+                          ..sort((a, b) =>
+                              b.tile.currentPos.y
+                                      .compareTo(a.tile.currentPos.y) *
+                                  offset.dx.sign.toInt() +
+                              b.tile.currentPos.x
+                                      .compareTo(a.tile.currentPos.x) *
+                                  offset.dy.sign.toInt()),
                       )
                     ],
                   ),
@@ -109,7 +97,7 @@ class BoardBase extends ConsumerWidget {
   final double height;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const depth = 100.0;
+    final depth = width * 0.25;
     return CustomCube(
       width: width,
       height: height,

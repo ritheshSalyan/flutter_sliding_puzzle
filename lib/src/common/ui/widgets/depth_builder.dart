@@ -22,15 +22,15 @@ class DepthBuilder extends HookConsumerWidget {
         useAnimationController(duration: const Duration(milliseconds: 500));
     useValueChanged(useValueListenable(rotationController.boardAngle),
         (Offset newOffset, Offset? previous) {
-
       final previousAnimationVal = animation.value;
 
       animation = Tween<Offset>(
               begin: (previous ?? rotationController.previousValue),
               // rotationController.previousValue, // previous ??
               end: rotationController.boardAngle.value)
-          .animate(CurvedAnimation(
-              parent: _animationController, curve: Curves.linear));
+          .animate(
+        CurvedAnimation(parent: _animationController, curve: Curves.linear),
+      );
       // }
       _animationController.forward(from: 0);
       return rotationController.boardAngle.value;
@@ -41,12 +41,18 @@ class DepthBuilder extends HookConsumerWidget {
         // print("${animation.value}");
 
         return builder.call(
-            context,
-            animation.value.clamp(
-                const Offset(BoardRotationController.minAngle,
-                    BoardRotationController.minAngle),
-                const Offset(BoardRotationController.maxAngle,
-                    BoardRotationController.maxAngle)));
+          context,
+          animation.value.clamp(
+            // const Offset(
+            //   BoardRotationController.minAngle,
+            BoardRotationController.minAngle,
+            // ),
+            // const Offset(
+            //   BoardRotationController.maxAngle,
+            BoardRotationController.maxAngle,
+            // ),
+          ),
+        );
       },
     );
   }
