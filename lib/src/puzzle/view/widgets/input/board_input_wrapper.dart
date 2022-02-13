@@ -22,7 +22,7 @@ class BoardInputWrapper extends ConsumerWidget {
             ref.read(BoardUIController.provider).rotateBoardBy(details.delta);
           },
           onPanEnd: (details) {
-            ref.read(BoardUIController.provider).resetRotation();
+            // ref.read(BoardUIController.provider).resetRotation();
           },
           child: child,
         ),

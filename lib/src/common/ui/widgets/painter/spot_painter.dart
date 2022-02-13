@@ -6,8 +6,8 @@ class SpotPainter extends CustomPainter {
   final Color spotColor;
   final int noOfSpots;
   SpotPainter(this.spotColor, {this.noOfSpots = 3}) {
-    width = (Random().nextDouble() * 0.3).clamp(0.1, 0.5);
-    height = (width * 0.5).clamp(0.1, 0.5);
+    width = 0.2; //(Random().nextDouble() * 0.5).clamp(0.2, 0.5);
+    height = 0.1; // (width * Random().nextDouble()).clamp(0.1, 0.5);
   }
   late final double width;
   late final double height;
@@ -45,8 +45,6 @@ class SpotPainter extends CustomPainter {
       positions.add(
           Offset(dx.clamp(width, 1 - width), dy.clamp(height, 1 - height)));
     }
-
-    print(positions);
   }
 
   @override

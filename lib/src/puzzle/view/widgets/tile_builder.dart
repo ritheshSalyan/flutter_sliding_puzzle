@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:sliding_puzzle/src/common/ui/theme/theme_provider.dart';
 import 'package:sliding_puzzle/src/common/ui/widgets/cube.dart';
 import 'package:sliding_puzzle/src/common/ui/widgets/cube_face_widget.dart';
 import 'package:sliding_puzzle/src/puzzle/model/model.dart';
@@ -82,42 +81,45 @@ class TileBuilder extends HookConsumerWidget {
               faceWidgets: CubeFaceWidgets(
                 topFace: (context, size) => CubeFaceWidget(
                   cubeTheme: ref
-                      .watch(ThemeNotifier.provider)
-                      .boardTheme
-                      .tileTheme
+                      .watch(
+                          TileStateNotifier.provider(tile.correctPos).notifier)
+                      .style
                       .top,
                   // color: const Color(0xFF97857d),
                   // child: const Center(),
                 ),
                 leftFace: (context, size) => CubeFaceWidget(
                   cubeTheme: ref
-                      .watch(ThemeNotifier.provider)
-                      .boardTheme
-                      .tileTheme
+                      .watch(
+                          TileStateNotifier.provider(tile.correctPos).notifier)
+                      .style
                       .left,
                   // color: const Color(0xFF97857d),
                   // child: const Center(),
                 ),
                 rightFace: (context, size) => CubeFaceWidget(
                   cubeTheme: ref
-                      .watch(ThemeNotifier.provider)
-                      .boardTheme
-                      .tileTheme
+                      .watch(
+                          TileStateNotifier.provider(tile.correctPos).notifier)
+                      .style
                       .right,
                   // color: const Color(0xFF97857d),
                   // child: const Center(),
                 ),
                 upFace: (context, size) => CubeFaceWidget(
-                  cubeTheme:
-                      ref.watch(ThemeNotifier.provider).boardTheme.tileTheme.up,
+                  cubeTheme: ref
+                      .watch(
+                          TileStateNotifier.provider(tile.correctPos).notifier)
+                      .style
+                      .up,
                   // color: const Color(0xFF97857d),
                   // child: const Center(),
                 ),
                 downFace: (context, size) => CubeFaceWidget(
                   cubeTheme: ref
-                      .watch(ThemeNotifier.provider)
-                      .boardTheme
-                      .tileTheme
+                      .watch(
+                          TileStateNotifier.provider(tile.correctPos).notifier)
+                      .style
                       .down,
                   // color: const Color(0xFF97857d),
                   // child: const Center(),

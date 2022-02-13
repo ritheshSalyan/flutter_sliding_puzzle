@@ -37,46 +37,9 @@ class BoardView extends HookConsumerWidget {
               tileHeight: tileHeight,
             );
           }));
-          var customCube = CustomCube(
+          var customCube = BoardBase(
             width: width,
             height: height,
-            depth: 50,
-            depthOffset: 50,
-            faceWidgets: CubeFaceWidgets(
-              topFace: (context, size) => CubeFaceWidget(
-                cubeTheme:
-                    ref.watch(ThemeNotifier.provider).boardTheme.baseTheme.top,
-                // color: const Color(0xFF97857d),
-                // child: const Center(),
-              ),
-              leftFace: (context, size) => CubeFaceWidget(
-                cubeTheme:
-                    ref.watch(ThemeNotifier.provider).boardTheme.baseTheme.left,
-                // color: const Color(0xFF97857d),
-                // child: const Center(),
-              ),
-              rightFace: (context, size) => CubeFaceWidget(
-                cubeTheme: ref
-                    .watch(ThemeNotifier.provider)
-                    .boardTheme
-                    .baseTheme
-                    .right,
-                // color: const Color(0xFF97857d),
-                // child: const Center(),
-              ),
-              upFace: (context, size) => CubeFaceWidget(
-                cubeTheme:
-                    ref.watch(ThemeNotifier.provider).boardTheme.baseTheme.up,
-                // color: const Color(0xFF97857d),
-                // child: const Center(),
-              ),
-              downFace: (context, size) => CubeFaceWidget(
-                cubeTheme:
-                    ref.watch(ThemeNotifier.provider).boardTheme.baseTheme.down,
-                // color: const Color(0xFF97857d),
-                // child: const Center(),
-              ),
-            ),
           );
           return DepthBuilder(builder: (context, offset) {
             final angleY = (offset.dy) * 0.01;
@@ -125,6 +88,56 @@ class BoardView extends HookConsumerWidget {
           });
           // );
         }),
+      ),
+    );
+  }
+}
+
+class BoardBase extends ConsumerWidget {
+  const BoardBase({
+    Key? key,
+    required this.width,
+    required this.height,
+  }) : super(key: key);
+  final double width;
+  final double height;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    const depth = 100.0;
+    return CustomCube(
+      width: width,
+      height: height,
+      depth: depth,
+      depthOffset: depth,
+      faceWidgets: CubeFaceWidgets(
+        topFace: (context, size) => CubeFaceWidget(
+          cubeTheme: ref.watch(ThemeNotifier.provider).boardTheme.baseTheme.top,
+          // color: const Color(0xFF97857d),
+          // child: const Center(),
+        ),
+        leftFace: (context, size) => CubeFaceWidget(
+          cubeTheme:
+              ref.watch(ThemeNotifier.provider).boardTheme.baseTheme.left,
+          // color: const Color(0xFF97857d),
+          // child: const Center(),
+        ),
+        rightFace: (context, size) => CubeFaceWidget(
+          cubeTheme:
+              ref.watch(ThemeNotifier.provider).boardTheme.baseTheme.right,
+          // color: const Color(0xFF97857d),
+          // child: const Center(),
+        ),
+        upFace: (context, size) => CubeFaceWidget(
+          cubeTheme: ref.watch(ThemeNotifier.provider).boardTheme.baseTheme.up,
+          // color: const Color(0xFF97857d),
+          // child: const Center(),
+        ),
+        downFace: (context, size) => CubeFaceWidget(
+          cubeTheme:
+              ref.watch(ThemeNotifier.provider).boardTheme.baseTheme.down,
+          // color: const Color(0xFF97857d),
+          // child: const Center(),
+        ),
       ),
     );
   }

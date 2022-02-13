@@ -2,30 +2,31 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 
-class WavePainter extends CustomPainter {
-  double percentValue;
-  double boxHeight;
-  Color waveColor;
+class StepPainter extends CustomPainter {
+  final List<Color> waveColor;
 
-  WavePainter(
-      {required this.percentValue,
-      required this.boxHeight,
-      required this.waveColor});
+  StepPainter({required this.waveColor});
 
   @override
   void paint(Canvas canvas, Size size) {
-    double width = (size.width > size.height) ? size.width : size.height;
-    double height = (size.height > size.width) ? size.height : size.width;
-
+    var isInverse = (size.width > size.height);
+    double width = size.width;
+    double height = size.height;
+    final newSize = Size(size.longestSide, size.shortestSide);
     Paint wavePaint = Paint()
       ..shader = ui.Gradient.linear(
-        Offset(width / 2, 0),
-        Offset(width / 2, height),
-        [
-          Colors.blueAccent,
-          Colors.redAccent,
-        ],
-      );
+          isInverse
+              ? size.bottomCenter(Offset.zero)
+              : size.centerRight(Offset.zero),
+          isInverse
+              ? size.topCenter(Offset.zero)
+              : size.centerLeft(Offset.zero),
+          waveColor,
+          // [
+          //   Colors.brown[900]!,
+          //   Colors.brown,
+          // ],
+          [0.5, 0.5]);
     // const waveDepth = 0.7;
 
     // double _percent = percentValue / 100.0;

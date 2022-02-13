@@ -12,7 +12,7 @@ class AppTheme {
 
 class BoardTheme {
   final CubeTheme baseTheme;
-  final CubeTheme tileTheme;
+  final CubeTheme Function() tileTheme;
 
   BoardTheme({required this.baseTheme, required this.tileTheme});
 }
@@ -50,6 +50,16 @@ class CubeTheme {
         up: vertical,
         down: vertical);
   }
+
+  CubeTheme copy() {
+    return CubeTheme(
+      top: top,
+      left: left,
+      right: right,
+      up: up,
+      down: down,
+    );
+  }
 }
 
 class CubeFaceTheme {
@@ -57,4 +67,8 @@ class CubeFaceTheme {
   final CustomPainter? spotPainter;
 
   CubeFaceTheme({required this.baseColor, this.spotPainter});
+
+  CubeFaceTheme copyWith() {
+    return CubeFaceTheme(baseColor: baseColor, spotPainter: spotPainter);
+  }
 }

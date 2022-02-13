@@ -149,7 +149,7 @@ class CustomCube extends StatelessWidget {
                     e.child.call(context, Size(e.width, e.height)),
                     Container(
                       color: Colors.black.withOpacity(
-                        (0.7 - (directionBrightness * 0.7)) + 0.1,
+                        (0.5 - (directionBrightness * 0.5)),
                       ),
                       child: const Center(),
                     )

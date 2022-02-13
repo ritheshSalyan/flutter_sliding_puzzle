@@ -1,4 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sliding_puzzle/src/common/ui/theme/app_theme.dart';
+import 'package:sliding_puzzle/src/common/ui/theme/theme_provider.dart';
 import 'package:sliding_puzzle/src/puzzle/model/model.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/board_controller.dart';
 
@@ -6,14 +8,17 @@ class TileStateNotifier extends StateNotifier<TileState> {
   static final provider =
       StateNotifierProvider.family<TileStateNotifier, TileState, BoardPosition>(
           (ref, position) {
-    return TileStateNotifier(ref
-        .watch(BoardLogicController.provider)
-        .tiles
-        .firstWhere((tile) => tile.correctPos == position)
-        .currentPos);
+    return TileStateNotifier(
+      ref
+          .watch(BoardLogicController.provider)
+          .tiles
+          .firstWhere((tile) => tile.correctPos == position)
+          .currentPos,
+      ref.watch(ThemeNotifier.provider).boardTheme.tileTheme.call(),
+    );
   });
-
-  TileStateNotifier(BoardPosition initialPosition)
+  final CubeTheme style;
+  TileStateNotifier(BoardPosition initialPosition, this.style)
       : super(TileIdleState(initialPosition));
 
   void changeState(
@@ -22,7 +27,7 @@ class TileStateNotifier extends StateNotifier<TileState> {
   }
 
   void startAnimation(BoardPosition currentPosition) {
-    state =  StartTileState(currentPosition);
+    state = StartTileState(currentPosition);
   }
 
   void onCompleteAnimation() {
