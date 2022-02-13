@@ -10,18 +10,8 @@ class BoardRotationController {
   static const maxAngle = Offset(50.0, 50.0);
 
   void rotateBy(Offset offset) {
-    double x = offset.dx; // 0;
-    double y = offset.dy; //0;
-    // Offset currentAngle = boardAngle.value;
-    // if ((currentAngle.dx + offset.dx < maxAngle) &&
-    //     (currentAngle.dx + offset.dx > minAngle)) {
-    //   x = offset.dx;
-    // }
-    // if ((currentAngle.dy + offset.dy < maxAngle) &&
-    //     (currentAngle.dy + offset.dy > minAngle)) {
-    //   y = offset.dy;
-    // }
-    _previousValue = boardAngle.value;
+    double x = offset.dx;
+    double y = offset.dy;
     boardAngle.value += Offset(x, y);
   }
 
@@ -34,8 +24,6 @@ class BoardRotationController {
   }
 
   void reset() {
-    _previousValue = boardAngle.value;
-
     boardAngle.value = Offset.zero;
   }
 
