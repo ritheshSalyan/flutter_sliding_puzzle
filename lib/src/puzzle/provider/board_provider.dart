@@ -30,7 +30,7 @@ class BoardUIController extends ChangeNotifier
 
   void shuffle() {
     _ref.refresh(BoardLogicController.provider);
-
+    isCompleted = boardController.isComplete();
     notifyListeners();
     _playStartAnimation();
   }
@@ -58,8 +58,15 @@ class BoardUIController extends ChangeNotifier
       _ref
           .read(TileStateNotifier.provider(tile.correctPos).notifier)
           .changeState(newTile.currentPos, previousPos);
+      bool completed = boardController.isComplete();
+      isCompleted = completed;
+      // if (completed) {
+      notifyListeners();
+      // }
     }
   }
+
+  bool isCompleted = false;
 
   BoardLogicController get boardController =>
       _ref.read(BoardLogicController.provider.notifier);

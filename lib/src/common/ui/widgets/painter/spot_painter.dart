@@ -1,18 +1,18 @@
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
+import 'package:sliding_puzzle/src/common/util/number_extension.dart';
 
-class SpotPainter extends CustomPainter {
+class SpotPainter {
   final Color spotColor;
   final int noOfSpots;
-  SpotPainter(this.spotColor, {this.noOfSpots = 3}) {
+  SpotPainter(this.spotColor, {this.noOfSpots = 2}) {
     width = 0.2; //(Random().nextDouble() * 0.5).clamp(0.2, 0.5);
     height = 0.1; // (width * Random().nextDouble()).clamp(0.1, 0.5);
   }
   late final double width;
   late final double height;
   final List<Offset> positions = [];
-  @override
   void paint(Canvas canvas, Size size) {
     if (noOfSpots != positions.length) {
       generateSpots(size);
@@ -38,21 +38,25 @@ class SpotPainter extends CustomPainter {
 
   void generateSpots(Size size) {
     var random = Random();
+
     while (noOfSpots != positions.length) {
-      final dx = random.nextDouble();
+      final dx = random.nextDouble()
+      .map(
+            0.0,
+            1.0,
+            positions.length - 1 / noOfSpots,
+            positions.length / noOfSpots,
+          );
       final dy = random.nextDouble();
+      // .map(
+      //       0.0,
+      //       1.0,
+      //       positions.length - 1 / noOfSpots,
+      //       positions.length / noOfSpots,
+      //     );
 
       positions.add(
           Offset(dx.clamp(width, 1 - width), dy.clamp(height, 1 - height)));
     }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
-  }
-
-  SpotPainter copyWith() {
-    return SpotPainter(spotColor, noOfSpots: noOfSpots);
   }
 }

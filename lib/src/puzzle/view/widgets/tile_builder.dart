@@ -57,14 +57,15 @@ class TileBuilder extends HookConsumerWidget {
             curve: Curves.linearToEaseOut,
           ))
         : const AlwaysStoppedAnimation(1.0);
-    var depth = (index + 1) * min(tileWidth, 50.0) * 1.0;
+    final space = tile.correctPos == tile.currentPos ? 0 : tileWidth * 0.15;
+
+    var depth = (index + 3) * min(tileWidth, 50.0) * 1.0;
     Animation<double> heightTween = tileState is StartTileState
         ? Tween(begin: 1.0, end: depth).animate(CurvedAnimation(
             parent: _animationController,
             curve: Curves.linearToEaseOut,
           ))
         : AlwaysStoppedAnimation(depth);
-    final space = tileWidth * 0.15;
 
     return AnimatedBuilder(
       animation: positionTween,

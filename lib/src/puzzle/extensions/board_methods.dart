@@ -11,8 +11,9 @@ extension BoardGetterMethods on PuzzleBoard {
 
   bool isComplete() {
     return tiles
-        .where((element) => element.correctPos == element.currentPos)
-        .isEmpty;
+            .where((element) => element.correctPos == element.currentPos)
+            .length ==
+        tiles.length;
   }
 
   bool canMoveTile(Tile tile) {

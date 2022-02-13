@@ -37,4 +37,8 @@ class BoardLogicController extends StateNotifier<PuzzleBoard> {
   Tile? getMoveDownTile() {
     return state.getBottomMoveableTile();
   }
+
+  bool isComplete() {
+    return state.isComplete();
+  }
 }

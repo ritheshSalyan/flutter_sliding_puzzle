@@ -18,77 +18,83 @@ class BoardView extends HookConsumerWidget {
   Widget build(BuildContext context, ref) {
     final board = ref.watch(BoardLogicController.provider);
 
-    return Center(
-      child: AspectRatio(
-        aspectRatio: 1,
-        child: LayoutBuilder(builder: (context, constraints) {
-          final width = constraints.maxWidth;
-          final height = constraints.maxHeight;
+    return Stack(
+      children: [
+        Center(
+          child: AspectRatio(
+            aspectRatio: 1,
+            child: LayoutBuilder(builder: (context, constraints) {
+              final width = constraints.maxWidth;
+              final height = constraints.maxHeight;
 
-          final tileWidth = (width / board.xDim);
-          final tileHeight = (height / board.yDim);
-          var list = List<TileBuilder>.from(
-              (ref.read(BoardLogicController.provider).tiles
-                    ..sort((a, b) => a.currentPos.compareTo(b.currentPos)))
-                  .map((tile) {
-            return TileBuilder(
-              tile: tile,
-              tileWidth: tileWidth,
-              tileHeight: tileHeight,
-            );
-          }));
-          var customCube = BoardBase(
-            width: width,
-            height: height,
-          );
-          return DepthBuilder(builder: (context, offset) {
-            final angleY = (offset.dy) * 0.01;
-            final angleX = (offset.dx) * -0.01;
-            return Transform(
-              transform: Matrix4.identity()
-                // ..setEntry(3, 2, perspective)
-                ..rotateX(angleY)
-                ..rotateY(angleX)
-                ..translate(0.0, 0.0, 0),
-              alignment: FractionalOffset.center,
-              child: Stack(
-                children: [
-                  Container(
-                      // transform: Matrix4.identity()
-                      //   ..setEntry(3, 2, perspective)
-                      //   ..translate(0.0, 0.0, -50),
-                      child: customCube),
-                  // Image.asset(
-                  //   "assets/images/lava_a.jpg",
-                  //   width: double.maxFinite,
-                  //   height: double.maxFinite,
-                  //   fit: BoxFit.fill,
-                  // ),
-                  Container(
-                    // transform: Matrix4.identity()..translate(0.0, 0.0, 10),
-                    child: Stack(
-                      clipBehavior: Clip.none,
+              final tileWidth = (width / board.xDim);
+              final tileHeight = (height / board.yDim);
+              var list = List<TileBuilder>.from(
+                  (ref.read(BoardLogicController.provider).tiles
+                        ..sort((a, b) => a.currentPos.compareTo(b.currentPos)))
+                      .map((tile) {
+                return TileBuilder(
+                  tile: tile,
+                  tileWidth: tileWidth,
+                  tileHeight: tileHeight,
+                );
+              }));
+              var customCube = BoardBase(
+                width: width,
+                height: height,
+              );
+              return DepthBuilder(builder: (context, offset) {
+                final angleY = (offset.dy) * 0.01;
+                final angleX = (offset.dx) * -0.01;
+                return Transform(
+                  transform: Matrix4.identity()
+                    // ..setEntry(3, 2, perspective)
+                    ..rotateX(angleY)
+                    ..rotateY(angleX)
+                    ..translate(0.0, 0.0, 0),
+                  alignment: FractionalOffset.center,
+                  child: Stack(
+                    children: [
+                      Container(
+                          // transform: Matrix4.identity()
+                          //   ..setEntry(3, 2, perspective)
+                          //   ..translate(0.0, 0.0, -50),
+                          child: customCube),
+                      // Image.asset(
+                      //   "assets/images/lava_a.jpg",
+                      //   width: double.maxFinite,
+                      //   height: double.maxFinite,
+                      //   fit: BoxFit.fill,
+                      // ),
+                      Container(
+                        // transform: Matrix4.identity()..translate(0.0, 0.0, 10),
+                        child: Stack(
+                          clipBehavior: Clip.none,
 
-                      ///
-                      ///
-                      /// reorder children based on view angle to avoid overlapping of widgets.
-                      ///
-                      ///
-                      children: list
-                        ..sort((a, b) =>
-                            b.tile.currentPos.y.compareTo(a.tile.currentPos.y) *
-                                offset.dx.sign.toInt() +
-                            b.tile.currentPos.x.compareTo(a.tile.currentPos.x) *
-                                offset.dy.sign.toInt()),
-                    ),
-                  )
-                ],
-              ),
-            );
-          });
-          // );
-        }),
-      ),
+                          ///
+                          ///
+                          /// reorder children based on view angle to avoid overlapping of widgets.
+                          ///
+                          ///
+                          children: list
+                            ..sort((a, b) =>
+                                b.tile.currentPos.y
+                                        .compareTo(a.tile.currentPos.y) *
+                                    offset.dx.sign.toInt() +
+                                b.tile.currentPos.x
+                                        .compareTo(a.tile.currentPos.x) *
+                                    offset.dy.sign.toInt()),
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              });
+              // );
+            }),
+          ),
+        ),
+      ],
     );
   }
 }
