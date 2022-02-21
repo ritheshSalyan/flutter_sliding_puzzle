@@ -112,14 +112,14 @@ class BoardUIController extends ChangeNotifier
   }
 
   void rotateBoardBy(Offset offset) {
-    boardRotationController.rotateBy(offset);
+    boardRotationController.rotateBy(offset *0.01);
   }
 
   void resetRotation() {
     boardRotationController.reset();
   }
 
-  final _sensitivity = 30.0;
+  final _sensitivity = 1.0;
 
   @override
   void onGyroChange(Offset offset) {

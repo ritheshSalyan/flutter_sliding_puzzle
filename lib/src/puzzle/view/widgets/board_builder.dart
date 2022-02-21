@@ -5,6 +5,7 @@ import 'package:sliding_puzzle/src/common/ui/widgets/cube.dart';
 import 'package:sliding_puzzle/src/common/ui/widgets/cube_face_widget.dart';
 import 'package:sliding_puzzle/src/common/ui/widgets/depth_builder.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/board_controller.dart';
+import 'package:sliding_puzzle/src/puzzle/provider/input/board_rotation_controller.dart';
 
 import '../../puzzle.dart';
 
@@ -17,7 +18,8 @@ class BoardView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final board = ref.watch(BoardLogicController.provider);
-
+    var rotationController =
+        ref.watch(BoardUIController.provider).boardRotationController;
     return AbsorbPointer(
       absorbing: ref.watch(BoardUIController.provider).isCompleted,
       child: Stack(
@@ -37,49 +39,54 @@ class BoardView extends HookConsumerWidget {
                       ..sort((a, b) => a.currentPos.compareTo(b.currentPos)))
                     .map((tile) {
                   return TileBuilder(
+                    rotationController: rotationController,
                     tile: tile,
                     tileWidth: tileWidth,
                     tileHeight: tileHeight,
                   );
                 }));
                 var base = BoardBase(
+                  rotationController: rotationController,
                   width: width,
                   height: height,
                 );
-                return DepthBuilder(builder: (context, offset) {
-                  final angleY = (offset.dy) * 0.01;
-                  final angleX = (offset.dx) * -0.01;
-                  return Transform(
-                    transform: Matrix4.identity()
-                      // ..setEntry(3, 2, perspective)
-                      ..rotateX(angleY)
-                      ..rotateY(angleX)
-                      ..translate(0.0, 0.0, 0),
-                    alignment: FractionalOffset.center,
-                    child: Stack(
-                      children: [
-                        base,
-                        Stack(
-                          clipBehavior: Clip.none,
 
-                          ///
-                          ///
-                          /// reorder children based on view angle to avoid overlapping of widgets.
-                          ///
-                          ///
-                          children: list
-                            ..sort((a, b) =>
-                                b.tile.currentPos.y
-                                        .compareTo(a.tile.currentPos.y) *
-                                    offset.dx.sign.toInt() +
-                                b.tile.currentPos.x
-                                        .compareTo(a.tile.currentPos.x) *
-                                    offset.dy.sign.toInt()),
-                        )
-                      ],
-                    ),
-                  );
-                });
+                return DepthBuilder(
+                    rotationController: rotationController,
+                    builder: (context, offset) {
+                      final angleY = (offset.dy);
+                      final angleX = (offset.dx);
+                      return Transform(
+                        transform: Matrix4.identity()
+                          // ..setEntry(3, 2, perspective)
+                          ..rotateX(angleY)
+                          ..rotateY(angleX)
+                          ..translate(0.0, 0.0, 0),
+                        alignment: FractionalOffset.center,
+                        child: Stack(
+                          children: [
+                            base,
+                            Stack(
+                              clipBehavior: Clip.none,
+
+                              ///
+                              ///
+                              /// reorder children based on view angle to avoid overlapping of widgets.
+                              ///
+                              ///
+                              children: list
+                                ..sort((a, b) =>
+                                    b.tile.currentPos.y
+                                            .compareTo(a.tile.currentPos.y) *
+                                        -offset.dx.sign.toInt() +
+                                    b.tile.currentPos.x
+                                            .compareTo(a.tile.currentPos.x) *
+                                        offset.dy.sign.toInt()),
+                            )
+                          ],
+                        ),
+                      );
+                    });
                 // );
               }),
             ),
@@ -95,13 +102,16 @@ class BoardBase extends ConsumerWidget {
     Key? key,
     required this.width,
     required this.height,
+    required this.rotationController,
   }) : super(key: key);
   final double width;
   final double height;
+  final BoardRotationController rotationController;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final depth = width * 0.25;
     return CustomCube(
+      boardRotaioncontroller: rotationController,
       width: width,
       height: height,
       depth: depth,

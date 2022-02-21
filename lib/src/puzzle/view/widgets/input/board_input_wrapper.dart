@@ -19,7 +19,9 @@ class BoardInputWrapper extends ConsumerWidget {
         child: GestureDetector(
           behavior: HitTestBehavior.translucent,
           onPanUpdate: (details) {
-            ref.read(BoardUIController.provider).rotateBoardBy(details.delta);
+            ref
+                .read(BoardUIController.provider)
+                .rotateBoardBy(Offset(-details.delta.dx, details.delta.dy));
           },
           onPanEnd: (details) {
             // ref.read(BoardUIController.provider).resetRotation();

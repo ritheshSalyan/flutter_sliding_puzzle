@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sliding_puzzle/src/common/ui/widgets/cube.dart';
 import 'package:sliding_puzzle/src/common/ui/widgets/cube_face_widget.dart';
 import 'package:sliding_puzzle/src/puzzle/model/model.dart';
+import 'package:sliding_puzzle/src/puzzle/provider/input/board_rotation_controller.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/state_provider/tile_state.dart';
 
 import '../../puzzle.dart';
@@ -15,9 +16,11 @@ class TileBuilder extends HookConsumerWidget {
     required this.tile,
     required this.tileHeight,
     required this.tileWidth,
+    required this.rotationController,
   }) : super(key: key);
   final double tileHeight;
   final double tileWidth;
+  final BoardRotationController rotationController;
   // final MovablePosition _movablePosition = MovablePosition.none;
 
   double top(BoardPosition position) => tileHeight * position.x;
@@ -109,6 +112,7 @@ class TileBuilder extends HookConsumerWidget {
           animation: heightTween,
           builder: (context, snapshot) {
             return CustomCube(
+              boardRotaioncontroller: rotationController,
               width: tileWidth - space,
               height: tileHeight - space,
               depth: heightTween.value,

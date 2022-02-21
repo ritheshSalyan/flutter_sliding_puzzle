@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:defer_pointer/defer_pointer.dart';
 import 'package:flutter/material.dart';
 import 'package:sliding_puzzle/src/common/ui/widgets/depth_builder.dart';
+import 'package:sliding_puzzle/src/puzzle/provider/input/board_rotation_controller.dart';
 import 'package:vector_math/vector_math.dart' as vector;
 
 double perspective = 0.000000001;
@@ -15,6 +16,7 @@ class CustomCube extends StatelessWidget {
     required this.height,
     required this.depth,
     required this.faceWidgets,
+    required this.boardRotaioncontroller,
     this.depthOffset = 0,
     // this.offsetX = 0,
     // this.offsetY = 0,
@@ -30,6 +32,7 @@ class CustomCube extends StatelessWidget {
   final double depthOffset;
   final VoidCallback? onTap;
   final CubeFaceWidgets faceWidgets;
+  final BoardRotationController boardRotaioncontroller;
   @override
   Widget build(BuildContext context) {
     final v1 = vector.Vector3(depth, depth, 0);
@@ -101,9 +104,11 @@ class CustomCube extends StatelessWidget {
           height: height,
           child: faceWidgets.topFace),
     ];
-    return DepthBuilder(builder: (context, offset) {
-      final angleY = (offset.dy) * 0.01;
-      final angleX = (offset.dx) * -0.01;
+    return DepthBuilder(
+      rotationController: boardRotaioncontroller,
+      builder: (context, offset) {
+      final angleY = (offset.dy);
+      final angleX = (offset.dx);
       final cameraMatrix = vector.Matrix4.identity()
         // ..translate(width, height, 0)
         ..multiply(vector.Matrix4.identity()
