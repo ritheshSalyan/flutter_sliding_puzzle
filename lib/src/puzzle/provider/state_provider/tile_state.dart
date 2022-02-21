@@ -49,7 +49,7 @@ class TileStateNotifier extends ChangeNotifier {
   }
 }
 
-abstract class TileState {
+abstract class TileState with AnimationProgressMixin{
   final BoardPosition currentPosition;
 
   TileState(
@@ -61,19 +61,21 @@ class TileIdleState extends TileState {
   TileIdleState(BoardPosition currentPosition) : super(currentPosition);
 }
 
-class StartTileState extends TileState {
+class StartTileState extends TileState with AnimationProgressMixin {
   StartTileState(BoardPosition currentPosition) : super(currentPosition);
 }
 
-class TileMovementState extends TileState {
+class TileMovementState extends TileState with AnimationProgressMixin{
   final BoardPosition previousPosition;
 
   TileMovementState(BoardPosition currentPosition, this.previousPosition)
       : super(currentPosition);
 }
 
-class CompleteProgressTileState extends TileState {
+
+class CompleteProgressTileState extends TileState with AnimationProgressMixin{
   final int noOfTiles;
+
   CompleteProgressTileState(BoardPosition currentPosition, this.noOfTiles)
       : super(currentPosition);
 }
@@ -82,4 +84,11 @@ class CompleteTileState extends TileState {
   final int noOfTiles;
   CompleteTileState(BoardPosition currentPosition, this.noOfTiles)
       : super(currentPosition);
+}
+
+mixin AnimationProgressMixin{
+  double progress =0;
+  void updateProgress(double value){
+    progress = value;
+  }
 }

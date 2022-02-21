@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sliding_puzzle/src/puzzle/provider/board_provider.dart';
+import 'package:sliding_puzzle/src/puzzle/provider/state_provider/board_provider.dart';
 
 class TitleWidget extends ConsumerWidget {
   const TitleWidget({Key? key}) : super(key: key);

@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sliding_puzzle/src/common/ui/widgets/cube.dart';
 import 'package:sliding_puzzle/src/common/ui/widgets/cube_face_widget.dart';
 import 'package:sliding_puzzle/src/puzzle/model/model.dart';
-import 'package:sliding_puzzle/src/puzzle/provider/tile_state.dart';
+import 'package:sliding_puzzle/src/puzzle/provider/state_provider/tile_state.dart';
 
 import '../../puzzle.dart';
 
@@ -33,24 +33,31 @@ class TileBuilder extends HookConsumerWidget {
               ? const Duration(milliseconds: 1000)
               : const Duration(milliseconds: 500),
     );
+
     useValueChanged(tileState, (_, void __) {
       if (tileState is TileMovementState &&
           tileState.currentPosition != tileState.previousPosition) {
-        _animationController.forward(from: 0).whenCompleteOrCancel(() {
+        _animationController
+            .forward(from: tileState.progress)
+            .whenCompleteOrCancel(() {
           ref
               .read(TileStateNotifier.provider(tile.correctPos).notifier)
               .onCompleteAnimation();
           _animationController.reset();
         });
       } else if (tileState is StartTileState) {
-        _animationController.forward(from: 0).whenCompleteOrCancel(() {
+        _animationController
+            .forward(from: tileState.progress)
+            .whenCompleteOrCancel(() {
           ref
               .read(TileStateNotifier.provider(tile.correctPos))
               .onCompleteAnimation();
           _animationController.reset();
         });
       } else if (tileState is CompleteProgressTileState) {
-        _animationController.forward(from: 0).whenCompleteOrCancel(() {
+        _animationController
+            .forward(from: tileState.progress)
+            .whenCompleteOrCancel(() {
           ref
               .read(TileStateNotifier.provider(tile.correctPos))
               .onCompleteAnimation();
@@ -65,6 +72,11 @@ class TileBuilder extends HookConsumerWidget {
             curve: Curves.linearToEaseOut,
           ))
         : const AlwaysStoppedAnimation(1.0);
+    if (tileState is TileMovementState) {
+      positionTween.addListener(() {
+        tileState.updateProgress(positionTween.value);
+      });
+    }
     final space = tile.correctPos == tile.currentPos
         ? tileWidth * 0.05
         : tileWidth * 0.15;
@@ -86,7 +98,11 @@ class TileBuilder extends HookConsumerWidget {
             : AlwaysStoppedAnimation((tileState is CompleteTileState)
                 ? ((tileState).noOfTiles + 1) * tileWidth / 4
                 : depth);
-
+    if (tileState is StartTileState || tileState is CompleteProgressTileState) {
+      heightTween.addListener(() {
+        tileState.updateProgress(positionTween.value);
+      });
+    }
     return AnimatedBuilder(
       animation: positionTween,
       child: AnimatedBuilder(

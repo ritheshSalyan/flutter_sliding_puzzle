@@ -5,12 +5,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/input/board_rotation_controller.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/input/keyboard/keyboard_controller.dart';
-import 'package:sliding_puzzle/src/puzzle/provider/tile_state.dart';
+import 'package:sliding_puzzle/src/puzzle/provider/state_provider/tile_state.dart';
 
-import '../puzzle.dart';
-import 'board_controller.dart';
-import 'input/gyro/gyro_controller.dart';
-import 'observer/state_tracker.dart';
+import '../../puzzle.dart';
+import '../board_controller.dart';
+import '../input/gyro/gyro_controller.dart';
+import '../observer/state_tracker.dart';
 
 class BoardUIController extends ChangeNotifier
     with StackTracker<PuzzleBoard>, KeyboardController, GyroController {
