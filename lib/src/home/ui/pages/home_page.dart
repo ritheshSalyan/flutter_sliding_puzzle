@@ -20,6 +20,12 @@ class HomePage extends ConsumerWidget {
                 Modular.to.pushNamed(AppModule.game);
               },
               child: const Text("Play Game")),
+          ElevatedButton(
+            onPressed: () {
+              Modular.to.pushNamed(AppModule.argame);
+            },
+            child: const Text("Play Game"),
+          ),
           Row(
             children: [
               ElevatedButton(

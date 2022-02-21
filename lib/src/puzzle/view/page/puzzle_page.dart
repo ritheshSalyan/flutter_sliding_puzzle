@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:sliding_puzzle/src/common/ui/widgets/depth_builder.dart';
 import 'package:sliding_puzzle/src/common/ui/widgets/scaffold.dart';
 import 'package:sliding_puzzle/src/puzzle/view/widgets/input/board_input_wrapper.dart';
 import 'package:sliding_puzzle/src/puzzle/view/widgets/title_widget.dart';
@@ -28,7 +29,22 @@ class PuzzlePage extends ConsumerWidget {
                     // color: Colors.white,
                     width: (screensize.shortestSide * 0.75).clamp(100, 500.0),
                     height: (screensize.shortestSide * 0.75).clamp(100, 500.0),
-                    child: const BoardView(),
+                    child: DepthBuilder(
+                        rotationController: ref
+                            .read(BoardUIController.provider)
+                            .boardRotationController,
+                        builder: (context, offset) {
+                          final angleY = (offset.dy);
+                          final angleX = (offset.dx);
+                          return Transform(
+                              transform: Matrix4.identity()
+                                // ..setEntry(3, 2, perspective)
+                                ..rotateX(angleY)
+                                ..rotateY(angleX)
+                                ..translate(0.0, 0.0, 0),
+                              alignment: FractionalOffset.center,
+                              child: const BoardView());
+                        }),
                   ),
                 ),
               )

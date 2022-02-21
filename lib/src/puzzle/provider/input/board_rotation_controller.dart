@@ -14,6 +14,11 @@ class BoardRotationController {
     double y = offset.dy;
     boardAngle.value += Offset(x, y);
   }
+  void rotateTo(Offset offset) {
+    double x = offset.dx;
+    double y = offset.dy;
+    boardAngle.value = Offset(x, y);
+  }
 
   void rotateX(double x) {
     rotateBy(Offset(x, 0));

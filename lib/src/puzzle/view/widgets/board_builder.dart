@@ -56,35 +56,27 @@ class BoardView extends HookConsumerWidget {
                     builder: (context, offset) {
                       final angleY = (offset.dy);
                       final angleX = (offset.dx);
-                      return Transform(
-                        transform: Matrix4.identity()
-                          // ..setEntry(3, 2, perspective)
-                          ..rotateX(angleY)
-                          ..rotateY(angleX)
-                          ..translate(0.0, 0.0, 0),
-                        alignment: FractionalOffset.center,
-                        child: Stack(
-                          children: [
-                            base,
-                            Stack(
-                              clipBehavior: Clip.none,
+                      return Stack(
+                        children: [
+                          base,
+                          Stack(
+                            clipBehavior: Clip.none,
 
-                              ///
-                              ///
-                              /// reorder children based on view angle to avoid overlapping of widgets.
-                              ///
-                              ///
-                              children: list
-                                ..sort((a, b) =>
-                                    b.tile.currentPos.y
-                                            .compareTo(a.tile.currentPos.y) *
-                                        -offset.dx.sign.toInt() +
-                                    b.tile.currentPos.x
-                                            .compareTo(a.tile.currentPos.x) *
-                                        offset.dy.sign.toInt()),
-                            )
-                          ],
-                        ),
+                            ///
+                            ///
+                            /// reorder children based on view angle to avoid overlapping of widgets.
+                            ///
+                            ///
+                            children: list
+                              ..sort((a, b) =>
+                                  b.tile.currentPos.y
+                                          .compareTo(a.tile.currentPos.y) *
+                                      -offset.dx.sign.toInt() +
+                                  b.tile.currentPos.x
+                                          .compareTo(a.tile.currentPos.x) *
+                                      offset.dy.sign.toInt()),
+                          )
+                        ],
                       );
                     });
                 // );

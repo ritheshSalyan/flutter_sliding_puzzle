@@ -12,6 +12,11 @@ import '../board_controller.dart';
 import '../input/gyro/gyro_controller.dart';
 import '../observer/state_tracker.dart';
 
+enum PageMode{
+  ar,
+  widget,
+}
+
 class BoardUIController extends ChangeNotifier
     with StackTracker<PuzzleBoard>, KeyboardController, GyroController {
   final Ref _ref;
@@ -27,10 +32,19 @@ class BoardUIController extends ChangeNotifier
   });
   final BoardRotationController boardRotationController =
       BoardRotationController();
+  PageMode _mode = PageMode.widget;
+
+  PageMode get mode => _mode;
+
+  void changeMode(PageMode mode){
+    _mode = mode;
+  }
+
 
   void shuffle() {
     _ref.refresh(BoardLogicController.provider);
     isCompleted = boardController.isComplete();
+    clearStack();
     notifyListeners();
     _playStartAnimation();
   }
@@ -112,7 +126,10 @@ class BoardUIController extends ChangeNotifier
   }
 
   void rotateBoardBy(Offset offset) {
-    boardRotationController.rotateBy(offset *0.01);
+    boardRotationController.rotateBy(offset);
+  }
+  void rotateBoardTo(Offset offset) {
+    boardRotationController.rotateTo(offset);
   }
 
   void resetRotation() {
@@ -123,7 +140,7 @@ class BoardUIController extends ChangeNotifier
 
   @override
   void onGyroChange(Offset offset) {
-    if (offset.dx.abs() == 0 && offset.dy.abs() == 0) return;
+    if ((offset.dx.abs() == 0 && offset.dy.abs() == 0) || mode == PageMode.ar) return;
     // log("Gyro Event: $offset ");
     rotateBoardBy(offset * _sensitivity);
   }
