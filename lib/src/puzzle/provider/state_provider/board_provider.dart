@@ -12,7 +12,7 @@ import '../board_controller.dart';
 import '../input/gyro/gyro_controller.dart';
 import '../observer/state_tracker.dart';
 
-enum PageMode{
+enum PageMode {
   ar,
   widget,
 }
@@ -36,10 +36,9 @@ class BoardUIController extends ChangeNotifier
 
   PageMode get mode => _mode;
 
-  void changeMode(PageMode mode){
+  void changeMode(PageMode mode) {
     _mode = mode;
   }
-
 
   void shuffle() {
     _ref.refresh(BoardLogicController.provider);
@@ -128,6 +127,7 @@ class BoardUIController extends ChangeNotifier
   void rotateBoardBy(Offset offset) {
     boardRotationController.rotateBy(offset);
   }
+
   void rotateBoardTo(Offset offset) {
     boardRotationController.rotateTo(offset);
   }
@@ -136,13 +136,16 @@ class BoardUIController extends ChangeNotifier
     boardRotationController.reset();
   }
 
-  final _sensitivity = 1.0;
+  final _sensitivity = 0.5;
 
   @override
   void onGyroChange(Offset offset) {
-    if ((offset.dx.abs() == 0 && offset.dy.abs() == 0) || mode == PageMode.ar) return;
+    if ((offset.dx.abs() == 0 && offset.dy.abs() == 0) || mode == PageMode.ar) {
+      return;
+    }
     // log("Gyro Event: $offset ");
-    rotateBoardBy(offset * _sensitivity);
+    rotateBoardBy(
+        Offset(offset.dx * _sensitivity * 1, offset.dy * _sensitivity * 1));
   }
 
   @override
