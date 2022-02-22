@@ -1,3 +1,4 @@
+import 'package:animated_background/animated_background.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sliding_puzzle/src/common/ui/theme/theme_provider.dart';
@@ -50,7 +51,42 @@ class BoardView extends HookConsumerWidget {
                   width: width,
                   height: height,
                 );
-
+                var environment = CustomCube(
+                    enableShadow: false,
+                    width: width,
+                    height: height,
+                    depth: (list.length + 1) * tileWidth * 0.4,
+                    faceWidgets: CubeFaceWidgets(
+        topFace: (context, size) => CubeFaceWidget(
+          cubeTheme: ref.watch(ThemeNotifier.provider).boardTheme.environment.top,
+          // color: const Color(0xFF97857d),
+          // child: const Center(),
+        ),
+        leftFace: (context, size) => CubeFaceWidget(
+          cubeTheme:
+              ref.watch(ThemeNotifier.provider).boardTheme.environment.left,
+          // color: const Color(0xFF97857d),
+          // child: const Center(),
+        ),
+        rightFace: (context, size) => CubeFaceWidget(
+          cubeTheme:
+              ref.watch(ThemeNotifier.provider).boardTheme.environment.right,
+          // color: const Color(0xFF97857d),
+          // child: const Center(),
+        ),
+        upFace: (context, size) => CubeFaceWidget(
+          cubeTheme: ref.watch(ThemeNotifier.provider).boardTheme.environment.up,
+          // color: const Color(0xFF97857d),
+          // child: const Center(),
+        ),
+        downFace: (context, size) => CubeFaceWidget(
+          cubeTheme:
+              ref.watch(ThemeNotifier.provider).boardTheme.environment.down,
+          // color: const Color(0xFF97857d),
+          // child: const Center(),
+        ),
+      ),
+                    boardRotaioncontroller: rotationController);
                 return DepthBuilder(
                     rotationController: rotationController,
                     builder: (context, offset) {
@@ -67,14 +103,17 @@ class BoardView extends HookConsumerWidget {
                             /// reorder children based on view angle to avoid overlapping of widgets.
                             ///
                             ///
-                            children: list
-                              ..sort((a, b) =>
-                                  b.tile.currentPos.y
-                                          .compareTo(a.tile.currentPos.y) *
-                                      -offset.dx.sign.toInt() +
-                                  b.tile.currentPos.x
-                                          .compareTo(a.tile.currentPos.x) *
-                                      offset.dy.sign.toInt()),
+                            children: [
+                              ...list
+                                ..sort((a, b) =>
+                                    b.tile.currentPos.y
+                                            .compareTo(a.tile.currentPos.y) *
+                                        -offset.dx.sign.toInt() +
+                                    b.tile.currentPos.x
+                                            .compareTo(a.tile.currentPos.x) *
+                                        offset.dy.sign.toInt()),
+                              environment
+                            ],
                           )
                         ],
                       );

@@ -11,6 +11,7 @@ class PuzzlePage extends ConsumerWidget {
   const PuzzlePage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
     final screensize = MediaQuery.of(context).size;
     return BoardInputWrapper(
       child: CommonScaffold(

@@ -40,6 +40,7 @@ dependencies:
   vector_math: ^2.1.1
   touchable: ^1.0.0
   defer_pointer: ^0.0.2
+  animated_background: ^2.0.0
   wave: ^0.2.0
   dream_xr:
     git:

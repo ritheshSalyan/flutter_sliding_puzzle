@@ -18,6 +18,7 @@ class CustomCube extends StatelessWidget {
     required this.faceWidgets,
     required this.boardRotaioncontroller,
     this.depthOffset = 0,
+    this.enableShadow = true,
     // this.offsetX = 0,
     // this.offsetY = 0,
     this.onTap,
@@ -33,6 +34,7 @@ class CustomCube extends StatelessWidget {
   final VoidCallback? onTap;
   final CubeFaceWidgets faceWidgets;
   final BoardRotationController boardRotaioncontroller;
+  final bool enableShadow;
   @override
   Widget build(BuildContext context) {
     final v1 = vector.Vector3(depth, depth, 0);
@@ -138,44 +140,48 @@ class CustomCube extends StatelessWidget {
             ).normalized();
             final directionBrightness = normalVector.dot(light).clamp(0.0, 1.0);
 
+            var sizedBox = SizedBox(
+              width: e.width,
+              height: e.height,
+              child: Stack(
+                children: [
+                  e.child.call(context, Size(e.width, e.height)),
+                  if (enableShadow)
+                    Container(
+                      color: Colors.black.withOpacity(
+                        (0.5 - (directionBrightness * 0.5)),
+                      ),
+                      child: const Center(),
+                    )
+                ],
+              ),
+            );
             return Transform(
               transform: Matrix4.fromFloat64List(
                   Float64List.fromList(e.transform.storage)),
 
               // color: e.color,
-              child: DeferPointer(
-                child: GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: onTap,
-                  child: SizedBox(
-                    width: e.width,
-                    height: e.height,
-                    child: Stack(
-                      children: [
-                        e.child.call(context, Size(e.width, e.height)),
-                        Container(
-                          color: Colors.black.withOpacity(
-                            (0.5 - (directionBrightness * 0.5)),
-                          ),
-                          child: const Center(),
-                        )
-                      ],
-                    ),
-                  ),
+              child: onTap == null
+                  ? sizedBox
+                  : DeferPointer(
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: onTap,
+                        child: sizedBox,
 
-                  // child: Image.asset(
-                  //   "assets/images/rock.jpg",
-                  // width: e.width,
-                  // height: e.height,
-                  //   fit: BoxFit.cover,
-                  //   repeat: ImageRepeat.repeat,
-                  // color: Colors.black.withOpacity(
-                  //   (0.7 - (directionBrightness * 0.7)) + 0.1,
-                  // ),
-                  //   colorBlendMode: BlendMode.darken,
-                  // ),
-                ),
-              ),
+                        // child: Image.asset(
+                        //   "assets/images/rock.jpg",
+                        // width: e.width,
+                        // height: e.height,
+                        //   fit: BoxFit.cover,
+                        //   repeat: ImageRepeat.repeat,
+                        // color: Colors.black.withOpacity(
+                        //   (0.7 - (directionBrightness * 0.7)) + 0.1,
+                        // ),
+                        //   colorBlendMode: BlendMode.darken,
+                        // ),
+                      ),
+                    ),
             );
           }).toList());
         });

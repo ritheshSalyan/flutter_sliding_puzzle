@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:sliding_puzzle/src/common/ui/theme/available/jungle_theme/colos.dart';
 import 'package:sliding_puzzle/src/common/ui/theme/available/jungle_theme/painter/tile_side_painter.dart';
+import 'package:sliding_puzzle/src/common/ui/theme/available/jungle_theme/widgets/particles.dart';
 
 import '../../app_theme.dart';
 import 'painter/base_side_painter.dart';
@@ -35,5 +37,7 @@ AppTheme jungleTheme = AppTheme(
           baseColor: JungleColorSystem.tileGreen,
           spotPainter: JungleTileSidePainter(false),
         )),
+    environment: CubeTheme.all(CubeFaceTheme(
+        baseColor: Colors.transparent, child: const EnvironmentParticle())),
   ),
 );

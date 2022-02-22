@@ -13,8 +13,13 @@ class AppTheme {
 class BoardTheme {
   final CubeTheme baseTheme;
   final CubeTheme Function() tileTheme;
+  final CubeTheme environment;
 
-  BoardTheme({required this.baseTheme, required this.tileTheme});
+  BoardTheme({
+    required this.baseTheme,
+    required this.tileTheme,
+    required this.environment,
+  });
 }
 
 class CubeTheme {
@@ -65,8 +70,9 @@ class CubeTheme {
 class CubeFaceTheme {
   final Color baseColor;
   final CustomPainter? spotPainter;
+  final Widget? child;
 
-  CubeFaceTheme({required this.baseColor, this.spotPainter});
+  CubeFaceTheme({required this.baseColor, this.spotPainter,this.child});
 
   CubeFaceTheme copyWith() {
     return CubeFaceTheme(baseColor: baseColor, spotPainter: spotPainter);

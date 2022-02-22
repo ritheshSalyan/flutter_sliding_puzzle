@@ -9,10 +9,12 @@ class AppWidget extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-          primarySwatch: Colors.red,
+          primarySwatch: Colors.green,
           scaffoldBackgroundColor: const Color(0xFF4f1611),
           appBarTheme: const AppBarTheme(
-              elevation: 0.0, backgroundColor: Colors.transparent)),
+              elevation: 0.0,
+              backgroundColor: Colors.transparent,
+              foregroundColor: Colors.green)),
       // home: const PuzzlePage(),
     ).modular(); //added by extension
   }

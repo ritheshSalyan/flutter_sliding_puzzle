@@ -13,7 +13,7 @@ class CubeFaceWidget extends StatelessWidget {
       height: double.infinity,
       child: CustomPaint(
         painter: cubeTheme.spotPainter,
-        child: const Center(),
+        child: cubeTheme.child ?? const Center(),
       ),
     );
   }

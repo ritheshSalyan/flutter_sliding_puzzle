@@ -84,7 +84,7 @@ class TileBuilder extends HookConsumerWidget {
         ? tileWidth * 0.05
         : tileWidth * 0.15;
 
-    var depth = (index + 1) * tileWidth / 4;
+    var depth = (index + 1) * tileWidth * 0.25;
     Animation<double> heightTween = tileState is StartTileState
         ? Tween(begin: 1.0, end: depth).animate(CurvedAnimation(
             parent: _animationController,

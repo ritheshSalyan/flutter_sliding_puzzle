@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:sliding_puzzle/src/common/ui/theme/app_theme.dart';
+import 'package:sliding_puzzle/src/common/ui/theme/available/jungle_theme/widgets/particles.dart';
 
 import 'colors.dart';
 import 'painter/base_painter.dart';
@@ -51,5 +53,7 @@ AppTheme fireTheme = AppTheme(
           spotPainter: LavaTilePainter(LavaColorSystem.tileSpot),
           // spotColor: LavaColorSystem.tileSpot,
         )),
+    environment: CubeTheme.all(CubeFaceTheme(
+        baseColor: Colors.transparent, child: const EnvironmentParticle())),
   ),
 );
