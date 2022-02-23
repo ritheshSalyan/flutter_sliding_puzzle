@@ -4,7 +4,12 @@ import 'package:sliding_puzzle/src/common/ui/theme/theme_provider.dart';
 import 'package:sliding_puzzle/src/common/ui/widgets/responsive/responsive_builder.dart';
 
 class CommonScaffold extends ConsumerWidget {
-  const CommonScaffold({Key? key,this.small, this.medium, required this.large, }) : super(key: key);
+  const CommonScaffold({
+    Key? key,
+    this.small,
+    this.medium,
+    required this.large,
+  }) : super(key: key);
   final ResponsiveWidgetBuilder? small;
   final ResponsiveWidgetBuilder? medium;
   final ResponsiveWidgetBuilder large;
@@ -12,8 +17,14 @@ class CommonScaffold extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
     return Scaffold(
       appBar: AppBar(),
-      backgroundColor: ref.watch(ThemeNotifier.provider).backgroundColor,
-      body: ResponsiveBuilder(large: large,small: small,medium: medium,),
+      backgroundColor: ref
+          .watch(ThemeNotifier.provider)
+          .backgroundColor, //.withOpacity(0.2),
+      body: ResponsiveBuilder(
+        large: large,
+        small: small,
+        medium: medium,
+      ),
     );
   }
 }
