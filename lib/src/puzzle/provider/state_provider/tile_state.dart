@@ -47,6 +47,12 @@ class TileStateNotifier extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  void completeEndAnimation(){
+      state = CompleteTileState(state.currentPosition,
+          (state as CompleteProgressTileState).noOfTiles);
+          notifyListeners();
+  }
 }
 
 abstract class TileState with AnimationProgressMixin{

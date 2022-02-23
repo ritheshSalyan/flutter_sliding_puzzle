@@ -1,9 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sliding_puzzle/src/common/ui/widgets/cube.dart';
 import 'package:sliding_puzzle/src/common/ui/widgets/cube_face_widget.dart';
-import 'package:sliding_puzzle/src/puzzle/model/model.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/input/board_rotation_controller.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/state_provider/tile_state.dart';
 
@@ -33,9 +34,10 @@ class TileBuilder extends HookConsumerWidget {
     final _animationController = useAnimationController(
       duration:
           tileState is StartTileState || tileState is CompleteProgressTileState
-              ? const Duration(milliseconds: 1000)
+              ? const Duration(milliseconds: 2000)
               : const Duration(milliseconds: 500),
     );
+    log("TileState: $index $tileState");
 
     useValueChanged(tileState, (_, void __) {
       if (tileState is TileMovementState &&
@@ -58,17 +60,28 @@ class TileBuilder extends HookConsumerWidget {
           _animationController.reset();
         });
       } else if (tileState is CompleteProgressTileState) {
-        _animationController
-            .forward(from: tileState.progress)
-            .whenCompleteOrCancel(() {
-          ref
-              .read(TileStateNotifier.provider(tile.correctPos))
-              .onCompleteAnimation();
-          _animationController.reset();
+        Future.delayed(Duration(milliseconds: 100 * index)).then((value) {
+          _animationController
+              .forward(from: tileState.progress)
+              .whenComplete(() {
+            ref
+                .read(TileStateNotifier.provider(tile.correctPos))
+                .completeEndAnimation();
+            log("Completion Animation Completed. $index");
+            // _animationController.reset();
+          });
         });
       }
       return null;
     });
+
+    if (tileState is StartTileState ||
+        tileState is CompleteProgressTileState ||
+        tileState is TileMovementState) {
+      if (!_animationController.isAnimating) {
+        _animationController.forward(from: tileState.progress);
+      }
+    }
     Animation<double> positionTween = tileState is TileMovementState
         ? Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: _animationController,
@@ -91,19 +104,32 @@ class TileBuilder extends HookConsumerWidget {
             curve: Curves.linearToEaseOut,
           ))
         : tileState is CompleteProgressTileState
-            ? Tween(
-                    begin: depth,
-                    end: (tileState.noOfTiles + 1) * tileWidth / 4)
-                .animate(CurvedAnimation(
+            ? TweenSequence<double>([
+                TweenSequenceItem(
+                    tween: Tween<double>(
+                      begin: depth,
+                      end: (tileState.noOfTiles + 1) * tileWidth / 4,
+                    ),
+                    weight: 40),
+                TweenSequenceItem(
+                    tween: ConstantTween(
+                        (tileState.noOfTiles + 1) * tileWidth / 4),
+                    weight: 20),
+                TweenSequenceItem(
+                    tween: Tween<double>(
+                      begin: (tileState.noOfTiles + 1) * tileWidth / 4,
+                      end: 1.0,
+                    ),
+                    weight: 40),
+              ]).animate(CurvedAnimation(
                 parent: _animationController,
-                curve: Curves.linearToEaseOut,
+                curve: Curves.bounceOut,
               ))
-            : AlwaysStoppedAnimation((tileState is CompleteTileState)
-                ? ((tileState).noOfTiles + 1) * tileWidth / 4
-                : depth);
+            : AlwaysStoppedAnimation(
+                (tileState is CompleteTileState) ? 0.0 : depth);
     if (tileState is StartTileState || tileState is CompleteProgressTileState) {
       heightTween.addListener(() {
-        tileState.updateProgress(positionTween.value);
+        tileState.updateProgress(_animationController.value);
       });
     }
     return AnimatedBuilder(
