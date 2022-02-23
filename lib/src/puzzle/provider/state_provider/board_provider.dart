@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/input/board_rotation_controller.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/input/keyboard/keyboard_controller.dart';
@@ -50,7 +49,7 @@ class BoardUIController extends ChangeNotifier
 
   void _playStartAnimation() {
     Future.delayed(const Duration(milliseconds: 100)).then((value) {
-      for (var tile in boardController.state.tiles) {
+      for (var tile in boardController.tiles) {
         _ref
             .read(TileStateNotifier.provider(tile.correctPos).notifier)
             .startAnimation(tile.currentPos);
@@ -82,10 +81,10 @@ class BoardUIController extends ChangeNotifier
   }
 
   void triggerEndAnimation() {
-    for (var tile in boardController.state.tiles) {
+    for (var tile in boardController.tiles) {
       _ref
           .read(TileStateNotifier.provider(tile.correctPos).notifier)
-          .endAnimation(boardController.state.tiles.length);
+          .endAnimation(boardController.tiles.length);
     }
   }
 

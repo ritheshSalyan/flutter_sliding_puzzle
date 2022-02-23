@@ -53,7 +53,7 @@ mixin KeyboardController {
     final map = <Type, Action<Intent>>{};
     for (var item in _shortcuts) {
       map[item.runtimeType] = CallbackAction(onInvoke: (intent) {
-        item.perform();
+        return item.perform();
       });
     }
     return map;

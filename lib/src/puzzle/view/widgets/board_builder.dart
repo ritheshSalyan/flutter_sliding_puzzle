@@ -107,7 +107,7 @@ class BoardView extends HookConsumerWidget {
                     rotationController: rotationController,
                     builder: (context, offset) {
                       final angleY = (offset.dy);
-                      final angleX = (offset.dx);
+                      final angleX = -(offset.dx);
                       return Stack(
                         children: [
                           base,
@@ -124,10 +124,10 @@ class BoardView extends HookConsumerWidget {
                                 ..sort((a, b) =>
                                     b.tile.currentPos.y
                                             .compareTo(a.tile.currentPos.y) *
-                                        -offset.dx.sign.toInt() +
+                                        angleX.sign.toInt() +
                                     b.tile.currentPos.x
                                             .compareTo(a.tile.currentPos.x) *
-                                        offset.dy.sign.toInt()),
+                                        angleY.sign.toInt()),
                               environment
                             ],
                           )

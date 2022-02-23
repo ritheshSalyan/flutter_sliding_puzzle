@@ -1,5 +1,3 @@
-import 'package:sliding_puzzle/src/puzzle/model/board.dart';
-
 import '../puzzle.dart';
 
 extension TileMovementMethods<T> on PuzzleBoard {

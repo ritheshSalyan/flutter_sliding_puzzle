@@ -6,7 +6,9 @@ class AppWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routeInformationParser: Modular.routeInformationParser,
+      routerDelegate: Modular.routerDelegate,
       title: 'Flutter Demo',
       theme: ThemeData(
           primarySwatch: Colors.green,
@@ -16,6 +18,6 @@ class AppWidget extends StatelessWidget {
               backgroundColor: Colors.transparent,
               foregroundColor: Colors.green)),
       // home: const PuzzlePage(),
-    ).modular(); //added by extension
+    ); //added by extension
   }
 }

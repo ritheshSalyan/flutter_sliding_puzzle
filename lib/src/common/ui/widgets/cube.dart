@@ -19,17 +19,12 @@ class CustomCube extends StatelessWidget {
     required this.boardRotaioncontroller,
     this.depthOffset = 0,
     this.enableShadow = true,
-    // this.offsetX = 0,
-    // this.offsetY = 0,
     this.onTap,
-    // this.imagePath = "assets/images/rock.jpg",
   }) : super(key: key);
   static final light = vector.Vector3(0, 0, -1);
   final double width;
   final double height;
   final double depth;
-  // final double offsetX;
-  // final double offsetY;
   final double depthOffset;
   final VoidCallback? onTap;
   final CubeFaceWidgets faceWidgets;
@@ -114,18 +109,13 @@ class CustomCube extends StatelessWidget {
           final cameraMatrix = vector.Matrix4.identity()
             // ..translate(width, height, 0)
             ..multiply(vector.Matrix4.identity()
-                  ..setEntry(3, 2, perspective)
-                  ..rotateX(angleY)
-                  ..rotateY(angleX)
-                // ..translate(0.0, 0.0, depthOffset // depth / 2,
-                //     ) //-(d/2) *16 TODO: Touch here for depth correction.
-                );
+              ..setEntry(3, 2, perspective)
+              ..rotateX(angleY)
+              ..rotateY(angleX));
           List<int> sortedKeys = createZOrder(faces, cameraMatrix);
           List<CubeFace> sortedFaces = [];
 
-          ///
-          /// Draw Only 3 Visible Faces.
-          ///
+         
           for (var i in sortedKeys.reversed.toList()) {
             sortedFaces.insert(0, faces[i]);
           }
@@ -169,17 +159,7 @@ class CustomCube extends StatelessWidget {
                         onTap: onTap,
                         child: sizedBox,
 
-                        // child: Image.asset(
-                        //   "assets/images/rock.jpg",
-                        // width: e.width,
-                        // height: e.height,
-                        //   fit: BoxFit.cover,
-                        //   repeat: ImageRepeat.repeat,
-                        // color: Colors.black.withOpacity(
-                        //   (0.7 - (directionBrightness * 0.7)) + 0.1,
-                        // ),
-                        //   colorBlendMode: BlendMode.darken,
-                        // ),
+                 
                       ),
                     ),
             );

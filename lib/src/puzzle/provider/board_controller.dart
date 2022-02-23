@@ -14,6 +14,8 @@ class BoardLogicController extends StateNotifier<PuzzleBoard> {
     return BoardLogicController();
   });
 
+List<Tile> get tiles =>state.tiles;
+
   bool moveTile(Tile tile) {
     final canMove = state.canMoveTile(tile);
     if (canMove) {

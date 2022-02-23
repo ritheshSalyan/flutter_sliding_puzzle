@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -37,7 +35,6 @@ class TileBuilder extends HookConsumerWidget {
               ? const Duration(milliseconds: 2000)
               : const Duration(milliseconds: 500),
     );
-    log("TileState: $index $tileState");
 
     useValueChanged(tileState, (_, void __) {
       if (tileState is TileMovementState &&
@@ -67,8 +64,6 @@ class TileBuilder extends HookConsumerWidget {
             ref
                 .read(TileStateNotifier.provider(tile.correctPos))
                 .completeEndAnimation();
-            log("Completion Animation Completed. $index");
-            // _animationController.reset();
           });
         });
       }
