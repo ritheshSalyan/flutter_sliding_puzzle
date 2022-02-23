@@ -11,7 +11,6 @@ class PuzzlePage extends ConsumerWidget {
   const PuzzlePage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     final screensize = MediaQuery.of(context).size;
     return BoardInputWrapper(
       child: CommonScaffold(
@@ -24,30 +23,7 @@ class PuzzlePage extends ConsumerWidget {
                   },
                   child: const TitleWidget()),
               Expanded(
-                child: Center(
-                  child: SizedBox(
-                    // transform: Matrix4.identity()..translate(20.0, 20.0, 0),
-                    // color: Colors.white,
-                    width: (screensize.shortestSide * 0.75).clamp(100, 500.0),
-                    height: (screensize.shortestSide * 0.75).clamp(100, 500.0),
-                    child: DepthBuilder(
-                        rotationController: ref
-                            .read(BoardUIController.provider)
-                            .boardRotationController,
-                        builder: (context, offset) {
-                          final angleY = (offset.dy);
-                          final angleX = (offset.dx);
-                          return Transform(
-                              transform: Matrix4.identity()
-                                // ..setEntry(3, 2, perspective)
-                                ..rotateX(angleY)
-                                ..rotateY(angleX)
-                                ..translate(0.0, 0.0, 0),
-                              alignment: FractionalOffset.center,
-                              child: const BoardView());
-                        }),
-                  ),
-                ),
+                child: _BoardSection(screensize: screensize),
               )
             ],
           );
@@ -60,15 +36,7 @@ class PuzzlePage extends ConsumerWidget {
                 const TitleWidget(),
               ])),
               SliverFillRemaining(
-                child: Center(
-                  child: SizedBox(
-                    // transform: Matrix4.identity()..translate(20.0, 20.0, 0),
-                    // color: Colors.white,
-                    width: (screensize.shortestSide * 0.75).clamp(100, 500.0),
-                    height: (screensize.shortestSide * 0.75).clamp(100, 500.0),
-                    child: const BoardView(),
-                  ),
-                ),
+                child: _BoardSection(screensize: screensize),
               )
             ],
           );
@@ -80,19 +48,47 @@ class PuzzlePage extends ConsumerWidget {
               const Expanded(child: TitleWidget()),
               Expanded(
                 flex: 2,
-                child: Center(
-                  child: SizedBox(
-                    // transform: Matrix4.identity()..translate(20.0, 20.0, 0),
-                    // color: Colors.white,
-                    width: (screensize.shortestSide * 0.75).clamp(100, 500.0),
-                    height: (screensize.shortestSide * 0.75).clamp(100, 500.0),
-                    child: const BoardView(),
-                  ),
-                ),
+                child: _BoardSection(screensize: screensize),
               )
             ],
           );
         },
+      ),
+    );
+  }
+}
+
+class _BoardSection extends ConsumerWidget {
+  const _BoardSection({
+    Key? key,
+    required this.screensize,
+  }) : super(key: key);
+
+  final Size screensize;
+
+  @override
+  Widget build(BuildContext context, ref) {
+    return Center(
+      child: SizedBox(
+        // transform: Matrix4.identity()..translate(20.0, 20.0, 0),
+        // color: Colors.white,
+        width: (screensize.shortestSide * 0.75).clamp(100, 500.0),
+        height: (screensize.shortestSide * 0.75).clamp(100, 500.0),
+        child: DepthBuilder(
+            rotationController:
+                ref.read(BoardUIController.provider).boardRotationController,
+            builder: (context, offset) {
+              final angleY = (offset.dy);
+              final angleX = (offset.dx);
+              return Transform(
+                  transform: Matrix4.identity()
+                    // ..setEntry(3, 2, perspective)
+                    ..rotateX(angleY)
+                    ..rotateY(angleX)
+                    ..translate(0.0, 0.0, 0),
+                  alignment: FractionalOffset.center,
+                  child: const BoardView());
+            }),
       ),
     );
   }
