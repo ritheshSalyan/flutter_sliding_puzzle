@@ -14,10 +14,18 @@ class TitleWidget extends ConsumerWidget {
         //   style: Theme.of(context).textTheme.headline2,
         //   textAlign: TextAlign.center,
         // ),
-        Text(
-          ref.watch(BoardUIController.provider).moves.toString(),
-          style: Theme.of(context).textTheme.headline4,
-          textAlign: TextAlign.center,
+        InkWell(
+          onTap: () {
+            ///
+            ///TODO: Remove this Shortcut
+            ///
+            ref.read(BoardUIController.provider).triggerEndAnimation();
+          },
+          child: Text(
+            ref.watch(BoardUIController.provider).moves.toString(),
+            style: Theme.of(context).textTheme.headline4,
+            textAlign: TextAlign.center,
+          ),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
