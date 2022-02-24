@@ -76,7 +76,7 @@ packages:
     description:
       path: "."
       ref: develop
-      resolved-ref: ef12fac6cfadea3b3b320730228a291365e1c89d
+      resolved-ref: "55e99454548244584b36c0da991c7531e0d5fa43"
       url: "git@gitlab.com:dreamsoftin/core/DreamXR/flutter/dream_xr.git"
     source: git
     version: "0.0.1"

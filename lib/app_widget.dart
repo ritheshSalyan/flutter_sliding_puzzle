@@ -10,14 +10,15 @@ class AppWidget extends StatelessWidget {
     return MaterialApp.router(
       routeInformationParser: Modular.routeInformationParser,
       routerDelegate: Modular.routerDelegate,
-      title: 'Flutter Demo',
+      title: 'Flutter Puzzle Hack',
       theme: ThemeData(
-          scaffoldBackgroundColor: const Color(0xFF4f1611),
-          textTheme: GoogleFonts.montserratTextTheme(),
-          appBarTheme: const AppBarTheme(
-            elevation: 0.0,
-            backgroundColor: Colors.transparent,
-          )),
+        scaffoldBackgroundColor: const Color(0xFF4f1611),
+        textTheme: GoogleFonts.poppinsTextTheme(),
+        appBarTheme: const AppBarTheme(
+          elevation: 0.0,
+          backgroundColor: Colors.transparent,
+        ),
+      ),
     );
   }
 }

@@ -34,7 +34,7 @@ class TileBuilder extends HookConsumerWidget {
     final _animationController = useAnimationController(
       duration:
           tileState is StartTileState || tileState is CompleteProgressTileState
-              ? const Duration(milliseconds: 2000)
+              ? Duration(milliseconds: 2000 + 100 * index)
               : const Duration(milliseconds: 500),
     );
 
@@ -59,7 +59,7 @@ class TileBuilder extends HookConsumerWidget {
           _animationController.reset();
         });
       } else if (tileState is CompleteProgressTileState) {
-        Future.delayed(Duration(milliseconds: 100 * index)).then((value) {
+        Future.delayed(Duration(milliseconds: 1000 * index)).then((value) {
           _animationController
               .forward(from: tileState.progress)
               .whenComplete(() {
@@ -125,7 +125,8 @@ class TileBuilder extends HookConsumerWidget {
                 curve: Curves.bounceOut,
               ))
             : AlwaysStoppedAnimation(
-                (tileState is CompleteTileState) ? 0.0 : depth);
+                (tileState is CompleteTileState) ? 1.0 : depth,
+              );
     if (tileState is StartTileState || tileState is CompleteProgressTileState) {
       heightTween.addListener(() {
         tileState.updateProgress(_animationController.value);

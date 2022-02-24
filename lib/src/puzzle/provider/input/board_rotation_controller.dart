@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 class BoardRotationController {
   final ValueNotifier<Offset> boardAngle =
       ValueNotifier(const Offset(-0.2, -0.2));
-  Offset _previousValue = const Offset(-0.2, -0.2);
+  Offset _previousValue = const Offset(0, 0);
   Offset get previousValue => _previousValue;
 
   static const minAngle = Offset(-0.75, -0.75);
