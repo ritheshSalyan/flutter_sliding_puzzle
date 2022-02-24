@@ -115,6 +115,7 @@ class BoardUIController extends ChangeNotifier
     }
   }
 
+  bool gyroEnabled = true;
   @override
   void moveRight() {
     var tile = boardController.getMoveRightTile();
@@ -136,10 +137,16 @@ class BoardUIController extends ChangeNotifier
   }
 
   final _sensitivity = 0.5;
+  void toggleGyro() {
+    gyroEnabled = !gyroEnabled;
+    notifyListeners();
+  }
 
   @override
   void onGyroChange(Offset offset) {
-    if ((offset.dx.abs() == 0 && offset.dy.abs() == 0) || mode == PageMode.ar) {
+    if (!gyroEnabled ||
+        (offset.dx.abs() == 0 && offset.dy.abs() == 0) ||
+        mode == PageMode.ar) {
       return;
     }
     // log("Gyro Event: $offset ");

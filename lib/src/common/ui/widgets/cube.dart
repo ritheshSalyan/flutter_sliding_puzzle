@@ -115,7 +115,6 @@ class CustomCube extends StatelessWidget {
           List<int> sortedKeys = createZOrder(faces, cameraMatrix);
           List<CubeFace> sortedFaces = [];
 
-         
           for (var i in sortedKeys.reversed.toList()) {
             sortedFaces.insert(0, faces[i]);
           }
@@ -158,8 +157,6 @@ class CustomCube extends StatelessWidget {
                         behavior: HitTestBehavior.opaque,
                         onTap: onTap,
                         child: sizedBox,
-
-                 
                       ),
                     ),
             );

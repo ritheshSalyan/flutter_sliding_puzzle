@@ -8,8 +8,8 @@ class LavaBasePainter extends CustomPainter {
   final bool isVertical;
   LavaBasePainter(this.isVertical) {
     gradientPainter = GradientPainter(colors: [
-      LavaColorSystem.baseColor,
-      LavaColorSystem.baseGlow,
+      IceColorSystem.baseColor,
+      IceColorSystem.baseGlow,
     ], stpes: [
       0.5,
       0.5

@@ -13,7 +13,7 @@ class SpotPainter {
   late final double width;
   late final double height;
   final List<Offset> positions = [];
-  void paint(Canvas canvas, Size size) {
+  void paint(Canvas canvas, Size size, {Offset? from, Offset? to}) {
     if (noOfSpots != positions.length) {
       generateSpots(size);
     }
@@ -26,8 +26,8 @@ class SpotPainter {
       canvas.drawRRect(
           RRect.fromRectAndRadius(
               Rect.fromLTWH(
-                left,
-                top,
+                (from?.dx ?? 0) + left,
+                (from?.dy ?? 0) + top,
                 w.clamp(w, size.width - w),
                 h.clamp(h, size.height - h),
               ),
@@ -40,8 +40,7 @@ class SpotPainter {
     var random = Random();
 
     while (noOfSpots != positions.length) {
-      final dx = random.nextDouble()
-      .map(
+      final dx = random.nextDouble().map(
             0.0,
             1.0,
             positions.length - 1 / noOfSpots,

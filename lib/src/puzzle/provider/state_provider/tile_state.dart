@@ -48,14 +48,15 @@ class TileStateNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  void completeEndAnimation(){
-      state = CompleteTileState(state.currentPosition,
-          (state as CompleteProgressTileState).noOfTiles);
-          notifyListeners();
+  void completeEndAnimation() {
+    if (state is! CompleteProgressTileState) return;
+    state = CompleteTileState(
+        state.currentPosition, (state as CompleteProgressTileState).noOfTiles);
+    notifyListeners();
   }
 }
 
-abstract class TileState with AnimationProgressMixin{
+abstract class TileState with AnimationProgressMixin {
   final BoardPosition currentPosition;
 
   TileState(
@@ -71,15 +72,14 @@ class StartTileState extends TileState with AnimationProgressMixin {
   StartTileState(BoardPosition currentPosition) : super(currentPosition);
 }
 
-class TileMovementState extends TileState with AnimationProgressMixin{
+class TileMovementState extends TileState with AnimationProgressMixin {
   final BoardPosition previousPosition;
 
   TileMovementState(BoardPosition currentPosition, this.previousPosition)
       : super(currentPosition);
 }
 
-
-class CompleteProgressTileState extends TileState with AnimationProgressMixin{
+class CompleteProgressTileState extends TileState with AnimationProgressMixin {
   final int noOfTiles;
 
   CompleteProgressTileState(BoardPosition currentPosition, this.noOfTiles)
@@ -92,9 +92,9 @@ class CompleteTileState extends TileState {
       : super(currentPosition);
 }
 
-mixin AnimationProgressMixin{
-  double progress =0;
-  void updateProgress(double value){
+mixin AnimationProgressMixin {
+  double progress = 0;
+  void updateProgress(double value) {
     progress = value;
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sliding_puzzle/src/common/ui/theme/theme_provider.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/state_provider/board_provider.dart';
 
 class TitleWidget extends ConsumerWidget {
@@ -36,6 +37,9 @@ class TitleWidget extends ConsumerWidget {
               },
               icon: const Icon(Icons.refresh_rounded),
               label: const Text("Shuffle"),
+              style: ButtonStyle(
+                  foregroundColor: MaterialStateProperty.all(
+                      ref.watch(ThemeNotifier.provider).foregroundColor)),
             )
           ],
         ),
@@ -46,22 +50,22 @@ class TitleWidget extends ConsumerWidget {
                 onPressed: () {
                   ref.read(BoardUIController.provider).moveLeft();
                 },
-                icon: const Icon(Icons.arrow_left)),
+                icon: const Icon(Icons.swipe_left_alt)),
             IconButton(
                 onPressed: () {
                   ref.read(BoardUIController.provider).moveRight();
                 },
-                icon: const Icon(Icons.arrow_right)),
+                icon: const Icon(Icons.swipe_right_alt)),
             IconButton(
                 onPressed: () {
                   ref.read(BoardUIController.provider).moveUp();
                 },
-                icon: const Icon(Icons.arrow_upward)),
+                icon: const Icon(Icons.swipe_up_alt)),
             IconButton(
                 onPressed: () {
                   ref.read(BoardUIController.provider).moveDown();
                 },
-                icon: const Icon(Icons.arrow_downward)),
+                icon: const Icon(Icons.swipe_down_alt)),
           ],
         )
       ],

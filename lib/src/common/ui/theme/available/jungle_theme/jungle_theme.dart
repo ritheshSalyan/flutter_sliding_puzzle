@@ -10,6 +10,7 @@ import 'painter/tile_top_painter.dart';
 
 AppTheme jungleTheme = AppTheme(
   backgroundColor: JungleColorSystem.backgroundColor,
+  foregroundColor: JungleColorSystem.accentColor,
   boardTheme: BoardTheme(
     baseTheme: CubeTheme.symetric(
       CubeFaceTheme(
@@ -38,6 +39,9 @@ AppTheme jungleTheme = AppTheme(
           spotPainter: JungleTileSidePainter(false),
         )),
     environment: CubeTheme.all(CubeFaceTheme(
-        baseColor: Colors.transparent, child: const EnvironmentParticle())),
+        baseColor: Colors.transparent,
+        child: const EnvironmentParticle(
+          color: Colors.amber,
+        ))),
   ),
 );

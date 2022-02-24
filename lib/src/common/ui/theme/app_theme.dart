@@ -2,11 +2,13 @@ import 'package:flutter/cupertino.dart';
 
 class AppTheme {
   final Color backgroundColor;
+  final Color foregroundColor;
   final BoardTheme boardTheme;
 
   AppTheme({
     required this.backgroundColor,
     required this.boardTheme,
+    required this.foregroundColor,
   });
 }
 

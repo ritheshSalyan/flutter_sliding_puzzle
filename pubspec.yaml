@@ -27,25 +27,27 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  animated_background: ^2.0.0
   cupertino_icons: ^1.0.2
-  equatable: ^2.0.3
+  defer_pointer: ^0.0.2
+  dream_xr:
+    git:
+      url: git@gitlab.com:dreamsoftin/core/DreamXR/flutter/dream_xr.git
+      ref: develop
+  # equatable: ^1.2.5
   flutter:
     sdk: flutter
   flutter_hooks: ^0.18.2
   flutter_modular: ^4.4.0
   flutter_riverpod: ^1.0.3
+  google_fonts: ^2.3.1
   hooks_riverpod: ^1.0.3
   sensors_plus: ^1.2.1
+  touchable: ^1.0.0
   universal_platform: ^1.0.0+1
   vector_math: ^2.1.1
-  touchable: ^1.0.0
-  defer_pointer: ^0.0.2
-  animated_background: ^2.0.0
+  # flutter_sinusoidals: ^0.1.4
   wave: ^0.2.0
-  dream_xr:
-    git:
-      url: git@gitlab.com:dreamsoftin/core/DreamXR/flutter/dream_xr.git
-      ref: develop
 
 dev_dependencies:
   flutter_lints: ^1.0.0
