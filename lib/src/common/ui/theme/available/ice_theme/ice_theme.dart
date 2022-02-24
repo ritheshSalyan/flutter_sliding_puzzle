@@ -1,4 +1,3 @@
-export 'colos.dart';
+export 'colors.dart';
 export 'painter/painter.dart';
 export 'theme.dart';
-export 'widgets/widgets.dart';

@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sliding_puzzle/app_module.dart';
-import 'package:sliding_puzzle/src/common/ui/theme/available/ice_theme/theme.dart';
-import 'package:sliding_puzzle/src/common/ui/theme/available/jungle_theme/jungle_theme.dart';
-import 'package:sliding_puzzle/src/common/ui/theme/theme_provider.dart';
 import 'package:sliding_puzzle/src/common/ui/widgets/scaffold.dart';
 import 'package:sliding_puzzle/src/home/viewmodel/homepage_viewmodel.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 import '../widgets/buttons.dart';
 import 'how_to_play.dart';
+import 'settings.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -27,8 +25,6 @@ class HomePage extends ConsumerWidget {
           // SliverFillRemaining(
           //   child: HomePageActionButtons(viewModel: viewModel),
           // ),
-
-          const HomePageThemeButtons(),
         ],
       ),
       large: (context, constraints) => Row(
@@ -38,7 +34,6 @@ class HomePage extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: const [
               Expanded(child: Center(child: HomePageTitle())),
-              HomePageThemeButtons(),
             ],
           )),
           Expanded(
@@ -47,37 +42,6 @@ class HomePage extends ConsumerWidget {
           ))
         ],
       ),
-    );
-  }
-}
-
-class HomePageThemeButtons extends ConsumerWidget {
-  const HomePageThemeButtons({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, ref) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        ElevatedButton(
-          onPressed: () {
-            ref
-                .read(ThemeNotifier.provider.notifier)
-                .changeTheme(context, jungleTheme);
-          },
-          child: const Text("Jungle"),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            ref
-                .read(ThemeNotifier.provider.notifier)
-                .changeTheme(context, iceTheme);
-          },
-          child: const Text("Ice"),
-        ),
-      ],
     );
   }
 }
@@ -128,6 +92,21 @@ class HomePageActionButtons extends StatelessWidget {
                       ));
             },
             child: const Text("How to play")),
+        const SizedBox(
+          height: 20,
+        ),
+        PuzzleFilledButton(
+            rotationController: viewModel.boardRotationController,
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (context) => const Dialog(
+                        backgroundColor: Colors.transparent,
+                        elevation: 0,
+                        child: Settings(),
+                      ));
+            },
+            child: const Text("Settings")),
       ],
     );
   }

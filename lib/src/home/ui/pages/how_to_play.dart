@@ -6,7 +6,7 @@ class HowToPlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white54,
+        backgroundColor: Colors.white,
         appBar: AppBar(),
         body: const Text("Sort it based on Height in asending order."));
   }

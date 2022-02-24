@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:sliding_puzzle/src/common/ui/theme/theme_provider.dart';
 import 'package:sliding_puzzle/src/common/ui/widgets/cube.dart';
 import 'package:sliding_puzzle/src/common/ui/widgets/cube_face_widget.dart';
+import 'package:sliding_puzzle/src/puzzle/provider/difficuly_level.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/input/board_rotation_controller.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/state_provider/tile_state.dart';
 
@@ -88,7 +90,9 @@ class TileBuilder extends HookConsumerWidget {
         tileState.updateProgress(positionTween.value);
       });
     }
-    final space = tile.correctPos == tile.currentPos
+    var isInCorrectPos = tile.correctPos == tile.currentPos;
+    final space = (isInCorrectPos &&
+            ref.watch(DifficultyNotifier.provider) != DifficulyLevel.hard)
         ? tileWidth * 0.05
         : tileWidth * 0.15;
 
@@ -127,6 +131,21 @@ class TileBuilder extends HookConsumerWidget {
         tileState.updateProgress(_animationController.value);
       });
     }
+
+    final faceChild =
+        ref.watch(DifficultyNotifier.provider) == DifficulyLevel.easy
+            ? (isInCorrectPos
+                ? Icon(
+                    Icons.check,
+                    color: ref.watch(ThemeNotifier.provider).foregroundColor,
+                  )
+                : Text(
+                    "${index + 1}",
+                    style: TextStyle(
+                      color: ref.watch(ThemeNotifier.provider).foregroundColor,
+                    ),
+                  ))
+            : const SizedBox();
     return AnimatedBuilder(
       animation: positionTween,
       child: AnimatedBuilder(
@@ -139,11 +158,22 @@ class TileBuilder extends HookConsumerWidget {
               depth: heightTween.value,
               depthOffset: 0,
               faceWidgets: CubeFaceWidgets(
-                topFace: (context, size) => CubeFaceWidget(
-                  cubeTheme: ref
-                      .watch(TileStateNotifier.provider(tile.correctPos))
-                      .style
-                      .top,
+                topFace: (context, size) => Stack(
+                  children: [
+                    CubeFaceWidget(
+                      cubeTheme: ref
+                          .watch(TileStateNotifier.provider(tile.correctPos))
+                          .style
+                          .top,
+                    ),
+                    Container(
+                      child: Center(
+                        child: faceChild,
+                      ),
+                      color: Colors.blueGrey
+                          .withOpacity(((index + 1) / 40).clamp(0.02, 0.4)),
+                    ),
+                  ],
                 ),
                 leftFace: (context, size) => CubeFaceWidget(
                   cubeTheme: ref

@@ -100,11 +100,14 @@ AppTheme iceTheme = AppTheme(
 
             // spotColor: LavaColorSystem.tileSpot,
             )),
-    environment: CubeTheme.all(CubeFaceTheme(
+    environment: CubeTheme.all(
+      CubeFaceTheme(
         baseColor: Colors.transparent,
         child: const EnvironmentParticle(
-          color: Colors.white,
+          color: Color.fromARGB(206, 255, 255, 255),
           maxOpacity: 1.0,
-        ))),
+        ),
+      ),
+    ),
   ),
 );
