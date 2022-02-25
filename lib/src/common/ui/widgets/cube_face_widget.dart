@@ -7,6 +7,7 @@ class CubeFaceWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      clipBehavior: Clip.none,
       color: cubeTheme.baseColor,
       //  color: ref.watch(ThemeNotifier.provider),
       width: double.infinity,

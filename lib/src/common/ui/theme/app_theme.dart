@@ -72,7 +72,7 @@ class CubeTheme {
 class CubeFaceTheme {
   final Color baseColor;
   final CustomPainter? spotPainter;
-  final Widget? child;
+  final Widget?  child;
 
   CubeFaceTheme({required this.baseColor, this.spotPainter,this.child});
 
