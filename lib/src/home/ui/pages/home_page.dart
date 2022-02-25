@@ -19,7 +19,7 @@ class HomePage extends ConsumerWidget {
     return CommonScaffold(
       small: (context, constraints) => Column(
         children: [
-          const HomePageTitle(),
+          const Center(child: HomePageTitle()),
           Expanded(child: HomePageActionButtons(viewModel: viewModel)),
 
           // SliverFillRemaining(

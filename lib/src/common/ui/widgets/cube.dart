@@ -138,7 +138,7 @@ class CustomCube extends StatelessWidget {
                   if (enableShadow)
                     Container(
                       color: Colors.black.withOpacity(
-                        (0.5 - (directionBrightness * 0.5)),
+                        (0.25 - (directionBrightness * 0.25)),
                       ),
                       child: const Center(),
                     )

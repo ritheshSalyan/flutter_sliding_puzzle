@@ -14,7 +14,7 @@ mixin GyroController {
         UniversalPlatform.isIOS ||
         UniversalPlatform.isWeb) {
       _subscription = gyroscopeEvents.listen((event) {
-        _gyroEvents += Offset(event.y, event.x);
+        _gyroEvents += Offset(event.y, -event.x);
         if (_gyroEvents.dx.abs() > stepSize ||
             _gyroEvents.dy.abs() > stepSize) {
           // log("GyroController: $event ");

@@ -14,8 +14,8 @@ class Settings extends ConsumerWidget {
       // appBar: AppBar(),
       large: (context, constraints) => Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: ListView(
+          // crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
               "Settings",
@@ -141,7 +141,7 @@ class _ThemeSelectorState extends ConsumerState<ThemeSelector> {
           clipBehavior: Clip.none,
           children: [
             Transform.translate(
-              offset: Offset(width / 2, 0),
+              offset: Offset(width / 2, height / 2),
               child: DepthTransformer(
                 rotationController: boardRotationController,
                 child: CustomCube(

@@ -26,7 +26,7 @@ class TileBuilder extends HookConsumerWidget {
 
   double top(BoardPosition position) => tileHeight * position.x;
   double left(BoardPosition position) => tileWidth * position.y;
-  int get index => tile.correctPos.x * 4 + tile.correctPos.y;
+  int get index => tile.correctPos.x * 3 + tile.correctPos.y;
   @override
   Widget build(BuildContext context, ref) {
     var tileState =
