@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sliding_puzzle/app_module.dart';
-import 'package:sliding_puzzle/src/common/ui/widgets/scaffold.dart';
+import 'package:sliding_puzzle/helper/voxel/model/factory.dart';
+import 'package:sliding_puzzle/helper/voxel/model/voxel_mesh.dart';
+import 'package:sliding_puzzle/helper/voxel/renderer.dart';
+import 'package:sliding_puzzle/helper/voxel/test_tree.dart';
+import 'package:sliding_puzzle/src/common/common.dart';
 import 'package:sliding_puzzle/src/home/viewmodel/homepage_viewmodel.dart';
 import 'package:universal_platform/universal_platform.dart';
 
@@ -15,12 +19,23 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
+    VoxelMesh mesh = VoxelMeshFactory(voxelTree).construct();
     final viewModel = ref.watch(HomePageViewModel.provider);
     return CommonScaffold(
       small: (context, constraints) => Column(
         children: [
           const Center(child: HomePageTitle()),
           Expanded(child: HomePageActionButtons(viewModel: viewModel)),
+          Expanded(
+              child: DepthTransformer(
+                  rotationController: viewModel.boardRotationController,
+                  child: SizedBox(
+                      width: 100,
+                      height: 100,
+                      child: VoxelBuilder(
+                        mesh: mesh,
+                        rotationController: viewModel.boardRotationController,
+                      )))),
 
           // SliverFillRemaining(
           //   child: HomePageActionButtons(viewModel: viewModel),

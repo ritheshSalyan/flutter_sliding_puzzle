@@ -32,18 +32,22 @@ AppTheme jungleTheme = AppTheme(
           CubeFaceTheme(
             baseColor: JungleColorSystem.tileGreen,
             spotPainter: JungleTileTopPainter(),
-            child: LayoutBuilder(
-                builder: (context, constraints) => Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        for (var position in treePositions) ...{
-                          Positioned(
-                              left: (constraints.maxWidth - 30) * position.dx,
-                              top: (constraints.maxHeight - 30) * position.dy,
-                              child: const Tree())
-                        }
-                      ],
-                    )),
+            child: treePositions.isEmpty
+                ? Container()
+                : LayoutBuilder(
+                    builder: (context, constraints) => Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            for (var position in treePositions) ...{
+                              Positioned(
+                                  left:
+                                      (constraints.maxWidth - 30) * position.dx,
+                                  top: (constraints.maxHeight - 30) *
+                                      position.dy,
+                                  child: const Tree())
+                            }
+                          ],
+                        )),
           ),
           CubeFaceTheme(
             baseColor: JungleColorSystem.tileGreen,
@@ -54,42 +58,69 @@ AppTheme jungleTheme = AppTheme(
             spotPainter: JungleTileSidePainter(false),
           ));
     },
-    environment: CubeTheme.all(CubeFaceTheme(
+    environment: CubeTheme.all(
+      CubeFaceTheme(
         baseColor: Colors.transparent,
-        child: const EnvironmentParticle(
-          color: Colors.amber,
-        ))),
+        // child:
+        //  const EnvironmentParticle(
+        //   color: Colors.amber,
+        // ),
+      ),
+    ),
   ),
 );
 
-class Tree extends StatelessWidget {
+class Tree extends StatefulWidget {
   const Tree({
     Key? key,
   }) : super(key: key);
 
   @override
+  State<Tree> createState() => _TreeState();
+}
+
+class _TreeState extends State<Tree> {
+  @override
   Widget build(BuildContext context) {
+    const treeHeight = 30.0;
     return Stack(
       clipBehavior: Clip.none,
       children: [
         CustomCube(
           width: 10,
           height: 10,
-          depth: 30,
+          depth: treeHeight,
           boardRotaioncontroller: BoardRotationController(),
           faceWidgets: CubeFaceWidgets.all((context, size) => Container(
                 width: size.width,
                 height: size.height,
-                color: Colors.brown,
+                color: Colors.grey,
               )),
         ),
         Transform(
-          transform: Matrix4.identity()..translate(-5.0, -5.0, -40),
+          transform: Matrix4.identity()
+            ..translate(-15.0, -15.0, -(treeHeight + 20)),
+          child: CustomCube(
+            width: 40,
+            height: 40,
+            depth: 20,
+            depthOffset: 20,
+            boardRotaioncontroller: BoardRotationController(),
+            faceWidgets: CubeFaceWidgets.all((context, size) => Container(
+                  width: size.width,
+                  height: size.height,
+                  color: Colors.green,
+                )),
+          ),
+        ),
+        Transform(
+          transform: Matrix4.identity()
+            ..translate(-5.0, -5.0, -(treeHeight * 2 + 20)),
           child: CustomCube(
             width: 20,
             height: 20,
-            depth: 40,
-            depthOffset: 20,
+            depth: 20,
+            depthOffset: 40,
             boardRotaioncontroller: BoardRotationController(),
             faceWidgets: CubeFaceWidgets.all((context, size) => Container(
                   width: size.width,
