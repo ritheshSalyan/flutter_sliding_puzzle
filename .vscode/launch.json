@@ -13,7 +13,10 @@
             "name": "sliding_puzzle (profile mode)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
+            "flutterMode": "profile",
+            "args": [
+                "--cache-sksl" ,"--purge-persistent-cache"
+            ]
         }
     ]
 }

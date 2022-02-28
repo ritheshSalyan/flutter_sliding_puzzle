@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sliding_puzzle/helper/voxel/model/voxel_block.dart';
 import 'package:sliding_puzzle/helper/voxel/model/voxel_mesh.dart';
 import 'package:sliding_puzzle/src/common/common.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/input/board_rotation_controller.dart';
 import 'package:vector_math/vector_math_64.dart';
 
-class VoxelBuilder extends ConsumerWidget {
+class VoxelBuilder extends StatefulWidget {
   const VoxelBuilder({
     Key? key,
     required this.mesh,
@@ -14,23 +13,35 @@ class VoxelBuilder extends ConsumerWidget {
   }) : super(key: key);
   final VoxelMesh mesh;
   final BoardRotationController rotationController;
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  State<VoxelBuilder> createState() => _VoxelBuilderState();
+}
+
+class _VoxelBuilderState extends State<VoxelBuilder> {
+  @override
+  void didUpdateWidget(covariant VoxelBuilder oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 1,
       child: LayoutBuilder(builder: (context, snapshot) {
-        final perBlockWidth = snapshot.maxWidth / mesh.maxX;
+        final perBlockWidth = snapshot.maxWidth / widget.mesh.maxX;
 
         final List<_VoxelBlock> children = [];
 
-        for (var block in mesh.blocks) {
+        for (var block in widget.mesh.blocks) {
           children.add(_VoxelBlock(
               perBlockWidth: perBlockWidth,
               block: block,
-              boardRotationController: rotationController));
+              boardRotationController: widget.rotationController));
         }
         return DepthBuilder(
-            rotationController: rotationController,
+            rotationController: widget.rotationController,
             builder: (context, original) {
               final offset = original.clamp(BoardRotationController.minAngle,
                   BoardRotationController.maxAngle);
