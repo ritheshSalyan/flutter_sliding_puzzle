@@ -20,13 +20,9 @@ class VoxelBuilder extends StatefulWidget {
 
 class _VoxelBuilderState extends State<VoxelBuilder> {
   @override
-  void didUpdateWidget(covariant VoxelBuilder oldWidget) {
-    // TODO: implement didUpdateWidget
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     return AspectRatio(
       aspectRatio: 1,
       child: LayoutBuilder(builder: (context, snapshot) {
@@ -123,5 +119,88 @@ class _VoxelBlock extends StatelessWidget {
         boardRotaioncontroller: boardRotationController,
       ),
     );
+  }
+}
+
+class Combiner {
+  void combine(VoxelMesh mesh) {
+    Map<String, List<VoxelBlock>> colorGroup = {};
+
+    Map<int, List<VoxelBlock>> group = {};
+    final vertexGrouping = List<List<int>>.filled(
+        mesh.maxX + 1, List<int>.filled(mesh.maxY + 1, -1));
+
+    int startingX = double.maxFinite.toInt();
+    int startingY = double.maxFinite.toInt();
+
+    final blockLayout = List<List<List<VoxelBlock?>>>.filled(
+        mesh.maxX + 1,
+        List<List<VoxelBlock?>>.filled(
+            mesh.maxY + 1, List<VoxelBlock?>.filled(mesh.maxZ + 1, null)));
+
+    for (var item in mesh.blocks) {
+      
+    }
+  }
+
+  List<VoxelBlock> getAdjecentSimilar(
+      List<List<List<VoxelBlock?>>> pointCloud, VoxelBlock current) {
+    List<VoxelBlock> nearby = [];
+
+    if (pointCloud[current.x][current.y][current.z - 1] != null &&
+        pointCloud[current.x][current.y][current.z - 1]!.color ==
+            current.color) {
+      nearby.add(pointCloud[current.x][current.y][current.z - 1]!);
+      nearby.addAll(getAdjecentSimilar(
+        pointCloud,
+        pointCloud[current.x][current.y][current.z - 1]!,
+      ));
+    }
+    if (pointCloud[current.x][current.y][current.z + 1] != null &&
+        pointCloud[current.x][current.y][current.z + 1]!.color ==
+            current.color) {
+      nearby.add(pointCloud[current.x][current.y][current.z + 1]!);
+      nearby.addAll(getAdjecentSimilar(
+        pointCloud,
+        pointCloud[current.x][current.y][current.z - 1]!,
+      ));
+    }
+    if (pointCloud[current.x][current.y - 1][current.z] != null &&
+        pointCloud[current.x][current.y - 1][current.z]!.color ==
+            current.color) {
+      nearby.add(pointCloud[current.x][current.y - 1][current.z]!);
+      nearby.addAll(getAdjecentSimilar(
+        pointCloud,
+        pointCloud[current.x][current.y][current.z - 1]!,
+      ));
+    }
+    if (pointCloud[current.x][current.y + 1][current.z] != null &&
+        pointCloud[current.x][current.y + 1][current.z]!.color ==
+            current.color) {
+      nearby.add(pointCloud[current.x][current.y + 1][current.z]!);
+      nearby.addAll(getAdjecentSimilar(
+        pointCloud,
+        pointCloud[current.x][current.y][current.z - 1]!,
+      ));
+    }
+    if (pointCloud[current.x - 1][current.y][current.z] != null &&
+        pointCloud[current.x - 1][current.y][current.z]!.color ==
+            current.color) {
+      nearby.add(pointCloud[current.x - 1][current.y][current.z]!);
+      nearby.addAll(getAdjecentSimilar(
+        pointCloud,
+        pointCloud[current.x][current.y][current.z - 1]!,
+      ));
+    }
+    if (pointCloud[current.x + 1][current.y][current.z] != null &&
+        pointCloud[current.x + 1][current.y][current.z]!.color ==
+            current.color) {
+      nearby.add(pointCloud[current.x + 1][current.y][current.z]!);
+      nearby.addAll(getAdjecentSimilar(
+        pointCloud,
+        pointCloud[current.x][current.y][current.z - 1]!,
+      ));
+    }
+    return nearby;
   }
 }

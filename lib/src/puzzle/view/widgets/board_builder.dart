@@ -57,6 +57,7 @@ class BoardView extends HookConsumerWidget {
                     depth: (list.length + 1) * tileWidth * 0.4,
                     faceWidgets: CubeFaceWidgets(
                       topFace: (context, size) => CubeFaceWidget(
+                        size: size,
                         cubeTheme: ref
                             .watch(ThemeNotifier.provider)
                             .boardTheme
@@ -66,6 +67,7 @@ class BoardView extends HookConsumerWidget {
                         // child: const Center(),
                       ),
                       leftFace: (context, size) => CubeFaceWidget(
+                        size: size,
                         cubeTheme: ref
                             .watch(ThemeNotifier.provider)
                             .boardTheme
@@ -75,6 +77,7 @@ class BoardView extends HookConsumerWidget {
                         // child: const Center(),
                       ),
                       rightFace: (context, size) => CubeFaceWidget(
+                        size: size,
                         cubeTheme: ref
                             .watch(ThemeNotifier.provider)
                             .boardTheme
@@ -84,6 +87,7 @@ class BoardView extends HookConsumerWidget {
                         // child: const Center(),
                       ),
                       upFace: (context, size) => CubeFaceWidget(
+                        size: size,
                         cubeTheme: ref
                             .watch(ThemeNotifier.provider)
                             .boardTheme
@@ -93,6 +97,7 @@ class BoardView extends HookConsumerWidget {
                         // child: const Center(),
                       ),
                       downFace: (context, size) => CubeFaceWidget(
+                        size: size,
                         cubeTheme: ref
                             .watch(ThemeNotifier.provider)
                             .boardTheme
@@ -165,28 +170,33 @@ class BoardBase extends ConsumerWidget {
       depthOffset: depth,
       faceWidgets: CubeFaceWidgets(
         topFace: (context, size) => CubeFaceWidget(
+          size: size,
           cubeTheme: ref.watch(ThemeNotifier.provider).boardTheme.baseTheme.top,
           // color: const Color(0xFF97857d),
           // child: const Center(),
         ),
         leftFace: (context, size) => CubeFaceWidget(
+          size: size,
           cubeTheme:
               ref.watch(ThemeNotifier.provider).boardTheme.baseTheme.left,
           // color: const Color(0xFF97857d),
           // child: const Center(),
         ),
         rightFace: (context, size) => CubeFaceWidget(
+          size: size,
           cubeTheme:
               ref.watch(ThemeNotifier.provider).boardTheme.baseTheme.right,
           // color: const Color(0xFF97857d),
           // child: const Center(),
         ),
         upFace: (context, size) => CubeFaceWidget(
+          size: size,
           cubeTheme: ref.watch(ThemeNotifier.provider).boardTheme.baseTheme.up,
           // color: const Color(0xFF97857d),
           // child: const Center(),
         ),
         downFace: (context, size) => CubeFaceWidget(
+          size: size,
           cubeTheme:
               ref.watch(ThemeNotifier.provider).boardTheme.baseTheme.down,
           // color: const Color(0xFF97857d),

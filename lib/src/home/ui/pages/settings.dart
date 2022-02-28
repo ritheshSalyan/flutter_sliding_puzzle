@@ -157,19 +157,24 @@ class _ThemeSelectorState extends ConsumerState<ThemeSelector> {
                   faceWidgets: CubeFaceWidgets(
                     topFace: (context, size) {
                       return CubeFaceWidget(
+                        size: size,
                         cubeTheme: tileTheme.top,
                       );
                     },
                     leftFace: (context, size) => CubeFaceWidget(
+                      size: size,
                       cubeTheme: tileTheme.left,
                     ),
                     rightFace: (context, size) => CubeFaceWidget(
+                      size: size,
                       cubeTheme: tileTheme.right,
                     ),
                     upFace: (context, size) => CubeFaceWidget(
+                      size: size,
                       cubeTheme: tileTheme.up,
                     ),
                     downFace: (context, size) => CubeFaceWidget(
+                      size: size,
                       cubeTheme: tileTheme.down,
                     ),
                   ),

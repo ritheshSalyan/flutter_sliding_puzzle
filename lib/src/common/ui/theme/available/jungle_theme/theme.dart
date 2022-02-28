@@ -1,3 +1,4 @@
+import 'dart:developer' as dev;
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -27,38 +28,38 @@ AppTheme jungleTheme = AppTheme(
       ),
     ),
     tileTheme: () {
-      final noOftrees = Random().nextBool() ? 1 : 0;
+      final noOftrees = Random().nextBool() ? 1 : 2;
       List<Offset> treePositions = [];
       for (var i = 0; i < noOftrees; i++) {
         treePositions.add(Offset(Random().nextDouble(), Random().nextDouble()));
       }
-      VoxelMesh mesh = VoxelMeshFactory(voxelTree).construct();
       return CubeTheme.symetric(
           CubeFaceTheme(
             baseColor: JungleColorSystem.tileGreen,
             spotPainter: JungleTileTopPainter(),
             child: treePositions.isEmpty
                 ? Container()
-                : LayoutBuilder(
-                    builder: (context, constraints) => Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            for (var position in treePositions) ...{
-                              Positioned(
-                                  right: 0,
-                                  // (constraints.maxWidth ) * position.dy,
-                                  bottom: 0,
-                                  // (constraints.maxHeight) *position.dx,
-                                  child: SizedBox(
-                                      width: constraints.maxWidth / 2,
-                                      child: VoxelBuilder(
-                                        mesh: mesh,
-                                        rotationController:
-                                            BoardRotationController(),
-                                      )))
-                            }
-                          ],
-                        )),
+                : LayoutBuilder(builder: (context, constraints) {
+                    dev.log("Rbuild");
+
+                    return Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        for (var position in treePositions) ...{
+                          // Container()
+                          Positioned(
+                            left: (constraints.maxWidth) * position.dx,
+                            top: (constraints.maxHeight) * position.dy,
+                            child: SizedBox(
+                              width: constraints.maxWidth,
+                              height: constraints.maxHeight,
+                              child: const TreeOne(),
+                            ),
+                          )
+                        }
+                      ],
+                    );
+                  }),
           ),
           CubeFaceTheme(
             baseColor: JungleColorSystem.tileGreen,
@@ -154,5 +155,27 @@ class _TreeState extends State<Tree> {
         );
       }),
     );
+  }
+}
+
+class TreeOne extends StatefulWidget {
+  const TreeOne({Key? key}) : super(key: key);
+
+  @override
+  State<TreeOne> createState() => _TreeOneState();
+}
+
+class _TreeOneState extends State<TreeOne> {
+  late final VoxelMesh mesh;
+  @override
+  void initState() {
+    mesh = VoxelMeshFactory(voxelTree).construct();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return VoxelBuilder(
+        mesh: mesh, rotationController: BoardRotationController());
   }
 }

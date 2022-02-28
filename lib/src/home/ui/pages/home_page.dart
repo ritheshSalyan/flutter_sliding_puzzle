@@ -19,23 +19,23 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    VoxelMesh mesh = VoxelMeshFactory(voxelTree).construct();
+    // VoxelMesh mesh = VoxelMeshFactory(voxelTree).construct();
     final viewModel = ref.watch(HomePageViewModel.provider);
     return CommonScaffold(
       small: (context, constraints) => Column(
         children: [
           const Center(child: HomePageTitle()),
           Expanded(child: HomePageActionButtons(viewModel: viewModel)),
-          Expanded(
-              child: DepthTransformer(
-                  rotationController: viewModel.boardRotationController,
-                  child: SizedBox(
-                      width: 100,
-                      height: 100,
-                      child: VoxelBuilder(
-                        mesh: mesh,
-                        rotationController: viewModel.boardRotationController,
-                      )))),
+          // Expanded(
+          //     child: DepthTransformer(
+          //         rotationController: viewModel.boardRotationController,
+          //         child: SizedBox(
+          //             width: 100,
+          //             height: 100,
+          //             child: VoxelBuilder(
+          //               mesh: mesh,
+          //               rotationController: viewModel.boardRotationController,
+          //             )))),
 
           // SliverFillRemaining(
           //   child: HomePageActionButtons(viewModel: viewModel),
@@ -122,6 +122,12 @@ class HomePageActionButtons extends StatelessWidget {
                       ));
             },
             child: const Text("Settings")),
+        ElevatedButton(
+            onPressed: () {
+              VoxelMesh mesh = VoxelMeshFactory(voxelTree).construct();
+              Combiner().combine(mesh);
+            },
+            child: Text("Test"))
       ],
     );
   }

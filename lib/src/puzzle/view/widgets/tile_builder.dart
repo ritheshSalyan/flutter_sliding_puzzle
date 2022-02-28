@@ -162,6 +162,7 @@ class TileBuilder extends HookConsumerWidget {
                 topFace: (context, size) => Stack(
                   children: [
                     CubeFaceWidget(
+                      size: size,
                       cubeTheme: ref
                           .watch(TileStateNotifier.provider(tile.correctPos))
                           .style
@@ -171,30 +172,34 @@ class TileBuilder extends HookConsumerWidget {
                       child: Center(
                         child: faceChild,
                       ),
-                      color: Colors.blueGrey
+                      color: Colors.grey
                           .withOpacity(((index + 1) / 40).clamp(0.02, 0.4)),
                     ),
                   ],
                 ),
                 leftFace: (context, size) => CubeFaceWidget(
+                  size: size,
                   cubeTheme: ref
                       .watch(TileStateNotifier.provider(tile.correctPos))
                       .style
                       .left,
                 ),
                 rightFace: (context, size) => CubeFaceWidget(
+                  size: size,
                   cubeTheme: ref
                       .watch(TileStateNotifier.provider(tile.correctPos))
                       .style
                       .right,
                 ),
                 upFace: (context, size) => CubeFaceWidget(
+                  size: size,
                   cubeTheme: ref
                       .watch(TileStateNotifier.provider(tile.correctPos))
                       .style
                       .up,
                 ),
                 downFace: (context, size) => CubeFaceWidget(
+                  size: size,
                   cubeTheme: ref
                       .watch(TileStateNotifier.provider(tile.correctPos))
                       .style

@@ -11,15 +11,16 @@ class VoxelMeshFactory {
     final List<VoxelBlock> blocks = [];
     int maxX = -1;
     int maxY = -1;
+    int maxZ = -1;
     for (var line in lines) {
       final elements = line.split(" ");
 
       if (elements.length == 4) {
         final x = int.tryParse(elements[0]);
-        final y = int.tryParse(elements[1]);
-        final z = int.tryParse(elements[2]);
+        final y = (int.tryParse(elements[1]) ?? 0) * -1;
+        final z = (int.tryParse(elements[2]) ?? 0) * -1;
         final color = "FF" + elements[3];
-        if (x != null && y != null && z != null && color.length > 2) {
+        if (x != null && color.length > 2) {
           blocks.add(VoxelBlock(x: x, y: y, z: -z, color: color));
 
           if (maxX < x) {
@@ -28,14 +29,13 @@ class VoxelMeshFactory {
           if (maxY < y) {
             maxY = y;
           }
+          if (maxZ < z) {
+            maxZ = z;
+          }
         }
       }
     }
 
-    return VoxelMesh(
-      blocks: blocks,
-      maxX: maxX,
-      maxY: maxY,
-    );
+    return VoxelMesh(blocks: blocks, maxX: maxX, maxY: maxY, maxZ: maxZ);
   }
 }
