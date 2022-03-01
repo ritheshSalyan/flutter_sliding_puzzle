@@ -209,7 +209,7 @@ class ReducingAlgorithm {
       while (start.block.color == end?.block.color && y < maxY) {
         bool isAccepted = true;
         for (var interX = start.block.x; interX < x + 1; interX++) {
-          final intermeidateBlock = blockGrid[z]?[y + 1]?[interX];
+          final intermeidateBlock = blockGrid[z]?[y]?[interX];
           if (intermeidateBlock == null ||
               intermeidateBlock.block.color != start.block.color ||
               intermeidateBlock.isVisited) {
@@ -219,7 +219,7 @@ class ReducingAlgorithm {
         }
 
         if (isAccepted) {
-          end = blockGrid[z]?[y + 1]?[x] ?? end;
+          end = blockGrid[z]?[y]?[x] ?? end;
           y++;
         } else {
           // end = blockGrid[z]?[y]?[x] ?? end;
@@ -235,9 +235,9 @@ class ReducingAlgorithm {
       while (start.block.color == end?.block.color && z < maxZ) {
         bool isAccepted = true;
 
-        for (var interY = start.block.y; interY < y; interY++) {
+        for (var interY = start.block.y; interY < y ; interY++) {
           for (var interX = start.block.x; interX < x; interX++) {
-            final intermeidateBlock = blockGrid[z + 1]?[interY]?[interX];
+            final intermeidateBlock = blockGrid[z]?[interY]?[interX];
             if (intermeidateBlock == null ||
                 intermeidateBlock.block.color != start.block.color ||
                 intermeidateBlock.isVisited) {
@@ -245,11 +245,11 @@ class ReducingAlgorithm {
               break;
             }
           }
-          if (!isAccepted) break;
+          if(!isAccepted) break;
         }
 
         if (isAccepted) {
-          end = blockGrid[z + 1]?[y]?[x] ?? end;
+          end = blockGrid[z]?[y]?[x] ?? end;
           z++;
         } else {
           break;
