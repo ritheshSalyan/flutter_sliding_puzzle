@@ -27,6 +27,11 @@ class VoxelBlock {
       visibleFaces: visibleFaces ?? this.visibleFaces,
     );
   }
+
+  @override
+  String toString() {
+    return 'VoxelBlock(x: $x, y: $y, z: $z, color: $color, visibleFaces: $visibleFaces)';
+  }
 }
 
 class VisibleFaces {
