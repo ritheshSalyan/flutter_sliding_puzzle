@@ -28,6 +28,7 @@ AppTheme jungleTheme = AppTheme(
       ),
     ),
     tileTheme: () {
+      final mesh = VoxelMeshFactory(voxelTree).construct();
       final noOftrees = Random().nextBool() ? 1 : 2;
       List<Offset> treePositions = [];
       for (var i = 0; i < noOftrees; i++) {
@@ -48,12 +49,15 @@ AppTheme jungleTheme = AppTheme(
                         for (var position in treePositions) ...{
                           // Container()
                           Positioned(
-                            left: (constraints.maxWidth) * position.dx,
-                            top: (constraints.maxHeight) * position.dy,
+                            left: (constraints.maxWidth/2) * position.dx,
+                            top: (constraints.maxHeight/2) * position.dy,
                             child: SizedBox(
-                              width: constraints.maxWidth,
-                              height: constraints.maxHeight,
-                              child: const TreeOne(),
+                              width: constraints.maxWidth/2,
+                              height: constraints.maxHeight/2,
+                              child: VoxelBuilder(
+                                mesh: mesh,
+                                rotationController: BoardRotationController(),
+                              ),
                             ),
                           )
                         }

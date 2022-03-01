@@ -102,7 +102,7 @@ class _VoxelBlock extends StatelessWidget {
     ..translate(
       perBlockWidth * block.y - perBlockWidth / 2,
       perBlockWidth * block.x - perBlockWidth / 2,
-      perBlockWidth * (block.z),
+      -perBlockWidth * (block.z),
     );
   @override
   Widget build(BuildContext context) {
@@ -113,6 +113,13 @@ class _VoxelBlock extends StatelessWidget {
         height: perBlockWidth,
         depth: perBlockWidth,
         depthOffset: (perBlockWidth),
+        showCubeFace: ShowCubeFace(
+          topFace: block.visibleFaces.top,
+          downFace: block.visibleFaces.down,
+          upFace: block.visibleFaces.up,
+          leftFace: block.visibleFaces.left,
+          rightFace: block.visibleFaces.right,
+        ),
         faceWidgets: CubeFaceWidgets.all((context, size) => Container(
               color: Color(int.parse(block.color, radix: 16)),
             )),

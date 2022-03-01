@@ -20,6 +20,7 @@ class CustomCube extends StatelessWidget {
     this.depthOffset = 0,
     this.enableShadow = true,
     this.onTap,
+    this.showCubeFace,
   }) : super(key: key);
   static final light = vector.Vector3(0, 0, -1);
   final double width;
@@ -30,6 +31,7 @@ class CustomCube extends StatelessWidget {
   final CubeFaceWidgets faceWidgets;
   final BoardRotationController boardRotaioncontroller;
   final bool enableShadow;
+  final ShowCubeFace? showCubeFace;
   @override
   Widget build(BuildContext context) {
     final v1 = vector.Vector3(depth, depth, 0);
@@ -40,66 +42,71 @@ class CustomCube extends StatelessWidget {
       ///
       ///up Face
       ///
-      CubeFace(
-          transform: vector.Matrix4.identity()
-            // ..setEntry(3, 2, perspective)
-            ..translate(0.0, 0.0, depthOffset)
-            ..rotateX(-pi / 2),
-          width: width,
-          height: depth,
-          child: faceWidgets.upFace),
+      if (showCubeFace?.upFace ?? true)
+        CubeFace(
+            transform: vector.Matrix4.identity()
+              // ..setEntry(3, 2, perspective)
+              ..translate(0.0, 0.0, depthOffset)
+              ..rotateX(-pi / 2),
+            width: width,
+            height: depth,
+            child: faceWidgets.upFace),
 
       ///
       ///Right Face
       ///
-      CubeFace(
-          transform: vector.Matrix4.identity()
-            // ..setEntry(3, 2, perspective)
-            ..translate(0.0, 0.0, depthOffset)
-            ..translate(width, 0, 0)
-            ..rotateY(pi / 2),
-          width: depth,
-          height: height,
-          child: faceWidgets.rightFace),
+      if (showCubeFace?.rightFace ?? true)
+        CubeFace(
+            transform: vector.Matrix4.identity()
+              // ..setEntry(3, 2, perspective)
+              ..translate(0.0, 0.0, depthOffset)
+              ..translate(width, 0, 0)
+              ..rotateY(pi / 2),
+            width: depth,
+            height: height,
+            child: faceWidgets.rightFace),
 
       ///
       ///Left Face
       ///
-      CubeFace(
-          transform: vector.Matrix4.identity()
-            // ..setEntry(3, 2, perspective)
-            ..translate(0.0, 0.0, depthOffset)
-            ..rotateY(pi / 2),
-          width: depth,
-          height: height,
-          // color: Colors.pink,
-          child: faceWidgets.leftFace),
+      if (showCubeFace?.leftFace ?? true)
+        CubeFace(
+            transform: vector.Matrix4.identity()
+              // ..setEntry(3, 2, perspective)
+              ..translate(0.0, 0.0, depthOffset)
+              ..rotateY(pi / 2),
+            width: depth,
+            height: height,
+            // color: Colors.pink,
+            child: faceWidgets.leftFace),
 
       ///
       ///down Face
       ///
-      CubeFace(
-          transform: vector.Matrix4.identity()
-            // ..setEntry(3, 2, perspective)
-            ..translate(0.0, 0.0, depthOffset)
-            ..translate(0.0, height, 0)
-            ..rotateX(-pi / 2),
-          width: width,
-          height: depth,
-          // color: Colors.teal,
-          child: faceWidgets.downFace),
+      if (showCubeFace?.downFace ?? true)
+        CubeFace(
+            transform: vector.Matrix4.identity()
+              // ..setEntry(3, 2, perspective)
+              ..translate(0.0, 0.0, depthOffset)
+              ..translate(0.0, height, 0)
+              ..rotateX(-pi / 2),
+            width: width,
+            height: depth,
+            // color: Colors.teal,
+            child: faceWidgets.downFace),
 
       ///
       /// Top Face
       ///
-      CubeFace(
-          transform: vector.Matrix4.identity()
-            // ..setEntry(3, 2, perspective)
-            ..translate(0.0, 0.0, depthOffset)
-            ..translate(0.0, 0.0, -depth),
-          width: width,
-          height: height,
-          child: faceWidgets.topFace),
+      if (showCubeFace?.topFace ?? true)
+        CubeFace(
+            transform: vector.Matrix4.identity()
+              // ..setEntry(3, 2, perspective)
+              ..translate(0.0, 0.0, depthOffset)
+              ..translate(0.0, 0.0, -depth),
+            width: width,
+            height: height,
+            child: faceWidgets.topFace),
     ];
 
     List<Widget> faceWidgetsList = [];
@@ -197,6 +204,21 @@ class CustomCube extends StatelessWidget {
     return renderOrder.keys.toList(growable: false)
       ..sort((a, b) => renderOrder[b]!.compareTo(renderOrder[a]!));
   }
+}
+
+class ShowCubeFace {
+  final bool topFace;
+  final bool leftFace;
+  final bool rightFace;
+  final bool upFace;
+  final bool downFace;
+  ShowCubeFace({
+     this.topFace = true,
+     this.leftFace = true,
+     this.rightFace = true,
+     this.upFace = true,
+     this.downFace = true,
+  });
 }
 
 class CubeFace {
