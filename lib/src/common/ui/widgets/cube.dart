@@ -109,17 +109,90 @@ class CustomCube extends StatelessWidget {
             child: faceWidgets.topFace),
     ];
 
-    List<Widget> faceWidgetsList = [];
+    List<_CubeFaceWidget> faceWidgetsList = [];
     for (var item in faces) {
-      faceWidgetsList
-          .add(item.child.call(context, Size(item.width, item.height)));
+      faceWidgetsList.add(_CubeFaceWidget(
+        enableShadow: enableShadow,
+        face: item,
+        onTap: onTap,
+      )
+          // item.child.call(context, Size(item.width, item.height))
+
+          );
+    }
+    double previousX = boardRotaioncontroller.boardAngle.value.dx;
+    double previousY = boardRotaioncontroller.boardAngle.value.dy;
+    final cameraMatrix = vector.Matrix4.identity()
+      // ..translate(width, height, 0)
+      ..multiply(vector.Matrix4.identity()
+        ..setEntry(3, 2, perspective)
+        ..rotateX(previousY)
+        ..rotateY(previousX));
+    List<int> sortedKeys = createZOrder(faces, cameraMatrix);
+    // List<CubeFace> sortedFaces = [];
+
+    final List<Widget> facesInOrder = [];
+    for (var i in sortedKeys.reversed.toList()) {
+      // sortedFaces.insert(0, faces[i]);
+      final e = faces[i];
+      final finalMatrix = cameraMatrix.multiplied(e.transform);
+      final normalVector = normalVector3(
+        finalMatrix.transformed3(v1),
+        finalMatrix.transformed3(v2),
+        finalMatrix.transformed3(v3),
+      ).normalized();
+      final directionBrightness = normalVector.dot(light).clamp(0.0, 1.0);
+      faceWidgetsList[i].opacity = (0.25 - (directionBrightness * 0.25));
+      // var sizedBox = SizedBox(
+      //   width: e.width,
+      //   height: e.height,
+      //   child: Stack(
+      //     children: [
+      //       faceWidgetsList[i],
+      //       if (enableShadow)
+      //         Container(
+      //           color: Colors.black.withOpacity(
+      //             (0.25 - (directionBrightness * 0.25)),
+      //           ),
+      //           child: const Center(),
+      //         )
+      //     ],
+      //   ),
+      // );
+      facesInOrder.insert(0, faceWidgetsList[i]
+          // Container(
+          //   transform: Matrix4.fromFloat64List(
+          //       Float64List.fromList(e.transform.storage)),
+
+          //   // color: e.color,
+          //   child: onTap == null
+          //       ? sizedBox
+          //       : DeferPointer(
+          //           child: GestureDetector(
+          //             behavior: HitTestBehavior.opaque,
+          //             onTap: onTap,
+          //             child: sizedBox,
+          //           ),
+          //         ),
+          // )
+
+          );
     }
 
+    Widget child = Stack(
+      children: facesInOrder,
+    );
     return DepthBuilder(
         rotationController: boardRotaioncontroller,
         builder: (context, offset) {
           final angleY = (offset.dy);
           final angleX = (offset.dx);
+
+          if (angleX.sign == previousX.sign && angleY.sign == previousY.sign) {
+            return child;
+          }
+          previousX = angleX;
+          previousY = angleY;
           final cameraMatrix = vector.Matrix4.identity()
             // ..translate(width, height, 0)
             ..multiply(vector.Matrix4.identity()
@@ -140,45 +213,48 @@ class CustomCube extends StatelessWidget {
               finalMatrix.transformed3(v3),
             ).normalized();
             final directionBrightness = normalVector.dot(light).clamp(0.0, 1.0);
+            faceWidgetsList[i].opacity = (0.25 - (directionBrightness * 0.25));
+            // var sizedBox = SizedBox(
+            //   width: e.width,
+            //   height: e.height,
+            //   child: Stack(
+            //     children: [
+            //       faceWidgetsList[i],
+            //       if (enableShadow)
+            //         Container(
+            //           color: Colors.black.withOpacity(
+            //             (0.25 - (directionBrightness * 0.25)),
+            //           ),
+            //           child: const Center(),
+            //         )
+            //     ],
+            //   ),
+            // );
+            facesInOrder.insert(0, faceWidgetsList[i]
+                // Container(
+                //   transform: Matrix4.fromFloat64List(
+                //       Float64List.fromList(e.transform.storage)),
 
-            var sizedBox = SizedBox(
-              width: e.width,
-              height: e.height,
-              child: Stack(
-                children: [
-                  faceWidgetsList[i],
-                  if (enableShadow)
-                    Container(
-                      color: Colors.black.withOpacity(
-                        (0.25 - (directionBrightness * 0.25)),
-                      ),
-                      child: const Center(),
-                    )
-                ],
-              ),
-            );
-            facesInOrder.insert(
-                0,
-                Transform(
-                  transform: Matrix4.fromFloat64List(
-                      Float64List.fromList(e.transform.storage)),
+                //   // color: e.color,
+                //   child: onTap == null
+                //       ? sizedBox
+                //       : DeferPointer(
+                //           child: GestureDetector(
+                //             behavior: HitTestBehavior.opaque,
+                //             onTap: onTap,
+                //             child: sizedBox,
+                //           ),
+                //         ),
+                // )
 
-                  // color: e.color,
-                  child: onTap == null
-                      ? sizedBox
-                      : DeferPointer(
-                          child: GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            onTap: onTap,
-                            child: sizedBox,
-                          ),
-                        ),
-                ));
+                );
           }
 
-          return Stack(
+          child = Stack(
               // clipBehavior: Clip.none,
               children: facesInOrder);
+
+          return child;
         });
   }
 
@@ -206,6 +282,54 @@ class CustomCube extends StatelessWidget {
   }
 }
 
+class _CubeFaceWidget extends StatelessWidget {
+  _CubeFaceWidget({
+    Key? key,
+    required this.face,
+    required this.enableShadow,
+    required this.onTap,
+  }) : super(key: key);
+
+  final CubeFace face;
+  final bool enableShadow;
+  final VoidCallback? onTap;
+  double opacity = 0.0;
+  @override
+  Widget build(BuildContext context) {
+    var sizedBox = SizedBox(
+      width: face.width,
+      height: face.height,
+      child: Stack(
+        children: [
+          face.child.call(context, Size(face.width, face.height)),
+          if (enableShadow)
+            Container(
+              color: Colors.black.withOpacity(
+                (opacity),
+              ),
+              child: const Center(),
+            )
+        ],
+      ),
+    );
+    return Container(
+      transform:
+          Matrix4.fromFloat64List(Float64List.fromList(face.transform.storage)),
+
+      // color: e.color,
+      child: onTap == null
+          ? sizedBox
+          : DeferPointer(
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: onTap,
+                child: sizedBox,
+              ),
+            ),
+    );
+  }
+}
+
 class ShowCubeFace {
   final bool topFace;
   final bool leftFace;
@@ -213,11 +337,11 @@ class ShowCubeFace {
   final bool upFace;
   final bool downFace;
   ShowCubeFace({
-     this.topFace = true,
-     this.leftFace = true,
-     this.rightFace = true,
-     this.upFace = true,
-     this.downFace = true,
+    this.topFace = true,
+    this.leftFace = true,
+    this.rightFace = true,
+    this.upFace = true,
+    this.downFace = true,
   });
 }
 

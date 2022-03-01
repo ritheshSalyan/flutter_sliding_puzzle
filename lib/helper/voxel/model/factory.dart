@@ -49,6 +49,16 @@ class VoxelMeshFactory {
             .toList());
     List<VoxelBlock> visibleBlocks = [];
 
+    List<List<List<VoxelBlock?>>> visibleblocksGridMatrix = List.generate(
+      maxZ + 2,
+      (i) => List.generate(
+        maxY + 2,
+        (index) => List<VoxelBlock?>.generate(
+          maxX + 2,
+          (i) => null,
+        ),
+      ),
+    );
     for (var block in blocks) {
       blocksGridMatrix[block.z][block.y][block.x] = block;
     }
@@ -56,10 +66,14 @@ class VoxelMeshFactory {
       final updated = _updateFaceCover(blocksGridMatrix, block);
       if (!updated.visibleFaces.isCompletelyCovered) {
         visibleBlocks.add(updated);
+        visibleblocksGridMatrix[block.z][block.y][block.x] = updated;
       }
     }
+
     return VoxelMesh(blocks: visibleBlocks, maxX: maxX, maxY: maxY, maxZ: maxZ);
   }
+
+  // List<List<VoxelBlock>> _groupInXAxis(List<VoxelBlock?> blocks) {}
 
   VoxelBlock _updateFaceCover(
       List<List<List<VoxelBlock?>>> blocksGridMatrix, VoxelBlock block) {
@@ -103,4 +117,12 @@ class VoxelMeshFactory {
 
     return block.copyWith(visibleFaces: visibleFaces);
   }
+}
+
+class VoxelChunk {
+  VoxelChunk(VoxelBlock initialBolck) {
+    similarBlock.add(initialBolck);
+  }
+
+  final List<VoxelBlock> similarBlock = [];
 }

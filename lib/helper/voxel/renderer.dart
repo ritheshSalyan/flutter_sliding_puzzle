@@ -49,12 +49,16 @@ class _VoxelBuilderState extends State<VoxelBuilder> {
                   ..setEntry(3, 2, perspective)
                   ..rotateX(angleY)
                   ..rotateY(angleX));
+              // final start = DateTime.now();
+
               final sorted = createZOrder(children, cameraMatrix);
 
               List<Widget> sortedBlocks = [];
               for (var i in sorted) {
                 sortedBlocks.add(children[i]);
               }
+              // final end = DateTime.now();
+              // log("$start to $end => ${end.difference(start)} for ${sortedBlocks.length}");
               return Stack(
                 children: sortedBlocks,
               );
@@ -106,7 +110,7 @@ class _VoxelBlock extends StatelessWidget {
     );
   @override
   Widget build(BuildContext context) {
-    return Transform(
+    return Container(
       transform: transform,
       child: CustomCube(
         width: perBlockWidth,
@@ -145,9 +149,7 @@ class Combiner {
         List<List<VoxelBlock?>>.filled(
             mesh.maxY + 1, List<VoxelBlock?>.filled(mesh.maxZ + 1, null)));
 
-    for (var item in mesh.blocks) {
-      
-    }
+    for (var item in mesh.blocks) {}
   }
 
   List<VoxelBlock> getAdjecentSimilar(
