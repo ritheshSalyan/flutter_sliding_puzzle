@@ -14,41 +14,72 @@ class VoxelMeshFactory {
     int maxX = -1;
     int maxY = -1;
     int maxZ = -1;
+    int minX = 999;
+    int minY = 999;
+    int minZ = 999;
     for (var line in lines) {
       final elements = line.split(" ");
 
       if (elements.length == 4) {
-        final x = int.tryParse(elements[0])?.abs();
-        final y = int.tryParse(elements[1])?.abs();
-        final z = int.tryParse(elements[2])?.abs();
+        final x = int.tryParse(elements[0]);
+        final y = int.tryParse(elements[1]);
+        final z = int.tryParse(elements[2]);
         final color = "FF" + elements[3];
         if (x != null && y != null && z != null && color.length > 2) {
           blocks.add(VoxelBlock(
-              x: x,
-              y: y.abs(),
-              z: z.abs(),
-              color: color,
-              visibleFaces: VisibleFaces()));
+              x: x, y: y, z: z, color: color, visibleFaces: VisibleFaces()));
 
           if (maxX < x) {
-            maxX = x + 1;
+            maxX = x;
           }
           if (maxY < y) {
-            maxY = y + 1;
+            maxY = y;
           }
           if (maxZ < z) {
-            maxZ = z + 1;
+            maxZ = z;
+          }
+          if (minX > x) {
+            minX = x;
+          }
+          if (minY > y) {
+            minY = y;
+          }
+          if (minZ > z) {
+            minZ = z;
           }
         }
       }
     }
-    List<List<List<VoxelBlock?>>> blocksGridMatrix = List.generate(
-        maxZ + 2,
-        (i) => List.generate(
-                maxY + 2,
-                (index) =>
-                    List<VoxelBlock?>.generate(maxX + 2, (i) => null).toList())
-            .toList());
+    List<VoxelBlock> shiftedBlocks = [];
+    if (minX < 0 || minY < 0 || minZ < 0) {
+      ///
+      ///
+      /// Shifting everything to positive side
+      ///
+      ///
+      for (var item in blocks) {
+        shiftedBlocks.add(
+          item.copyWith(
+            x: minX < 0 ? minX.abs() + item.x : item.x,
+            y: minY < 0 ? minY.abs() + item.y : item.y,
+            z: minZ < 0 ? minZ.abs() + item.z : item.z,
+          ),
+        );
+      }
+
+      maxX = minX < 0 ? minX.abs() + maxX : maxX;
+      maxY = minY < 0 ? minY.abs() + maxY : maxY;
+      maxZ = minZ < 0 ? minZ.abs() + maxZ : maxZ;
+    } else {
+      shiftedBlocks.addAll(blocks);
+    }
+    // List<List<List<VoxelBlock?>>> blocksGridMatrix = List.generate(
+    //     maxZ + 2,
+    //     (i) => List.generate(
+    //             maxY + 2,
+    //             (index) =>
+    //                 List<VoxelBlock?>.generate(maxX + 2, (i) => null).toList())
+    //         .toList());
     // List<VoxelBlock> visibleBlocks = [];
 
     // List<List<List<VoxelBlock?>>> visibleblocksGridMatrix = List.generate(
@@ -209,7 +240,7 @@ class ReducingAlgorithm {
       while (start.block.color == end?.block.color && y < maxY) {
         bool isAccepted = true;
         for (var interX = start.block.x; interX < x + 1; interX++) {
-          final intermeidateBlock = blockGrid[z]?[y]?[interX];
+          final intermeidateBlock = blockGrid[z]?[y + 1]?[interX];
           if (intermeidateBlock == null ||
               intermeidateBlock.block.color != start.block.color ||
               intermeidateBlock.isVisited) {
@@ -219,7 +250,7 @@ class ReducingAlgorithm {
         }
 
         if (isAccepted) {
-          end = blockGrid[z]?[y]?[x] ?? end;
+          end = blockGrid[z]?[y + 1]?[x] ?? end;
           y++;
         } else {
           // end = blockGrid[z]?[y]?[x] ?? end;
@@ -235,9 +266,9 @@ class ReducingAlgorithm {
       while (start.block.color == end?.block.color && z < maxZ) {
         bool isAccepted = true;
 
-        for (var interY = start.block.y; interY < y ; interY++) {
-          for (var interX = start.block.x; interX < x; interX++) {
-            final intermeidateBlock = blockGrid[z]?[interY]?[interX];
+        for (var interY = start.block.y; interY < y + 1; interY++) {
+          for (var interX = start.block.x; interX < x + 1; interX++) {
+            final intermeidateBlock = blockGrid[z + 1]?[interY]?[interX];
             if (intermeidateBlock == null ||
                 intermeidateBlock.block.color != start.block.color ||
                 intermeidateBlock.isVisited) {
@@ -245,11 +276,11 @@ class ReducingAlgorithm {
               break;
             }
           }
-          if(!isAccepted) break;
+          if (!isAccepted) break;
         }
 
         if (isAccepted) {
-          end = blockGrid[z]?[y]?[x] ?? end;
+          end = blockGrid[z + 1]?[y]?[x] ?? end;
           z++;
         } else {
           break;
@@ -257,9 +288,9 @@ class ReducingAlgorithm {
       }
 
       chunks.add(VoxelChunk(start.block, end!.block, start.block.color));
-      for (var interZ = start.block.z; interZ < z; interZ++) {
-        for (var interY = start.block.y; interY < y; interY++) {
-          for (var interX = start.block.x; interX < x; interX++) {
+      for (var interZ = start.block.z; interZ < z + 1; interZ++) {
+        for (var interY = start.block.y; interY < y + 1; interY++) {
+          for (var interX = start.block.x; interX <= x; interX++) {
             log("For Chunk ${start.block} to ${end.block} Containes Vertex => $interX $interY $interZ");
             blockGrid[interZ]?[interY]?[interX]?.markIncluded();
           }

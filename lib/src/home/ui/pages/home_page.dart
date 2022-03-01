@@ -124,7 +124,7 @@ class HomePageActionButtons extends StatelessWidget {
             child: const Text("Settings")),
         ElevatedButton(
             onPressed: () {
-              VoxelMesh mesh = VoxelMeshFactory(voxelTree).construct();
+              VoxelMesh mesh = VoxelMeshFactory(largeCube).construct();
               // final chunks = ReducingAlgorithm(mesh.blocks).construct();
               showDialog(
                   context: context,
