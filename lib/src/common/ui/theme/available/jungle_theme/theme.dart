@@ -102,12 +102,10 @@ class _TopElements extends StatelessWidget with DepthObject {
       alignment: Alignment.bottomRight,
       transform: Matrix4.identity()
         ..translate(
-            (constraints.maxWidth / 2) -
-                ((constraints.maxWidth / 2) * position.dx),
-            (constraints.maxWidth) * (position.dy) + (constraints.maxWidth / 2))
-      // right: -,
-      // bottom: -,
-      ,
+          (constraints.maxWidth / 2) -
+              ((constraints.maxWidth / 2) * position.dx),
+          (constraints.maxWidth) * (position.dy) + (constraints.maxWidth / 2),
+        ),
       child: SizedBox(
         width: constraints.maxWidth / 2,
         height: constraints.maxHeight / 2,

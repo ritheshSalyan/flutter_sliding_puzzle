@@ -11,7 +11,7 @@ class ARPuzzlePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screensize = MediaQuery.of(context).size;
-    var sizedBox = const BoardView();
+    // var sizedBox = ;
     return Material(
       child: DeferredPointerHandler(
         child: ImageARWidget(
@@ -22,14 +22,17 @@ class ARPuzzlePage extends ConsumerWidget {
                     position: const TransformPosition(0.1, 0.4),
                     child: Container(
                         color: Colors.white, child: const TitleWidget())),
-                WidgetTargetNode(
-                  position: const TransformPosition(0.1, -0.1),
-                  builder: (context, transform) {
-                    ref.read(BoardUIController.provider).rotateBoardTo(
-                        Offset(transform.rotation.y, transform.rotation.x));
-                    return SizedBox(width: screensize.width, child: sizedBox);
-                  },
-                )
+                // WidgetTargetNode(
+                //   position: const TransformPosition(0.1, -0.1),
+                //   builder: (context, transform) {
+                //     ref.read(BoardUIController.provider).rotateBoardTo(
+                //         Offset(transform.rotation.y, transform.rotation.x));
+                //     return Container();
+                //   },
+                // ),
+                WidgetTargetNode.child(
+                    child: SizedBox(
+                        width: screensize.width, child: const BoardView()))
               ])
             ]),
       ),
