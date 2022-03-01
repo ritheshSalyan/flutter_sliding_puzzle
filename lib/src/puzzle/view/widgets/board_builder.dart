@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:sliding_puzzle/helper/depth/depth_resolver.dart';
 import 'package:sliding_puzzle/src/common/ui/theme/theme_provider.dart';
 import 'package:sliding_puzzle/src/common/ui/widgets/cube.dart';
 import 'package:sliding_puzzle/src/common/ui/widgets/cube_face_widget.dart';
-import 'package:sliding_puzzle/src/common/ui/widgets/depth_builder.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/board_controller.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/input/board_rotation_controller.dart';
 
@@ -108,37 +108,35 @@ class BoardView extends HookConsumerWidget {
                       ),
                     ),
                     boardRotaioncontroller: rotationController);
-                return DepthBuilder(
-                    rotationController: rotationController,
-                    builder: (context, offset) {
-                      final angleY = (offset.dy);
-                      final angleX = -(offset.dx);
-                      return Stack(
-                        children: [
-                          base,
-                          Stack(
-                            clipBehavior: Clip.none,
+                // return DepthBuilder(
+                //     rotationController: rotationController,
+                //     builder: (context, offset) {
+                // final angleY = (offset.dy);
+                // final angleX = -(offset.dx);
+                return Stack(
+                  clipBehavior: Clip.none,
 
-                            ///
-                            ///
-                            /// reorder children based on view angle to avoid overlapping of widgets.
-                            ///
-                            ///
-                            children: [
-                              ...list
-                                ..sort((a, b) =>
-                                    b.tile.currentPos.y
-                                            .compareTo(a.tile.currentPos.y) *
-                                        angleX.sign.toInt() +
-                                    b.tile.currentPos.x
-                                            .compareTo(a.tile.currentPos.x) *
-                                        angleY.sign.toInt()),
-                              environment
-                            ],
-                          )
-                        ],
-                      );
-                    });
+                  ///
+                  ///
+                  /// reorder children based on view angle to avoid overlapping of widgets.
+                  ///
+                  ///
+                  children: [
+                    base,
+                    DepthResolver(
+                        objects: list, rotationController: rotationController),
+                    // ...list
+                    //   ..sort((a, b) =>
+                    //       b.tile.currentPos.y
+                    //               .compareTo(a.tile.currentPos.y) *
+                    //           angleX.sign.toInt() +
+                    //       b.tile.currentPos.x
+                    //               .compareTo(a.tile.currentPos.x) *
+                    //           angleY.sign.toInt()),
+                    environment
+                  ],
+                );
+                // });
                 // );
               }),
             ),

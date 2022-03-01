@@ -123,29 +123,30 @@ class HomePageActionButtons extends StatelessWidget {
             },
             child: const Text("Settings")),
         ElevatedButton(
-            onPressed: () {
-              VoxelMesh mesh = VoxelMeshFactory(largeCube).construct();
-              // final chunks = ReducingAlgorithm(mesh.blocks).construct();
-              showDialog(
-                  context: context,
-                  builder: (context) => Dialog(
-                        child: Scaffold(
-                          body: Center(
-                            child: SizedBox(
-                              width: 100,
-                              child: DepthTransformer(
-                                  rotationController:
-                                      viewModel.boardRotationController,
-                                  child: VoxelBuilder(
-                                      mesh: mesh,
-                                      rotationController:
-                                          viewModel.boardRotationController)),
-                            ),
-                          ),
-                        ),
-                      ));
-            },
-            child: const Text("Test"))
+          onPressed: () {
+            VoxelMesh mesh = VoxelMeshFactory(testTree2).construct();
+            // final chunks = ReducingAlgorithm(mesh.blocks).construct();
+            showDialog(
+              context: context,
+              builder: (context) => Dialog(
+                child: Scaffold(
+                  body: Center(
+                    child: SizedBox(
+                      width: 100,
+                      child: DepthTransformer(
+                          rotationController: viewModel.boardRotationController,
+                          child: VoxelBuilder(
+                              mesh: mesh,
+                              rotationController:
+                                  viewModel.boardRotationController)),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+          child: const Text("Test"),
+        )
       ],
     );
   }

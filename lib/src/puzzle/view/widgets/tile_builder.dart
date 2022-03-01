@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:sliding_puzzle/helper/depth/depth_resolver.dart';
 import 'package:sliding_puzzle/src/common/ui/theme/theme_provider.dart';
 import 'package:sliding_puzzle/src/common/ui/widgets/cube.dart';
 import 'package:sliding_puzzle/src/common/ui/widgets/cube_face_widget.dart';
@@ -10,7 +11,7 @@ import 'package:sliding_puzzle/src/puzzle/provider/state_provider/tile_state.dar
 
 import '../../puzzle.dart';
 
-class TileBuilder extends HookConsumerWidget {
+class TileBuilder extends HookConsumerWidget with DepthObject {
   final Tile tile;
   const TileBuilder({
     Key? key,
@@ -24,6 +25,11 @@ class TileBuilder extends HookConsumerWidget {
   final BoardRotationController rotationController;
   // final MovablePosition _movablePosition = MovablePosition.none;
 
+  @override
+  double get centerX => tile.currentPos.y * 1.0;
+
+  @override
+  double get centerY => tile.currentPos.x * 1.0;
   double top(BoardPosition position) => tileHeight * position.x;
   double left(BoardPosition position) => tileWidth * position.y;
   int get index => tile.correctPos.x * 3 + tile.correctPos.y;
