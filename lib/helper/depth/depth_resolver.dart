@@ -6,6 +6,7 @@ import 'package:vector_math/vector_math_64.dart';
 mixin DepthObject on Widget {
   double get centerX;
   double get centerY;
+  double get centerZ => 0.0;
 }
 
 class DepthResolver extends StatefulWidget {
@@ -63,7 +64,7 @@ class _DepthResolverState extends State<DepthResolver> {
       pos.y = _positions[i].centerY;
 
       /// Side
-      pos.z = 0.0;
+      pos.z = _positions[i].centerZ;
       var t = matrix.transform3(pos).z;
       renderOrder[i] = t;
     }
