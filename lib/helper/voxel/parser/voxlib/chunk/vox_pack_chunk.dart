@@ -1,3 +1,4 @@
+import '../input_stream.dart';
 import '../stream_utils.dart';
 import 'chunk_factory.dart';
 import 'vox_chunk.dart';
@@ -16,8 +17,8 @@ class VoxPackChunk extends VoxChunk {
     return modelCount;
   }
 
-  @override
-  void writeContent(OutputStream stream) {
-    StreamUtils.writeIntLE(modelCount, stream);
-  }
+  // @override
+  // void writeContent(OutputStream stream) {
+  //   StreamUtils.writeIntLE(modelCount, stream);
+  // }
 }

@@ -1,4 +1,5 @@
 import '../GridPoint3.dart';
+import '../input_stream.dart';
 import '../stream_utils.dart';
 import 'chunk_factory.dart';
 import 'vox_chunk.dart';
@@ -27,10 +28,10 @@ class VoxLayerChunk extends VoxChunk {
     return "VoxLayerChunk#" "$id" "_" + transform.toString();
   }
 
-  @override
-  void writeContent(OutputStream stream) {
-    StreamUtils.writeIntLE(id, stream);
-    StreamUtils.writeIntLE(0, stream); // dict
-    StreamUtils.writeIntLE(0, stream); // reserved
-  }
+  // @override
+  // void writeContent(OutputStream stream) {
+  //   StreamUtils.writeIntLE(id, stream);
+  //   StreamUtils.writeIntLE(0, stream); // dict
+  //   StreamUtils.writeIntLE(0, stream); // reserved
+  // }
 }

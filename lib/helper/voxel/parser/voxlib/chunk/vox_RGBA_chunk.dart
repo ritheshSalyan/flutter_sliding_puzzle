@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import '../input_stream.dart';
 import '../stream_utils.dart';
 import 'chunk_factory.dart';
 import 'vox_chunk.dart';
@@ -314,11 +315,11 @@ class VoxRGBAChunk extends VoxChunk {
     return (red) | (green << 8) | (blue << 16) | (alpha << 24);
   }
 
-  @override
-  void writeContent(OutputStream stream) {
-    for (int i = 0; i < 255; i++) {
-      var abgr = ARGBToABGR(palette[i + 1]);
-      StreamUtils.writeIntLE(abgr, stream);
-    }
-  }
+  // @override
+  // void writeContent(OutputStream stream) {
+  //   for (int i = 0; i < 255; i++) {
+  //     var abgr = ARGBToABGR(palette[i + 1]);
+  //     StreamUtils.writeIntLE(abgr, stream);
+  //   }
+  // }
 }

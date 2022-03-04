@@ -1,3 +1,4 @@
+import '../input_stream.dart';
 import '../mat/voxMaterial.dart';
 import '../stream_utils.dart';
 import 'chunk_factory.dart';
@@ -19,9 +20,9 @@ class VoxMATLChunk extends VoxChunk {
     return material;
   }
 
-  @override
-  void writeContent(OutputStream stream) {
-    StreamUtils.writeIntLE(material.getID(), stream);
-    StreamUtils.writeDictionary(material.getProps(), stream);
-  }
+  // @override
+  // void writeContent(OutputStream stream) {
+  //   StreamUtils.writeIntLE(material.getID(), stream);
+  //   StreamUtils.writeDictionary(material.getProps(), stream);
+  // }
 }

@@ -1,5 +1,6 @@
 import 'package:sliding_puzzle/helper/voxel/parser/voxlib/GridPoint3.dart';
 
+import '../input_stream.dart';
 import '../stream_utils.dart';
 import 'chunk_factory.dart';
 import 'vox_chunk.dart';
@@ -24,8 +25,8 @@ class VoxSizeChunk extends VoxChunk {
     return size;
   }
 
-  @override
-  void writeContent(OutputStream stream) {
-    StreamUtils.writeVector3i(size, stream);
-  }
+  // @override
+  // void writeContent(OutputStream stream) {
+  //   StreamUtils.writeVector3i(size, stream);
+  // }
 }

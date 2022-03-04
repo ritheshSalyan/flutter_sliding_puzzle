@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'dart:developer';
 
 import '../GridPoint3.dart';
+import '../input_stream.dart';
 import '../stream_utils.dart';
 import 'chunk_factory.dart';
 import 'vox_chunk.dart';
@@ -16,7 +17,7 @@ class VoxTransformChunk extends VoxChunk {
   static VoxTransformChunk read(InputStream stream) {
     var id = StreamUtils.readIntLE(stream);
     var chunk = VoxTransformChunk(id);
-    HashMap<String, String> dict = StreamUtils.readDictionary(stream);
+    Map<String, String> dict = StreamUtils.readDictionary(stream);
     /*if (dict.containsKey("_name")) {
 			Settings.p("nTrn Name: " + dict.get("_name"));
 		}*/
@@ -31,7 +32,7 @@ class VoxTransformChunk extends VoxChunk {
 
     // Rotation
     for (int i = 0; i < numFrames; i++) {
-      HashMap<String, String> rot = StreamUtils.readDictionary(stream);
+      Map<String, String> rot = StreamUtils.readDictionary(stream);
       if (rot.containsKey("_t")) {
         //Settings.p("Got _t=" + rot.get("_t"));
         final tokens = rot["_t"]!.split(" ");
@@ -51,20 +52,20 @@ class VoxTransformChunk extends VoxChunk {
     return "VoxTransformChunk#" "$id" "_" + transform.toString();
   }
 
-  @override
-  void writeContent(OutputStream stream) {
-    StreamUtils.writeIntLE(id, stream);
-    StreamUtils.writeIntLE(0, stream); // dict
-    StreamUtils.writeIntLE(child_node_id, stream);
-    StreamUtils.writeIntLE(-1, stream); // neg
-    StreamUtils.writeIntLE(0, stream); // layer_id
-    if (transform.x != 0 || transform.y != 0 || transform.z != 0) {
-      StreamUtils.writeIntLE(1, stream); // frames
-      var rot = HashMap<String, String>();
-      rot["_t"] = "${transform.x} ${transform.y} ${transform.z}";
-      StreamUtils.writeDictionary(rot, stream);
-    } else {
-      StreamUtils.writeIntLE(0, stream); // frames
-    }
-  }
+  // @override
+  // void writeContent(OutputStream stream) {
+  //   StreamUtils.writeIntLE(id, stream);
+  //   StreamUtils.writeIntLE(0, stream); // dict
+  //   StreamUtils.writeIntLE(child_node_id, stream);
+  //   StreamUtils.writeIntLE(-1, stream); // neg
+  //   StreamUtils.writeIntLE(0, stream); // layer_id
+  //   if (transform.x != 0 || transform.y != 0 || transform.z != 0) {
+  //     StreamUtils.writeIntLE(1, stream); // frames
+  //     var rot = HashMap<String, String>();
+  //     rot["_t"] = "${transform.x} ${transform.y} ${transform.z}";
+  //     StreamUtils.writeDictionary(rot, stream);
+  //   } else {
+  //     StreamUtils.writeIntLE(0, stream); // frames
+  //   }
+  // }
 }

@@ -1,4 +1,5 @@
 import '../InvalidVoxException.dart';
+import '../input_stream.dart';
 import '../mat/vox_old_material.dart';
 import '../mat/vox_old_material_property.dart';
 import '../mat/vox_old_material_type.dart';
@@ -14,7 +15,7 @@ class VoxMATTChunk extends VoxChunk {
   static VoxMATTChunk read(InputStream stream) {
     int id = StreamUtils.readIntLE(stream);
     int typeIndex = StreamUtils.readIntLE(stream);
-    VoxOldMaterialType matType = VoxOldMaterialType.fromIndex(typeIndex);
+    VoxOldMaterialType? matType = VoxOldMaterialTypeHelper.fromIndex(typeIndex);
     double weight = StreamUtils.readFloatLE(stream);
     int propBits = StreamUtils.readIntLE(stream);
     bool isTotalPower = VoxOldMaterialProperty.IS_TOTAL_POWER.isSet(propBits);
@@ -30,7 +31,7 @@ class VoxMATTChunk extends VoxChunk {
     for (VoxOldMaterialProperty prop in VoxOldMaterialProperty.values) {
       if (prop != VoxOldMaterialProperty.IS_TOTAL_POWER &&
           prop.isSet(propBits)) {
-        properties.putIfAbsent(prop, StreamUtils.readFloatLE(stream));
+        properties.putIfAbsent(prop, ()=>StreamUtils.readFloatLE(stream));
       }
     }
 
@@ -38,7 +39,7 @@ class VoxMATTChunk extends VoxChunk {
       var material = VoxOldMaterial(
           id: id,
           weight: weight,
-          type: matType,
+          type: matType!,
           properties: properties,
           isTotalPower: isTotalPower);
       return VoxMATTChunk(material);

@@ -1,4 +1,5 @@
- import '../stream_utils.dart';
+ import '../input_stream.dart';
+import '../stream_utils.dart';
 import '../voxel.dart';
 import 'chunk_factory.dart';
 import 'vox_chunk.dart';
@@ -30,12 +31,12 @@ class VoxXYZIChunk extends VoxChunk {
         return voxels;
     }
 
-@override
-  void writeContent(OutputStream stream)  {
-        StreamUtils.writeIntLE(voxels.length, stream);
-        for (var voxel in voxels) {
-            StreamUtils.writeVector3b(voxel.getPosition(), stream);
-            stream.write(voxel.getColourIndex());
-        }
-    }
+// @override
+//   void writeContent(OutputStream stream)  {
+//         StreamUtils.writeIntLE(voxels.length, stream);
+//         for (var voxel in voxels) {
+//             StreamUtils.writeVector3b(voxel.getPosition(), stream);
+//             stream.write(voxel.getColourIndex());
+//         }
+//     }
 }

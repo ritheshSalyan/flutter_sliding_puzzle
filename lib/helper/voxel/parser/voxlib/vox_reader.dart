@@ -4,6 +4,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'InvalidVoxException.dart';
 import 'chunk/voxRootChunk.dart';
 import 'chunk/vox_chunk.dart';
+import 'input_stream.dart';
 import 'stream_utils.dart';
 import 'vox_file.dart';
 
@@ -13,17 +14,10 @@ class VoxReader implements Disposable {
   static List<int> get MAGIC_BYTES => 'VOX '.codeUnits;
 
   InputStream stream;
-  VoxReader(this.stream) {
-    if (stream == null) {
-      throw Exception("stream must not be null");
-    }
-    
-
-    stream = stream;
-  }
+  VoxReader(this.stream);
 
   VoxFile read() {
-    List<int> magicBytes = [];
+    List<int> magicBytes = List.filled(4, -1);
     if (stream.read(magicBytes) != 4) {
       throw InvalidVoxException("Could not read magic bytes");
     }
@@ -40,7 +34,10 @@ class VoxReader implements Disposable {
       );
     }
 
-    VoxChunk chunk = VoxChunk.readChunk(stream);
+
+
+
+    VoxChunk? chunk = VoxChunk.readChunk(stream);
 
     if (chunk == null) {
       throw InvalidVoxException("No root chunk present in the file");

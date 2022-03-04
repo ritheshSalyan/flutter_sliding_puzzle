@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sliding_puzzle/app_module.dart';
 import 'package:sliding_puzzle/helper/voxel/model/factory.dart';
 import 'package:sliding_puzzle/helper/voxel/model/voxel_mesh.dart';
+import 'package:sliding_puzzle/helper/voxel/parser/voxlib/input_stream.dart';
+import 'package:sliding_puzzle/helper/voxel/parser/voxlib/vox_reader.dart';
 import 'package:sliding_puzzle/helper/voxel/renderer.dart';
 import 'package:sliding_puzzle/helper/voxel/test_tree.dart';
 import 'package:sliding_puzzle/src/common/common.dart';
@@ -123,27 +126,31 @@ class HomePageActionButtons extends StatelessWidget {
             },
             child: const Text("Settings")),
         ElevatedButton(
-          onPressed: () {
-            VoxelMesh mesh = VoxelMeshFactory(testTree2).construct();
-            // final chunks = ReducingAlgorithm(mesh.blocks).construct();
-            showDialog(
-              context: context,
-              builder: (context) => Dialog(
-                child: Scaffold(
-                  body: Center(
-                    child: SizedBox(
-                      width: 100,
-                      child: DepthTransformer(
-                          rotationController: viewModel.boardRotationController,
-                          child: VoxelBuilder(
-                              mesh: mesh,
-                              rotationController:
-                                  viewModel.boardRotationController)),
-                    ),
-                  ),
-                ),
-              ),
-            );
+          onPressed: () async {
+            final bytes = await rootBundle.load("assets/models/monu2.vox");
+           final file =  VoxReader(InputStream(bytes)).read();
+
+           final palette = file.getPalette();
+            // VoxelMesh mesh = VoxelMeshFactory(testTree2).construct();
+            // // final chunks = ReducingAlgorithm(mesh.blocks).construct();
+            // showDialog(
+            //   context: context,
+            //   builder: (context) => Dialog(
+            //     child: Scaffold(
+            //       body: Center(
+            //         child: SizedBox(
+            //           width: 100,
+            //           child: DepthTransformer(
+            //               rotationController: viewModel.boardRotationController,
+            //               child: VoxelBuilder(
+            //                   mesh: mesh,
+            //                   rotationController:
+            //                       viewModel.boardRotationController)),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // );
           },
           child: const Text("Test"),
         )

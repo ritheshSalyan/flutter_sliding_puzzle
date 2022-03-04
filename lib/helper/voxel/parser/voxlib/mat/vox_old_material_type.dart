@@ -8,7 +8,9 @@ enum VoxOldMaterialType {
 extension MaterialTypeExt on VoxOldMaterialType {
   int getIndex() {
     return index;
-  }
+  }}
+
+  class VoxOldMaterialTypeHelper{
 
   static VoxOldMaterialType? fromIndex(int index) {
     const materials = VoxOldMaterialType.values;

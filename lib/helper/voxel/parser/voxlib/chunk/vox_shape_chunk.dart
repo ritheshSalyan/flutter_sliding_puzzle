@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import '../input_stream.dart';
 import '../stream_utils.dart';
 import 'chunk_factory.dart';
 import 'vox_chunk.dart';
@@ -17,7 +18,7 @@ class VoxShapeChunk extends VoxChunk {
         var id = StreamUtils.readIntLE(stream);
         var chunk = VoxShapeChunk(id);
 
-        HashMap<String, String> dict = StreamUtils.readDictionary(stream);
+        Map<String, String> dict = StreamUtils.readDictionary(stream);
         /*if (dict.size() > 0) {
     		Settings.p("dict=" + dict);
         }*/
@@ -26,7 +27,7 @@ class VoxShapeChunk extends VoxChunk {
 
         for (int i=0 ; i<numModels ; i++) {
             int modelId = StreamUtils.readIntLE(stream);
-            HashMap<String, String> modelDict = StreamUtils.readDictionary(stream);
+            Map<String, String> modelDict = StreamUtils.readDictionary(stream);
             /*if (model_dict.size() > 0) {
         		Settings.p("model_dict=" + dict);
             }*/
@@ -36,14 +37,14 @@ class VoxShapeChunk extends VoxChunk {
         return chunk;
 	}
 
-@override
-  void writeContent(OutputStream stream)  {
-        StreamUtils.writeIntLE(id, stream);
-        StreamUtils.writeIntLE(0, stream); // dict
-        StreamUtils.writeIntLE(model_ids.length, stream);
-        for (var modelId in model_ids) {
-            StreamUtils.writeIntLE(modelId, stream);
-            StreamUtils.writeIntLE(0, stream); // dict
-        }
-    }
+// @override
+//   void writeContent(OutputStream stream)  {
+//         StreamUtils.writeIntLE(id, stream);
+//         StreamUtils.writeIntLE(0, stream); // dict
+//         StreamUtils.writeIntLE(model_ids.length, stream);
+//         for (var modelId in model_ids) {
+//             StreamUtils.writeIntLE(modelId, stream);
+//             StreamUtils.writeIntLE(0, stream); // dict
+//         }
+//     }
 }

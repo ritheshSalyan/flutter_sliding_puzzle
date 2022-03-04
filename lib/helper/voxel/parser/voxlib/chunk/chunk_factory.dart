@@ -2,6 +2,7 @@
 
  import 'dart:developer';
 
+import '../input_stream.dart';
 import 'voxMATLChunk.dart';
 import 'voxMATTChunk.dart';
 import 'voxRootChunk.dart';

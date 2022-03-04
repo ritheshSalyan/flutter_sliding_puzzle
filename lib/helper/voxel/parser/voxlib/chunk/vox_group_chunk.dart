@@ -1,6 +1,7 @@
 
 
-  import '../stream_utils.dart';
+  import '../input_stream.dart';
+import '../stream_utils.dart';
 import 'chunk_factory.dart';
 import 'vox_chunk.dart';
 
@@ -27,12 +28,12 @@ class VoxGroupChunk extends VoxChunk {
         return chunk;
     }
 
- @override
-  void writeContent(OutputStream stream) 
-  {
-        StreamUtils.writeIntLE(id, stream);
-        StreamUtils.writeIntLE(0, stream); // dict
-        StreamUtils.writeIntLE(child_ids.length, stream);
-        for (var childId in child_ids) StreamUtils.writeIntLE(childId, stream);
-    }
+//  @override
+//   void writeContent(OutputStream stream) 
+//   {
+//         StreamUtils.writeIntLE(id, stream);
+//         StreamUtils.writeIntLE(0, stream); // dict
+//         StreamUtils.writeIntLE(child_ids.length, stream);
+//         for (var childId in child_ids) StreamUtils.writeIntLE(childId, stream);
+//     }
 }
