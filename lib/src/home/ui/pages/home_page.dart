@@ -3,12 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sliding_puzzle/app_module.dart';
-import 'package:sliding_puzzle/helper/voxel/model/factory.dart';
-import 'package:sliding_puzzle/helper/voxel/model/voxel_mesh.dart';
+import 'package:sliding_puzzle/helper/voxel/model/magica_voxel_factory.dart';
 import 'package:sliding_puzzle/helper/voxel/parser/voxlib/input_stream.dart';
 import 'package:sliding_puzzle/helper/voxel/parser/voxlib/vox_reader.dart';
 import 'package:sliding_puzzle/helper/voxel/renderer.dart';
-import 'package:sliding_puzzle/helper/voxel/test_tree.dart';
 import 'package:sliding_puzzle/src/common/common.dart';
 import 'package:sliding_puzzle/src/home/viewmodel/homepage_viewmodel.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -127,30 +125,33 @@ class HomePageActionButtons extends StatelessWidget {
             child: const Text("Settings")),
         ElevatedButton(
           onPressed: () async {
-            final bytes = await rootBundle.load("assets/models/monu2.vox");
-           final file =  VoxReader(InputStream(bytes,"All File content: ")).read();
+            final bytes = await rootBundle.load("assets/models/t_rex.vox");
+            final file =
+                MagicaVoxReader(InputStream(bytes, "All File content: "))
+                    .read();
 
-           final palette = file.getPalette();
-            // VoxelMesh mesh = VoxelMeshFactory(testTree2).construct();
-            // // final chunks = ReducingAlgorithm(mesh.blocks).construct();
-            // showDialog(
-            //   context: context,
-            //   builder: (context) => Dialog(
-            //     child: Scaffold(
-            //       body: Center(
-            //         child: SizedBox(
-            //           width: 100,
-            //           child: DepthTransformer(
-            //               rotationController: viewModel.boardRotationController,
-            //               child: VoxelBuilder(
-            //                   mesh: mesh,
-            //                   rotationController:
-            //                       viewModel.boardRotationController)),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // );
+            //  final palette = file.getPalette();
+            //  for (var model in file.getModelInstances()) {
+            //    model.model.voxels
+            //  }
+            final mesh = MagicaVoxelFactory(file).construct(); //
+            // final mesh = VoxelMeshFactory(testTree2).construct();
+            // final chunks = ReducingAlgorithm(mesh.blocks).construct();
+            showDialog(
+              context: context,
+              builder: (context) => Dialog(
+                child: Scaffold(
+                  body: Center(
+                    child: DepthTransformer(
+                        rotationController: viewModel.boardRotationController,
+                        child: VoxelBuilder(
+                            mesh: mesh,
+                            rotationController:
+                                viewModel.boardRotationController)),
+                  ),
+                ),
+              ),
+            );
           },
           child: const Text("Test"),
         )

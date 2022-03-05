@@ -161,6 +161,7 @@ class VoxRootChunk extends VoxChunk {
   }
 
   void iterateThruScengraph() {
+    if (root_transform == null) return;
     findTransformParent(root_transform!.id);
     processTransformChunk(root_transform!, root_transform!.transform);
   }

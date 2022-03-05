@@ -10,13 +10,13 @@ import 'input_stream.dart';
 import 'stream_utils.dart';
 import 'vox_file.dart';
 
-class VoxReader implements Disposable {
+class MagicaVoxReader implements Disposable {
   static const int VERSION = 150;
 
   static List<int> get MAGIC_BYTES => 'VOX '.codeUnits;
 
   InputStream stream;
-  VoxReader(this.stream);
+  MagicaVoxReader(this.stream);
 
   VoxFile read() {
     List<int> magicBytes = List.filled(4, -1);
@@ -36,10 +36,6 @@ class VoxReader implements Disposable {
         "Vox versions older than $VERSION are not supported",
       );
     }
-
-
-
-
     VoxChunk? chunk = VoxChunk.readChunk(stream);
 
     if (chunk == null) {

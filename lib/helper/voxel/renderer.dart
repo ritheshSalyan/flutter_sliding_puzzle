@@ -1,7 +1,4 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as material;
 // import 'package:vector_math/vector_math_64.dart';
 
 import 'package:sliding_puzzle/helper/voxel/model/factory.dart';
@@ -46,8 +43,9 @@ class _VoxelBuilderState extends State<VoxelBuilder> {
           for (var block in widget.mesh.chunks) {
             children.add(_VoxelChunkBuilder(
                 perBlockWidth: perBlockWidth,
-                color: material.Colors.accents[
-                    Random().nextInt(material.Colors.accents.length - 1)],
+                color: Color(int.parse(block.chunkValue, radix: 16)),
+                // material.Colors.accents[
+                //  Random().nextInt(material.Colors.accents.length - 1)],
                 chunk: block,
                 boardRotationController: widget.rotationController));
           }
