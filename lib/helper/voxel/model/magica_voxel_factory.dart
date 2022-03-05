@@ -96,11 +96,7 @@ class MagicaVoxelFactory {
       final y = voxel.position.y;
       final z = voxel.position.z;
       // const color = "FFFFFFFF";
-      final color = "FF" +
-          file
-              .getPalette()[voxel.colourIndex]
-              .toRadixString(16)
-              .padLeft(6, "0"); //"FF" + elements[3];
+      final color = getColor(voxel.colourIndex);
       if (color.length > 2) {
         blocks.add(VoxelBlock(
             x: x, y: y, z: z, color: color, visibleFaces: VisibleFaces()));
@@ -125,5 +121,23 @@ class MagicaVoxelFactory {
         }
       }
     }
+  }
+
+  final Map<int, String> _colors = {};
+  String getColor(int value) {
+    var palette = file.getPalette()[value];
+    return palette;
+    // if (_colors[palette] != null) return _colors[palette]!;
+    // var palette2 = (palette << 24);
+
+    // final a = (palette >> 24);
+    // final r = (palette >> 16);
+    // final g = (palette >> 8);
+    // final b = (palette);
+
+    // final color =
+    //     "FF${r.toString().padLeft(2, "0")}${g.toString().padLeft(2, "0")}${b.toString().padLeft(2, "0")}";
+    // _colors[palette] = color;
+    // return color;
   }
 }

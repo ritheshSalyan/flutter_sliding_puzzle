@@ -41,4 +41,9 @@ class VoxMaterial {
 
   @override
   int get hashCode => id.hashCode ^ properties.hashCode;
+
+  @override
+  String toString() {
+    return "VoxMaterial($properties)";
+  }
 }

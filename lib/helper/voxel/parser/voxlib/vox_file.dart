@@ -15,7 +15,7 @@ class VoxFile {
     return root.getModelInstances();
   }
 
-  List<int> getPalette() {
+  List<String> getPalette() {
     return root.getPalette();
   }
 

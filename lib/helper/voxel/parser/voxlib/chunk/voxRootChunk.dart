@@ -24,7 +24,7 @@ class VoxRootChunk extends VoxChunk {
   final HashMap<int, VoxModelBlueprint> models =
       HashMap<int, VoxModelBlueprint>();
   final List<VoxModelInstance> model_instances = [];
-  List<int> palette = VoxRGBAChunk.DEFAULT_PALETTE;
+  List<String> palette = VoxRGBAChunk.DEFAULT_PALETTE;
   final HashMap<int, VoxMaterial> materials = HashMap<int, VoxMaterial>();
   final HashMap<int, VoxOldMaterial> oldMaterials =
       HashMap<int, VoxOldMaterial>();
@@ -148,7 +148,7 @@ class VoxRootChunk extends VoxChunk {
     return model_instances;
   }
 
-  List<int> getPalette() {
+  List<String> getPalette() {
     return palette;
   }
 

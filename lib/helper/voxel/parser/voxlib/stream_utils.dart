@@ -5,6 +5,10 @@ import 'GridPoint3.dart';
 import 'input_stream.dart';
 
 class StreamUtils {
+  static int readByte(InputStream stream) {
+    return stream.read();
+  }
+
   static int readIntLE(InputStream stream, [String? from = "Unknown"]) {
     // var read = stream.read();
     // // log("${stream.key} in $from:  $read");
