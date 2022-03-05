@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:sliding_puzzle/helper/voxel/model/factory.dart';
 
 import '../../model/voxel_block.dart';
+import '../../model/voxel_chunk.dart';
 
 class ReducingAlgorithm {
   final Map<int, Map<int, Map<int, VoxelVertex>>> blockGrid = {};
@@ -51,7 +52,7 @@ class ReducingAlgorithm {
 
     for (; z < maxZ + 1;) {
       start = null;
-      for (var interZ = z; interZ < maxZ && start == null; interZ++) {
+      for (var interZ = startingZ; interZ < maxZ && start == null; interZ++) {
         for (var interY = startingY; interY < maxY && start == null; interY++) {
           for (var interX = startingX;
               interX < maxX && start == null;
@@ -84,10 +85,10 @@ class ReducingAlgorithm {
       ///
       /// Expand Via Y Axis
       ///
-      while (start.block.color == end?.block.color && y < maxY) {
+      while (start.block.color == end!.block.color && y < maxY) {
         bool isAccepted = true;
-        for (var interX = start.block.x; interX < x + 1; interX++) {
-          final intermeidateBlock = blockGrid[z]?[y + 1]?[interX];
+        for (var interX = start.block.x; interX < end.block.x + 1; interX++) {
+          final intermeidateBlock = blockGrid[z]?[y]?[interX];
           if (intermeidateBlock == null ||
               intermeidateBlock.block.color != start.block.color ||
               intermeidateBlock.isVisited) {
@@ -97,9 +98,12 @@ class ReducingAlgorithm {
         }
 
         if (isAccepted) {
-          end = blockGrid[z]?[y + 1]?[x] ?? end;
           y++;
+          end = blockGrid[z]?[y]?[end.block.x] ?? end;
         } else {
+          x = end.block.x;
+          y = end.block.y;
+
           // end = blockGrid[z]?[y]?[x] ?? end;
 
           break;
@@ -110,11 +114,11 @@ class ReducingAlgorithm {
       ///
       /// Expand Via Z Axis
       ///
-      while (start.block.color == end?.block.color && z < maxZ) {
+      while (start.block.color == end!.block.color && z < maxZ) {
         bool isAccepted = true;
 
-        for (var interY = start.block.y; interY < y + 1; interY++) {
-          for (var interX = start.block.x; interX < x + 1; interX++) {
+        for (var interY = start.block.y; interY < end.block.y + 1; interY++) {
+          for (var interX = start.block.x; interX < end.block.x + 1; interX++) {
             final intermeidateBlock = blockGrid[z + 1]?[interY]?[interX];
             if (intermeidateBlock == null ||
                 intermeidateBlock.block.color != start.block.color ||
@@ -127,18 +131,20 @@ class ReducingAlgorithm {
         }
 
         if (isAccepted) {
-          end = blockGrid[z + 1]?[y]?[x] ?? end;
           z++;
+          end = blockGrid[z]?[y]?[x] ?? end;
         } else {
+          x = end.block.x;
+          y = end.block.y;
+          z = end.block.z;
           break;
         }
       }
 
-      chunks.add(VoxelChunk(start.block, end!.block, start.block.color));
-      for (var interZ = start.block.z; interZ < z + 1; interZ++) {
-        for (var interY = start.block.y; interY < y + 1; interY++) {
-          for (var interX = start.block.x; interX <= x; interX++) {
-            // log("For Chunk ${start.block} to ${end.block} Containes Vertex => $interX $interY $interZ");
+      chunks.add(VoxelChunk(start.block, end.block, start.block.color));
+      for (var interZ = start.block.z; interZ < end.block.z + 1; interZ++) {
+        for (var interY = start.block.y; interY < end.block.y + 1; interY++) {
+          for (var interX = start.block.x; interX <= end.block.x; interX++) {
             blockGrid[interZ]?[interY]?[interX]?.markIncluded();
           }
         }
@@ -148,24 +154,4 @@ class ReducingAlgorithm {
     log(chunks.toString());
     return chunks;
   }
-
-  // List<BlockChunkLine> _identify1DChunks(Map<int, VoxelVertex> currentRow) {
-  //   List<BlockChunkLine> chunks = [];
-  //   BlockChunkLine currentChunk = BlockChunkLine();
-  //   for (var vertex in currentRow.values) {
-  //     final block = vertex.block;
-  //     if (currentChunk.canAddBlock(block)) {
-  //       currentChunk.addBlock(block);
-  //     } else {
-  //       chunks.add(currentChunk);
-  //       currentChunk = BlockChunkLine();
-  //       currentChunk.addBlock(block);
-  //     }
-  //   }
-  //   if (currentChunk.blocks.isNotEmpty) {
-  //     chunks.add(currentChunk);
-  //   }
-
-  //   return chunks;
-  // }
 }

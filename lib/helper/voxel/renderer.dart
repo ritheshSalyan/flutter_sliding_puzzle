@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 // import 'package:vector_math/vector_math_64.dart';
 
-import 'package:sliding_puzzle/helper/voxel/model/factory.dart';
 import 'package:sliding_puzzle/helper/voxel/model/voxel_block.dart';
 import 'package:sliding_puzzle/helper/voxel/model/voxel_mesh.dart';
 import 'package:sliding_puzzle/src/common/common.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/input/board_rotation_controller.dart';
 import 'package:vector_math/vector_math_64.dart';
+
+import 'model/voxel_chunk.dart';
 
 class VoxelBuilder extends StatefulWidget {
   const VoxelBuilder({

@@ -1,6 +1,8 @@
 import 'package:sliding_puzzle/helper/voxel/model/factory.dart';
 import 'package:sliding_puzzle/helper/voxel/model/voxel_block.dart';
 
+import 'voxel_chunk.dart';
+
 class VoxelMesh {
   final List<VoxelBlock> blocks;
   final List<VoxelChunk> chunks;
