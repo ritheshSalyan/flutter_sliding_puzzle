@@ -54,7 +54,7 @@ class ChunkFactory {
 		
 		switch (type) {
 		case MAIN:
-			chunk = VoxRootChunk.read(stream, childrenStream);
+			chunk = VoxRootChunk.read(childrenStream);
 			break;
 		case PACK:
 			chunk = VoxPackChunk.read(stream);

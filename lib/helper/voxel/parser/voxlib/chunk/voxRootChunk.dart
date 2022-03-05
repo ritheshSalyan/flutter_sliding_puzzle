@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'dart:core';
+import 'dart:developer';
 
 import '../GridPoint3.dart';
 import '../input_stream.dart';
@@ -37,7 +38,7 @@ class VoxRootChunk extends VoxChunk {
 
   VoxRootChunk() : super(ChunkFactory.MAIN);
 
-  static VoxRootChunk read(InputStream stream, InputStream childrenStream) {
+  static VoxRootChunk read(InputStream childrenStream) {
     var root = VoxRootChunk();
     VoxChunk? first = VoxChunk.readChunk(childrenStream);
 
@@ -48,6 +49,8 @@ class VoxRootChunk extends VoxChunk {
     }
 
     while (childrenStream.available() > 0) {
+      log("childrenStream.available() = " +
+          childrenStream.available().toString());
       VoxChunk? chunk1;
 
       if (first != null) {

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -25,8 +27,9 @@ class VoxReader implements Disposable {
     if (!listEquals(magicBytes, MAGIC_BYTES)) {
       throw InvalidVoxException("Invalid magic bytes");
     }
+    log("VoxReader : Reading Int For Verson No");
 
-    int fileVersion = StreamUtils.readIntLE(stream);
+    int fileVersion = StreamUtils.readIntLE(stream,"VoxFile.read");
 
     if (fileVersion < VERSION) {
       throw InvalidVoxException(

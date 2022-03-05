@@ -128,7 +128,7 @@ class HomePageActionButtons extends StatelessWidget {
         ElevatedButton(
           onPressed: () async {
             final bytes = await rootBundle.load("assets/models/monu2.vox");
-           final file =  VoxReader(InputStream(bytes)).read();
+           final file =  VoxReader(InputStream(bytes,"All File content: ")).read();
 
            final palette = file.getPalette();
             // VoxelMesh mesh = VoxelMeshFactory(testTree2).construct();

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:sliding_puzzle/helper/voxel/parser/voxlib/GridPoint3.dart';
 
 import '../input_stream.dart';
@@ -17,7 +19,7 @@ class VoxSizeChunk extends VoxChunk {
 
   static VoxSizeChunk read(InputStream stream) {
     var size = StreamUtils.readVector3i(stream);
-    //System.out.println("Read size of " + size);
+    log("Read size of " + size.toString());
     return VoxSizeChunk(size);
   }
 

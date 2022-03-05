@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:typed_data';
 
 import '../InvalidVoxException.dart';
@@ -31,23 +32,28 @@ abstract class VoxChunk {
     if (expectedID != null && !(expectedID == id)) {
       throw InvalidVoxException(expectedID + " chunk expected, got " + id);
     }
-
-    int length = StreamUtils.readIntLE(stream);
-    int childrenLength = StreamUtils.readIntLE(stream);
+    int length = StreamUtils.readIntLE(stream, id);
+    int childrenLength = StreamUtils.readIntLE(stream, id);
 
     List<int> chunkBytes = List.generate(length, (index) => 0);
     List<int> childrenChunkBytes = List.generate(childrenLength, (index) => 0);
+    log("$id length and children Lenght: $length $childrenLength");
+    // log("Reading Chunk $id");
 
     if (length > 0 && stream.read(chunkBytes) != length) {
       throw InvalidVoxException("Chunk \"" + id + "\" is incomplete");
     }
+    // log("Reading Children $id");
+    if (childrenLength > 0) {
+      stream.read(childrenChunkBytes);
+    }
 
-    stream.read(childrenChunkBytes);
-
-    InputStream chunkStream =
-        InputStream(Uint8List.fromList(chunkBytes).buffer.asByteData());
-    InputStream childrenStream =
-        InputStream(Uint8List.fromList(childrenChunkBytes).buffer.asByteData());
+    InputStream chunkStream = InputStream(
+        Uint8List.fromList(chunkBytes).buffer.asByteData(),
+        id + " Chunk Stream");
+    InputStream childrenStream = InputStream(
+        Uint8List.fromList(childrenChunkBytes).buffer.asByteData(),
+        id + " Children Stream");
     VoxChunk? chunk = ChunkFactory.createChunk(id, chunkStream, childrenStream);
     return chunk;
   }

@@ -1,15 +1,23 @@
+import 'dart:developer';
+import 'dart:typed_data';
+
 import 'GridPoint3.dart';
 import 'input_stream.dart';
 
 class StreamUtils {
-  static int readIntLE(InputStream stream) {
-    return stream.read();
-    // List<int> bytes = List.filled(4, -1);
-    // if (stream.read(bytes) != 4) {
-    //     throw new Exception("Not enough bytes to read an int");
-    // }
+  static int readIntLE(InputStream stream, [String? from = "Unknown"]) {
+    // var read = stream.read();
+    // // log("${stream.key} in $from:  $read");
+    // return read;
+    List<int> bytes = List.filled(4, -1);
+    if (stream.read(bytes) != 4) {
+      throw Exception("Not enough bytes to read an int");
+    }
 
-    // return Uint8List.fromList(bytes).buffer.asInt8List();
+    return Uint8List.fromList(bytes)
+        .buffer
+        .asByteData()
+        .getInt32(0, Endian.little);
   }
 
   static double readFloatLE(InputStream stream) {
@@ -24,7 +32,9 @@ class StreamUtils {
   }
 
   static GridPoint3 readVector3i(InputStream stream) {
-    return GridPoint3(readIntLE(stream), readIntLE(stream), readIntLE(stream));
+    log("Read Vector3i");
+    return GridPoint3(readIntLE(stream, "readVector3i"),
+        readIntLE(stream, "readVector3i"), readIntLE(stream, "readVector3i"));
   }
 
   static GridPoint3 readVector3b(InputStream stream) {
@@ -40,12 +50,14 @@ class StreamUtils {
   }
 
   static String readString(InputStream stream) {
-    int n = readIntLE(stream);
+    log("Reading String");
+
+    int n = readIntLE(stream, "readString");
     if (n < 0) {
       throw Exception("String is too large to read");
     }
 
-    List<int> bytes = List.filled(n, -1);
+    List<int> bytes = List.filled(n, 0);
     if (stream.read(bytes) != n) {
       throw Exception("Not enough bytes to read a string of size " "$n");
     }
@@ -54,7 +66,9 @@ class StreamUtils {
   }
 
   static Map<String, String> readDictionary(InputStream stream) {
-    int n = readIntLE(stream);
+    log("Reading readDictionary");
+
+    int n = readIntLE(stream, "readDictionary");
     if (n < 0) {
       throw Exception("Dictionary too large");
     }
