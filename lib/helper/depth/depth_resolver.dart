@@ -23,6 +23,7 @@ class _DepthResolverState extends State<DepthResolver> {
   @override
   Widget build(BuildContext context) {
     return DepthBuilder(
+      rotationController: widget.rotationController,
       builder: (context, angle) {
         final angleY = (angle.dy);
         final angleX = (angle.dx);
@@ -46,7 +47,6 @@ class _DepthResolverState extends State<DepthResolver> {
           children: facesInOrder,
         );
       },
-      rotationController: widget.rotationController,
     );
   }
 

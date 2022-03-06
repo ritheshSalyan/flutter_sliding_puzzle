@@ -4,11 +4,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sliding_puzzle/helper/depth/depth_resolver.dart';
-import 'package:sliding_puzzle/helper/voxel/model/factory.dart';
-import 'package:sliding_puzzle/helper/voxel/model/voxel_mesh.dart';
 import 'package:sliding_puzzle/helper/voxel/renderer.dart';
-import 'package:sliding_puzzle/helper/voxel/test_tree.dart';
 import 'package:sliding_puzzle/src/common/common.dart';
+import 'package:sliding_puzzle/src/common/provider/voxel_mesh_provider.dart';
+import 'package:sliding_puzzle/src/common/ui/theme/available/jungle_theme/elements.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/input/board_rotation_controller.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/provider.dart';
 
@@ -31,30 +30,41 @@ AppTheme jungleTheme = AppTheme(
       ),
     ),
     tileTheme: () {
-      final mesh = VoxelMeshFactory(voxelTree).construct();
-      final noOftrees = Random().nextBool() ? 1 : 2;
-      List<Offset> treePositions = [];
-      for (var i = 0; i < noOftrees; i++) {
-        treePositions.add(Offset(Random().nextDouble(), Random().nextDouble()));
+      bool canHaveTree = Random().nextBool();
+
+      List<TopElement> _elements = [];
+
+      if (canHaveTree) {
+        _elements.add(TopElement(
+            assetPath: JungleThemeElements.tree,
+            position: Offset(0.1 + Random().nextDouble() * 0.8,
+                0.1 + Random().nextDouble() * 0.8)));
+      }
+      bool canHaveRock = Random().nextBool();
+      if (canHaveRock) {
+        _elements.add(TopElement(
+            assetPath: JungleThemeElements.rock,
+            position: Offset(0.1 + Random().nextDouble() * 0.8,
+                0.1 + Random().nextDouble() * 0.8)));
       }
       return CubeTheme.symetric(
           CubeFaceTheme(
             baseColor: JungleColorSystem.tileGreen,
             spotPainter: JungleTileTopPainter(),
-            child: treePositions.isEmpty
+            child: _elements.isEmpty
                 ? Container()
                 : LayoutBuilder(builder: (context, constraints) {
-                    dev.log("Rbuild");
-                    List<_TopElements> elements = [];
-                    for (var position in treePositions) {
-                      elements.add(_TopElements(
-                          constraints: constraints,
-                          position: position,
-                          mesh: mesh));
+                    dev.log("Rbuild $constraints ");
+                    List<_TopElements> elementWidgets = [];
+                    for (var position in _elements) {
+                      elementWidgets.add(_TopElements(
+                        constraints: constraints,
+                        element: position,
+                      ));
                     }
                     return Consumer(builder: (context, ref, widget) {
                       return DepthResolver(
-                        objects: elements,
+                        objects: elementWidgets,
                         rotationController: ref
                             .watch(BoardUIController.provider)
                             .boardRotationController,
@@ -90,43 +100,57 @@ AppTheme jungleTheme = AppTheme(
   ),
 );
 
-class _TopElements extends StatelessWidget with DepthObject {
-  const _TopElements({
-    Key? key,
-    required this.constraints,
-    required this.position,
-    required this.mesh,
-  }) : super(key: key);
+class TopElement {
+  final String assetPath;
+  final Offset position;
+
+  TopElement({required this.assetPath, required this.position});
+}
+
+class _TopElements extends ConsumerWidget with DepthObject {
+  const _TopElements(
+      {Key? key, required this.constraints, required this.element})
+      : super(key: key);
 
   final BoxConstraints constraints;
-  final Offset position;
-  final VoxelMesh mesh;
+  final TopElement element;
+  // final Offset position;
+  // final String mesh;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    return ref.watch(MeshProvider.provider(element.assetPath)).when(
+          data: (data) {
+            return Transform(
+              alignment: Alignment.bottomRight,
+              transform: Matrix4.identity()
+                ..translate(
+                  x,
+                  y,
+                ),
+              child: SizedBox(
+                width: constraints.maxWidth / 2,
+                height: constraints.maxHeight / 2,
+                child: VoxelBuilder(
+                  mesh: data,
+                  rotationController: BoardRotationController(),
+                ),
+              ),
+            );
+          },
+          error: (e, a) => Container(),
+          loading: () => Container(),
+        );
+
     // Container()
-    return Transform(
-      alignment: Alignment.bottomRight,
-      transform: Matrix4.identity()
-        ..translate(
-          x,
-          y,
-        ),
-      child: SizedBox(
-        width: constraints.maxWidth / 2,
-        height: constraints.maxHeight / 2,
-        child: VoxelBuilder(
-          mesh: mesh,
-          rotationController: BoardRotationController(),
-        ),
-      ),
-    );
   }
 
-  double get x =>
-      (constraints.maxWidth / 2) - ((constraints.maxWidth / 2) * position.dx);
+  Offset get position => element.position;
+
+  double get x => constraints.maxWidth * 0.9 * position.dx;
+  // (constraints.maxWidth / 2) - ((constraints.maxWidth / 2) * position.dx);
   double get y =>
-      (constraints.maxWidth) * (position.dy) + (constraints.maxWidth / 2);
+      (constraints.maxWidth) * (position.dy); //+ (constraints.maxWidth / 2);
   @override
   double get centerX => x;
 

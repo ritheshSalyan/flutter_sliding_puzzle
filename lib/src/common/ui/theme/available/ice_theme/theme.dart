@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sliding_puzzle/gen/assets.gen.dart';
 import 'package:sliding_puzzle/src/common/ui/theme/app_theme.dart';
 import 'package:sliding_puzzle/src/common/ui/theme/available/jungle_theme/widgets/particles.dart';
 
@@ -28,7 +29,7 @@ AppTheme iceTheme = AppTheme(
 
               ),
           child: Image.asset(
-            "assets/images/wave.png",
+            Assets.images.wave.path,
             fit: BoxFit.fill,
             color: Colors.white,
           )
@@ -43,7 +44,7 @@ AppTheme iceTheme = AppTheme(
           child: RotatedBox(
             quarterTurns: 3,
             child: Image.asset(
-              "assets/images/wave.png",
+              Assets.images.wave.path,
               fit: BoxFit.fill,
               color: Colors.white,
             ),
@@ -69,7 +70,7 @@ AppTheme iceTheme = AppTheme(
               children: [
                 Flexible(
                   child: Image.asset(
-                    "assets/images/wave.png",
+                    Assets.images.wave.path,
                     fit: BoxFit.contain,
                     color: Colors.white,
                   ),
@@ -89,7 +90,7 @@ AppTheme iceTheme = AppTheme(
                 children: [
                   Flexible(
                     child: Image.asset(
-                      "assets/images/wave.png",
+                      Assets.images.wave.path,
                       fit: BoxFit.contain,
                       color: Colors.white,
                     ),

@@ -141,8 +141,8 @@ class _VoxelChunkBuilder extends StatelessWidget with DepthObject, _VoxelChild {
   final Color color;
   @override
   Offset get center => Offset(
-        chunk.start.x * 1.0 + chunk.width / 2,
-        chunk.start.y * 1.0 + chunk.height / 2,
+        chunk.end.x * 1.0, // chunk.start.x * 1.0 + chunk.width / 2,
+        chunk.end.y * 1.0, // chunk.start.y * 1.0 + chunk.height / 2,
       );
   final BoardRotationController boardRotationController;
 
@@ -151,7 +151,7 @@ class _VoxelChunkBuilder extends StatelessWidget with DepthObject, _VoxelChild {
     ..translate(
       perBlockWidth * chunk.start.x - perBlockWidth / 2,
       perBlockWidth * chunk.start.y - perBlockWidth / 2,
-      -perBlockWidth * (chunk.start.z),
+      // -perBlockWidth * (chunk.start.z),
     );
 
   @override
@@ -162,7 +162,7 @@ class _VoxelChunkBuilder extends StatelessWidget with DepthObject, _VoxelChild {
         width: perBlockWidth * chunk.width,
         height: perBlockWidth * chunk.height,
         depth: perBlockWidth * chunk.depth,
-        depthOffset: 0, //(perBlockWidth),
+        depthOffset: -perBlockWidth * chunk.start.z, //(perBlockWidth),
         // showCubeFace: ShowCubeFace(
         //   topFace: block.visibleFaces.top,
         //   downFace: block.visibleFaces.down,
@@ -179,7 +179,7 @@ class _VoxelChunkBuilder extends StatelessWidget with DepthObject, _VoxelChild {
   }
 
   @override
-  double get z => -(chunk.end.z * 1.0);
+  double get z => -(chunk.end.z * 1.0); //- perBlockWidth * (chunk.height / 2);
 }
 
 class _VoxelBlock extends StatelessWidget with DepthObject, _VoxelChild {

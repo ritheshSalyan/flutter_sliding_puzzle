@@ -188,7 +188,10 @@ class CustomCube extends StatelessWidget {
           final angleY = (offset.dy);
           final angleX = (offset.dx);
 
-          if (angleX.sign == previousX.sign && angleY.sign == previousY.sign) {
+          if ((angleX.sign == previousX.sign &&
+                  (angleX - previousX).abs() < 0.1) &&
+              (angleY.sign == previousY.sign &&
+                  (angleY - previousY).abs() < 0.1)) {
             return child;
           }
           previousX = angleX;
