@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:sliding_puzzle/helper/voxel/parser/voxlib/GridPoint3.dart';
+import 'package:sliding_puzzle/helper/voxel/parser/voxlib/gridPoint3.dart';
 
 import '../input_stream.dart';
 import '../stream_utils.dart';

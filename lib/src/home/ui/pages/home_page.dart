@@ -187,7 +187,106 @@ class HomePageActionButtons extends StatelessWidget {
             );
           },
           child: const Text("Monument"),
-        )
+        ),
+        ElevatedButton(
+          onPressed: () async {
+            final bytes = await rootBundle.load("assets/models/deer.vox");
+            final file =
+                MagicaVoxReader(InputStream(bytes, "All File content: "))
+                    .read();
+
+            //  final palette = file.getPalette();
+            //  for (var model in file.getModelInstances()) {
+            //    model.model.voxels
+            //  }
+            final mesh = MagicaVoxelFactory(file).construct(); //
+            // final mesh = VoxelMeshFactory(testTree2).construct();
+            // final chunks = ReducingAlgorithm(mesh.blocks).construct();
+            showDialog(
+              context: context,
+              builder: (context) => Dialog(
+                child: Scaffold(
+                  backgroundColor: Colors.white,
+                  body: Center(
+                    child: DepthTransformer(
+                        rotationController: viewModel.boardRotationController,
+                        child: VoxelBuilder(
+                            mesh: mesh,
+                            rotationController:
+                                viewModel.boardRotationController)),
+                  ),
+                ),
+              ),
+            );
+          },
+          child: const Text("deer"),
+        ),
+        ElevatedButton(
+          onPressed: () async {
+            final bytes = await rootBundle.load("assets/models/teapot.vox");
+            final file =
+                MagicaVoxReader(InputStream(bytes, "All File content: "))
+                    .read();
+
+            //  final palette = file.getPalette();
+            //  for (var model in file.getModelInstances()) {
+            //    model.model.voxels
+            //  }
+            final mesh = MagicaVoxelFactory(file).construct(); //
+            // final mesh = VoxelMeshFactory(testTree2).construct();
+            // final chunks = ReducingAlgorithm(mesh.blocks).construct();
+            showDialog(
+              context: context,
+              builder: (context) => Dialog(
+                child: Scaffold(
+                  backgroundColor: Colors.white,
+                  body: Center(
+                    child: DepthTransformer(
+                        rotationController: viewModel.boardRotationController,
+                        child: VoxelBuilder(
+                            mesh: mesh,
+                            rotationController:
+                                viewModel.boardRotationController)),
+                  ),
+                ),
+              ),
+            );
+          },
+          child: const Text("teapot"),
+        ),
+        ElevatedButton(
+          onPressed: () async {
+            final bytes = await rootBundle.load("assets/models/castle.vox");
+            final file =
+                MagicaVoxReader(InputStream(bytes, "All File content: "))
+                    .read();
+
+            //  final palette = file.getPalette();
+            //  for (var model in file.getModelInstances()) {
+            //    model.model.voxels
+            //  }
+            final mesh = MagicaVoxelFactory(file).construct(); //
+            // final mesh = VoxelMeshFactory(testTree2).construct();
+            // final chunks = ReducingAlgorithm(mesh.blocks).construct();
+            showDialog(
+              context: context,
+              builder: (context) => Dialog(
+                child: Scaffold(
+                  backgroundColor: Colors.white,
+                  body: Center(
+                    child: DepthTransformer(
+                        rotationController: viewModel.boardRotationController,
+                        child: VoxelBuilder(
+                            mesh: mesh,
+                            rotationController:
+                                viewModel.boardRotationController)),
+                  ),
+                ),
+              ),
+            );
+          },
+          child: const Text("castle"),
+        ),
       ],
     );
   }

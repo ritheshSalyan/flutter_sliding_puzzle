@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'dart:typed_data';
 
-import 'GridPoint3.dart';
+import 'gridPoint3.dart';
 import 'input_stream.dart';
 
 class StreamUtils {

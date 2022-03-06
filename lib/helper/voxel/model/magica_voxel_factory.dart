@@ -23,13 +23,19 @@ class MagicaVoxelFactory {
     final colors = file.getMaterials();
     log(colors.toString());
     var modelInstances = file.getModelInstances();
-    for (var model in modelInstances) {
-      var voxels2 = model.model.voxels;
-      _buildVoxel(voxels2, blocks);
+    if (file.root.models.isEmpty) {
+      for (var model in modelInstances) {
+        var voxels2 = model.model.voxels;
+        _buildVoxel(voxels2, blocks);
+      }
+    } else
+    // if (modelInstances.isEmpty) {
+    {
+      for (var model in file.root.models.values) {
+        _buildVoxel(model.voxels, blocks);
+      }
     }
-    for (var model in file.root.models.values) {
-      _buildVoxel(model.voxels, blocks);
-    }
+    // }
 
     List<VoxelBlock> shiftedBlocks = [];
     if (minX < 0 || minY < 0 || minZ < 0) {
@@ -102,22 +108,22 @@ class MagicaVoxelFactory {
             x: x, y: y, z: z, color: color, visibleFaces: VisibleFaces()));
 
         if (maxX < x) {
-          maxX = x;
+          maxX = x + 1;
         }
         if (maxY < y) {
-          maxY = y;
+          maxY = y + 1;
         }
         if (maxZ < z) {
-          maxZ = z;
+          maxZ = z + 1;
         }
         if (minX > x) {
-          minX = x;
+          minX = x - 1;
         }
         if (minY > y) {
-          minY = y;
+          minY = y - 1;
         }
         if (minZ > z) {
-          minZ = z;
+          minZ = z - 1;
         }
       }
     }

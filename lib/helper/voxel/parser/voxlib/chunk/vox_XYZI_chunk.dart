@@ -21,7 +21,7 @@ class VoxXYZIChunk extends VoxChunk {
     // var chunk = VoxXYZIChunk();
     log("$voxelCount" " voxels");
 
-    for (int i = 0; i < voxelCount ; i++) {
+    for (int i = 0; i < voxelCount; i++) {
       // print(i);
       var position = StreamUtils.readVector3b(stream);
       var colorIndex = (stream.read() & 0xff);
@@ -31,7 +31,7 @@ class VoxXYZIChunk extends VoxChunk {
   }
 
   List<Voxel> getVoxels() {
-    return voxels;
+    return voxels..sort((a, b) => a.position.compareTo(b.position));
   }
 
 // @override

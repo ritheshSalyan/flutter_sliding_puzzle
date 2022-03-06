@@ -5,8 +5,8 @@ import 'package:sliding_puzzle/helper/voxel/model/voxel_block.dart';
 import 'package:sliding_puzzle/helper/voxel/model/voxel_mesh.dart';
 import 'package:sliding_puzzle/src/common/common.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/input/board_rotation_controller.dart';
-import 'package:vector_math/vector_math_64.dart';
 
+import '../depth/depth_resolver.dart';
 import 'model/voxel_chunk.dart';
 
 class VoxelBuilder extends StatefulWidget {
@@ -46,15 +46,18 @@ class _VoxelBuilderState extends State<VoxelBuilder> {
                 perBlockWidth: perBlockWidth,
                 color: Color(int.parse(block.chunkValue, radix: 16)),
                 // material.Colors.accents[
-                //  Random().nextInt(material.Colors.accents.length - 1)],
+                //     Random().nextInt(material.Colors.accents.length - 1)],
                 chunk: block,
                 boardRotationController: widget.rotationController));
           }
         }
-
-        return Stack(
-          children: children,
+        return DepthResolver(
+          rotationController: widget.rotationController,
+          objects: children,
         );
+        // return Stack(
+        //   children: children,
+        // );
         // return DepthBuilder(
         //     rotationController: widget.rotationController,
         //     builder: (context, original) {
@@ -88,38 +91,44 @@ class _VoxelBuilderState extends State<VoxelBuilder> {
     );
   }
 
-  List<int> createZOrder(
-    List<_VoxelChild> _positions,
-    Matrix4 matrix,
-  ) {
-    final renderOrder = <int, double>{};
-    final pos = Vector3.zero();
-    for (int i = 0; i < _positions.length; i++) {
-      var tmp = matrix.multiplied(_positions[i].transform);
-      pos.x = _positions[i].center.dx * 1.0;
+  // List<int> createZOrder(
+  //   List<_VoxelChild> _positions,
+  //   Matrix4 matrix,
+  // ) {
+  //   final renderOrder = <int, double>{};
+  //   final pos = Vector3.zero();
+  //   for (int i = 0; i < _positions.length; i++) {
+  //     var tmp = matrix.multiplied(_positions[i].transform);
+  //     pos.x = _positions[i].center.dx * 1.0;
 
-      /// Side
-      pos.y = _positions[i].center.dy * 1.0;
+  //     /// Side
+  //     pos.y = _positions[i].center.dy * 1.0;
 
-      /// Side
-      pos.z = _positions[i].z;
-      var t = tmp.transform3(pos).z;
-      renderOrder[i] = t;
-    }
+  //     /// Side
+  //     pos.z = _positions[i].z;
+  //     var t = tmp.transform3(pos).z;
+  //     renderOrder[i] = t;
+  //   }
 
-    return renderOrder.keys.toList(growable: false)
-      ..sort((a, b) => renderOrder[b]!.compareTo(renderOrder[a]!));
-  }
+  //   return renderOrder.keys.toList(growable: false)
+  //     ..sort((a, b) => renderOrder[b]!.compareTo(renderOrder[a]!));
+  // }
 }
 
-mixin _VoxelChild on Widget {
+mixin _VoxelChild on DepthObject {
   Matrix4 get transform;
   Offset get center;
+  @override
+  double get centerX => center.dx;
+  @override
+  double get centerY => center.dy;
 
+  @override
+  get centerZ => z;
   double get z;
 }
 
-class _VoxelChunkBuilder extends StatelessWidget with _VoxelChild {
+class _VoxelChunkBuilder extends StatelessWidget with DepthObject, _VoxelChild {
   const _VoxelChunkBuilder({
     Key? key,
     required this.perBlockWidth,
@@ -131,7 +140,10 @@ class _VoxelChunkBuilder extends StatelessWidget with _VoxelChild {
   final VoxelChunk chunk;
   final Color color;
   @override
-  Offset get center => const Offset(0, 0);
+  Offset get center => Offset(
+        chunk.start.x * 1.0 + chunk.width / 2,
+        chunk.start.y * 1.0 + chunk.height / 2,
+      );
   final BoardRotationController boardRotationController;
 
   @override
@@ -167,10 +179,10 @@ class _VoxelChunkBuilder extends StatelessWidget with _VoxelChild {
   }
 
   @override
-  double get z => -chunk.end.z * 1.0;
+  double get z => -(chunk.end.z * 1.0);
 }
 
-class _VoxelBlock extends StatelessWidget with _VoxelChild {
+class _VoxelBlock extends StatelessWidget with DepthObject, _VoxelChild {
   const _VoxelBlock({
     Key? key,
     required this.perBlockWidth,
@@ -181,7 +193,7 @@ class _VoxelBlock extends StatelessWidget with _VoxelChild {
   @override
   Offset get center => Offset(block.x * 1.0, block.y * 1.0);
   @override
-  double get z => 0.0;
+  double get z => block.z * -1.0;
   final VoxelBlock block;
   final BoardRotationController boardRotationController;
 

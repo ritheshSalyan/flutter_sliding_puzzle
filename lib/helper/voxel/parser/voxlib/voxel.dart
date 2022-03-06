@@ -1,4 +1,4 @@
-import 'GridPoint3.dart';
+import 'gridPoint3.dart';
 
 class Voxel {
   final GridPoint3 position;

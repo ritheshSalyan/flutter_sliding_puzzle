@@ -2,7 +2,7 @@ import 'dart:collection';
 import 'dart:core';
 import 'dart:developer';
 
-import '../GridPoint3.dart';
+import '../gridPoint3.dart';
 import '../input_stream.dart';
 import '../mat/voxMaterial.dart';
 import '../mat/vox_old_material.dart';
@@ -84,8 +84,13 @@ class VoxRootChunk extends VoxChunk {
       size = (chunk).getSize();
     } else if (chunk is VoxXYZIChunk) {
       VoxXYZIChunk xyzi = chunk;
-      models.putIfAbsent(models.length,
-          () => VoxModelBlueprint(models.length, size!, xyzi.getVoxels()));
+      var voxModelBlueprint =
+          VoxModelBlueprint(models.length, size!, xyzi.getVoxels());
+      if (!models.values.contains(voxModelBlueprint)) {
+        models.putIfAbsent(models.length, () {
+          return voxModelBlueprint;
+        });
+      }
     } else if (chunk is VoxRGBAChunk) {
       VoxRGBAChunk rgba = chunk;
       palette = rgba.getPalette();

@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import 'GridPoint3.dart';
+import 'gridPoint3.dart';
 import 'voxel.dart';
 
 class VoxModelBlueprint {
@@ -38,7 +38,6 @@ class VoxModelBlueprint {
     if (identical(this, other)) return true;
 
     return other is VoxModelBlueprint &&
-        other.id == id &&
         other.size == size &&
         listEquals(other.voxels, voxels);
   }

@@ -1,4 +1,4 @@
-import 'GridPoint3.dart';
+import 'gridPoint3.dart';
 import 'vox_model_blueprint.dart';
 
 class VoxModelInstance {

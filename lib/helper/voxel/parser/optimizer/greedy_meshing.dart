@@ -46,7 +46,7 @@ class ReducingAlgorithm {
     List<VoxelChunk> chunks = [];
     VoxelVertex? start;
     VoxelVertex? end;
-    int x = startingX - 1;
+    int x = startingX;
     int y = startingY;
     int z = startingZ;
 
@@ -76,10 +76,12 @@ class ReducingAlgorithm {
       while (start.block.color == end?.block.color && x < maxX) {
         final newBlock = blockGrid[z]?[y]?[x + 1];
 
-        if (newBlock == null || newBlock.isVisited) break;
+        if (newBlock == null ||
+            newBlock.isVisited ||
+            newBlock.block.color != start.block.color) break;
 
         end = newBlock;
-        x++;
+        x = end.block.x;
       }
       ////
       ///
@@ -87,8 +89,13 @@ class ReducingAlgorithm {
       ///
       while (start.block.color == end!.block.color && y < maxY) {
         bool isAccepted = true;
+
+        ///
+        ///Check whether we can accept current Row
+        ///
         for (var interX = start.block.x; interX < end.block.x + 1; interX++) {
           final intermeidateBlock = blockGrid[z]?[y]?[interX];
+
           if (intermeidateBlock == null ||
               intermeidateBlock.block.color != start.block.color ||
               intermeidateBlock.isVisited) {
@@ -98,13 +105,14 @@ class ReducingAlgorithm {
         }
 
         if (isAccepted) {
-          y++;
+          ///
+          /// If we can accept current row, shift the end.
+          ///
           end = blockGrid[z]?[y]?[end.block.x] ?? end;
+          y++;
         } else {
           x = end.block.x;
           y = end.block.y;
-
-          // end = blockGrid[z]?[y]?[x] ?? end;
 
           break;
         }
@@ -119,7 +127,7 @@ class ReducingAlgorithm {
 
         for (var interY = start.block.y; interY < end.block.y + 1; interY++) {
           for (var interX = start.block.x; interX < end.block.x + 1; interX++) {
-            final intermeidateBlock = blockGrid[z + 1]?[interY]?[interX];
+            final intermeidateBlock = blockGrid[z]?[interY]?[interX];
             if (intermeidateBlock == null ||
                 intermeidateBlock.block.color != start.block.color ||
                 intermeidateBlock.isVisited) {
@@ -131,8 +139,8 @@ class ReducingAlgorithm {
         }
 
         if (isAccepted) {
-          z++;
           end = blockGrid[z]?[y]?[x] ?? end;
+          z++;
         } else {
           x = end.block.x;
           y = end.block.y;
@@ -142,8 +150,8 @@ class ReducingAlgorithm {
       }
 
       chunks.add(VoxelChunk(start.block, end.block, start.block.color));
-      for (var interZ = start.block.z; interZ < end.block.z + 1; interZ++) {
-        for (var interY = start.block.y; interY < end.block.y + 1; interY++) {
+      for (var interZ = start.block.z; interZ <= end.block.z; interZ++) {
+        for (var interY = start.block.y; interY <= end.block.y; interY++) {
           for (var interX = start.block.x; interX <= end.block.x; interX++) {
             blockGrid[interZ]?[interY]?[interX]?.markIncluded();
           }

@@ -1,7 +1,7 @@
 import 'dart:collection';
 import 'dart:developer';
 
-import '../GridPoint3.dart';
+import '../gridPoint3.dart';
 import '../input_stream.dart';
 import '../stream_utils.dart';
 import 'chunk_factory.dart';
