@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
 import 'package:sliding_puzzle/src/common/util/offset_extension.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/input/board_rotation_controller.dart';
-import 'package:sliding_puzzle/src/puzzle/provider/state_provider/board_provider.dart';
 
 class DepthBuilder extends HookConsumerWidget {
   const DepthBuilder({
@@ -17,8 +15,8 @@ class DepthBuilder extends HookConsumerWidget {
   final BoardRotationController rotationController;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var rotationController =
-        ref.watch(BoardUIController.provider).boardRotationController;
+    // var rotationController =
+    //     ref.watch(BoardUIController.provider).boardRotationController;
 
     Animation<Offset> animation =
         AlwaysStoppedAnimation(rotationController.boardAngle.value);

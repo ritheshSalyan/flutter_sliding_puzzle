@@ -4,11 +4,12 @@ import 'package:sliding_puzzle/src/puzzle/provider/input/board_rotation_controll
 import 'package:sliding_puzzle/src/puzzle/provider/input/gyro/gyro_controller.dart';
 
 class HomePageViewModel extends ChangeNotifier with GyroController {
-
   static final provider = ChangeNotifierProvider<HomePageViewModel>((ref) {
     return HomePageViewModel();
   });
-
+  HomePageViewModel() {
+    initializeGyro();
+  }
   BoardRotationController boardRotationController = BoardRotationController();
 
   final _sensitivity = 0.5;

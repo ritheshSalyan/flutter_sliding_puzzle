@@ -2,6 +2,7 @@ import 'dart:developer' as dev;
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sliding_puzzle/helper/depth/depth_resolver.dart';
 import 'package:sliding_puzzle/helper/voxel/model/factory.dart';
 import 'package:sliding_puzzle/helper/voxel/model/voxel_mesh.dart';
@@ -9,6 +10,7 @@ import 'package:sliding_puzzle/helper/voxel/renderer.dart';
 import 'package:sliding_puzzle/helper/voxel/test_tree.dart';
 import 'package:sliding_puzzle/src/common/common.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/input/board_rotation_controller.dart';
+import 'package:sliding_puzzle/src/puzzle/provider/provider.dart';
 
 AppTheme jungleTheme = AppTheme(
   backgroundColor: JungleColorSystem.backgroundColor,
@@ -50,9 +52,14 @@ AppTheme jungleTheme = AppTheme(
                           position: position,
                           mesh: mesh));
                     }
-                    return DepthResolver(
+                    return Consumer(builder: (context, ref, widget) {
+                      return DepthResolver(
                         objects: elements,
-                        rotationController: BoardRotationController());
+                        rotationController: ref
+                            .watch(BoardUIController.provider)
+                            .boardRotationController,
+                      );
+                    });
                     // return Container(
                     //   color: Colors.red,
                     //   child: Stack(
@@ -102,9 +109,8 @@ class _TopElements extends StatelessWidget with DepthObject {
       alignment: Alignment.bottomRight,
       transform: Matrix4.identity()
         ..translate(
-          (constraints.maxWidth / 2) -
-              ((constraints.maxWidth / 2) * position.dx),
-          (constraints.maxWidth) * (position.dy) + (constraints.maxWidth / 2),
+          x,
+          y,
         ),
       child: SizedBox(
         width: constraints.maxWidth / 2,
@@ -117,11 +123,15 @@ class _TopElements extends StatelessWidget with DepthObject {
     );
   }
 
+  double get x =>
+      (constraints.maxWidth / 2) - ((constraints.maxWidth / 2) * position.dx);
+  double get y =>
+      (constraints.maxWidth) * (position.dy) + (constraints.maxWidth / 2);
   @override
-  double get centerX => position.dx * 100;
+  double get centerX => x;
 
   @override
-  double get centerY => position.dy * 100;
+  double get centerY => y;
 }
 
 // class Tree extends StatefulWidget {

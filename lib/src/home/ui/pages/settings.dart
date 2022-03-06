@@ -115,7 +115,7 @@ class _ThemeSelectorState extends ConsumerState<ThemeSelector> {
   late final CubeTheme tileTheme;
   @override
   void initState() {
-    boardRotationController.rotateTo(const Offset(0, 0.0));
+    boardRotationController.rotateTo(const Offset(0.25, -0.25));
     tileTheme = widget.appTheme.boardTheme.tileTheme.call();
 
     super.initState();
