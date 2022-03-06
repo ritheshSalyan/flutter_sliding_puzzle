@@ -19,17 +19,19 @@ class ARPuzzlePage extends ConsumerWidget {
             tagets: [
               ImageTarget(targetIndex: 0, children: [
                 WidgetTargetNode.child(
-                    position: const TransformPosition(0.1, 0.4),
+                    position: const TransformPosition(0, 0.4),
                     child: Container(
                         color: Colors.white, child: const TitleWidget())),
-                // WidgetTargetNode(
-                //   position: const TransformPosition(0.1, -0.1),
-                //   builder: (context, transform) {
-                //     ref.read(BoardUIController.provider).rotateBoardTo(
-                //         Offset(transform.rotation.y, transform.rotation.x));
-                //     return Container();
-                //   },
-                // ),
+                WidgetTargetNode(
+                  position: const TransformPosition(0.1, -0.1),
+                  builder: (context, transform) {
+                    Future.delayed(const Duration(milliseconds: 50), () {
+                      ref.read(BoardUIController.provider).rotateBoardTo(
+                          Offset(transform.rotation.y, transform.rotation.x));
+                    });
+                    return Container();
+                  },
+                ),
                 WidgetTargetNode.child(
                     child: SizedBox(
                         width: screensize.width, child: const BoardView()))
