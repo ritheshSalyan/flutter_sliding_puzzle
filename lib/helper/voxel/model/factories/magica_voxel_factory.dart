@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'dart:math';
 
 import 'package:sliding_puzzle/helper/voxel/model/voxel_block.dart';
 import 'package:sliding_puzzle/helper/voxel/parser/voxlib/voxel.dart';
@@ -26,12 +26,18 @@ class MagicaVoxelFactory {
     if (file.root.models.isEmpty) {
       for (var model in modelInstances) {
         var voxels2 = model.model.voxels;
+        maxX = max(model.worldOffset.x, maxX);
+        maxY = max(model.worldOffset.y, maxY);
+        maxZ = max(model.worldOffset.z, maxZ);
         _buildVoxel(voxels2, blocks);
       }
     } else
     // if (modelInstances.isEmpty) {
     {
       for (var model in file.root.models.values) {
+        maxX = max(model.size.x, maxX);
+        maxY = max(model.size.y, maxY);
+        maxZ = max(model.size.z, maxZ);
         _buildVoxel(model.voxels, blocks);
       }
     }
@@ -60,7 +66,7 @@ class MagicaVoxelFactory {
     } else {
       shiftedBlocks.addAll(blocks);
     }
-   
+
     var construct = GreedyMeshingAlgorithm(shiftedBlocks).construct();
     return VoxelMesh(
         blocks: blocks, maxX: maxX, maxY: maxY, maxZ: maxZ, chunks: construct);
@@ -72,6 +78,7 @@ class MagicaVoxelFactory {
       final x = voxel.position.x;
       final y = voxel.position.y;
       final z = voxel.position.z;
+
       // const color = "FFFFFFFF";
       final color = getColor(voxel.colourIndex);
       if (color.length > 2) {

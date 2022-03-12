@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:defer_pointer/defer_pointer.dart';
 import 'package:dream_xr/dream_xr.dart';
 import 'package:flutter/material.dart';
@@ -26,8 +28,14 @@ class ARPuzzlePage extends ConsumerWidget {
                   position: const TransformPosition(0.1, -0.1),
                   builder: (context, transform) {
                     Future.delayed(const Duration(milliseconds: 50), () {
-                      ref.read(BoardUIController.provider).rotateBoardTo(
-                          Offset(transform.rotation.y, transform.rotation.x));
+                      var offset = Offset(
+                        transform.rotation.y,
+                        transform.rotation.x,
+                      );
+                      log(offset.toString());
+                      ref
+                          .read(BoardUIController.provider)
+                          .rotateBoardTo(offset);
                     });
                     return Container();
                   },
