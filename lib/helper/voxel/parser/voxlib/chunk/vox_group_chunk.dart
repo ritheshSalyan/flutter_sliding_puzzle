@@ -12,7 +12,7 @@ class VoxGroupChunk extends VoxChunk {
   VoxGroupChunk(this.id) : super(ChunkFactory.nGRP);
 
   static VoxGroupChunk read(InputStream stream) {
-    log("VoxGroupChunk : Reading Int For Verson No");
+    // log("VoxGroupChunk : Reading Int For Verson No");
 
     var id = StreamUtils.readIntLE(stream);
     var chunk = VoxGroupChunk(id);

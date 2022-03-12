@@ -1,4 +1,4 @@
-import 'package:sliding_puzzle/helper/voxel/model/factory.dart';
+import 'package:sliding_puzzle/helper/voxel/model/factories/factory.dart';
 import 'package:sliding_puzzle/helper/voxel/model/voxel_block.dart';
 
 import 'voxel_chunk.dart';

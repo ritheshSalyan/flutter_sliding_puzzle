@@ -96,7 +96,7 @@ class ChunkFactory {
       // break;
 
       default:
-        log("Ignoring " + type);
+        // log("Ignoring " + type);
     }
 
     return chunk;

@@ -1,4 +1,3 @@
-import 'dart:developer' as dev;
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -15,6 +14,9 @@ import 'package:sliding_puzzle/src/puzzle/provider/provider.dart';
 import '../../audio_theme.dart';
 
 AppTheme jungleTheme = AppTheme(
+  elements: [
+    ...JungleThemeElements.elements,
+  ],
   backgroundColor: JungleColorSystem.backgroundColor,
   foregroundColor: JungleColorSystem.accentColor,
   audios: AudioThemes(
@@ -62,7 +64,7 @@ AppTheme jungleTheme = AppTheme(
             child: _elements.isEmpty
                 ? Container()
                 : LayoutBuilder(builder: (context, constraints) {
-                    dev.log("Rbuild $constraints ");
+                    // dev.log("Rbuild $constraints ");
                     List<_TopElements> elementWidgets = [];
                     for (var position in _elements) {
                       elementWidgets.add(_TopElements(
@@ -155,10 +157,11 @@ class _TopElements extends ConsumerWidget with DepthObject {
 
   Offset get position => element.position;
 
-  double get x => constraints.maxWidth * 0.9 * position.dx;
+  double get x => constraints.maxWidth * 0.8 * position.dx;
   // (constraints.maxWidth / 2) - ((constraints.maxWidth / 2) * position.dx);
   double get y =>
-      (constraints.maxWidth) * (position.dy); //+ (constraints.maxWidth / 2);
+      (constraints.maxWidth * 0.9) *
+      (position.dy); //+ (constraints.maxWidth / 2);
   @override
   double get centerX => x;
 

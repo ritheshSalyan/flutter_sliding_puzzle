@@ -9,9 +9,14 @@ import 'painter/base_painter.dart';
 import 'painter/tile_painter.dart';
 
 AppTheme iceTheme = AppTheme(
+  elements: [],
   backgroundColor: IceColorSystem.background,
   foregroundColor: IceColorSystem.accentColor,
-  audios: AudioThemes(tileMove: Assets.audio.ice.tileMove, correctPos: Assets.audio.ice.correctPos, completion: Assets.audio.ice.completion, background: Assets.audio.ice.background),
+  audios: AudioThemes(
+      tileMove: Assets.audio.ice.tileMove,
+      correctPos: Assets.audio.ice.correctPos,
+      completion: Assets.audio.ice.completion,
+      background: Assets.audio.ice.background),
   boardTheme: BoardTheme(
     baseTheme: CubeTheme.symetric(
       CubeFaceTheme(

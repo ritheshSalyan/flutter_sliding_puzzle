@@ -27,7 +27,7 @@ class MagicaVoxReader implements Disposable {
     if (!listEquals(magicBytes, MAGIC_BYTES)) {
       throw InvalidVoxException("Invalid magic bytes");
     }
-    log("VoxReader : Reading Int For Verson No");
+    // log("VoxReader : Reading Int For Verson No");
 
     int fileVersion = StreamUtils.readIntLE(stream,"VoxFile.read");
 

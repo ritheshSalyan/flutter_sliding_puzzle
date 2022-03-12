@@ -19,7 +19,7 @@ class VoxXYZIChunk extends VoxChunk {
     int voxelCount = StreamUtils.readIntLE(stream);
     List<Voxel> voxels = [];
     // var chunk = VoxXYZIChunk();
-    log("$voxelCount" " voxels");
+
 
     for (int i = 0; i < voxelCount; i++) {
       // print(i);

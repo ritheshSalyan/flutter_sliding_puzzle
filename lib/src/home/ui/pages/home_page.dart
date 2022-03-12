@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sliding_puzzle/app_module.dart';
-import 'package:sliding_puzzle/helper/voxel/model/magica_voxel_factory.dart';
-import 'package:sliding_puzzle/helper/voxel/parser/voxlib/input_stream.dart';
-import 'package:sliding_puzzle/helper/voxel/parser/voxlib/vox_reader.dart';
-import 'package:sliding_puzzle/helper/voxel/renderer.dart';
 import 'package:sliding_puzzle/src/common/common.dart';
 import 'package:sliding_puzzle/src/home/viewmodel/homepage_viewmodel.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -80,7 +75,7 @@ class HomePageActionButtons extends StatelessWidget {
             onTap: () {
               Modular.to.pushNamed(AppModule.game);
             },
-            child: const Text("Play Game")),
+            child: const Text("Play")),
         if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS) ...[
           const SizedBox(
             height: 20,
@@ -90,7 +85,7 @@ class HomePageActionButtons extends StatelessWidget {
             onTap: () {
               Modular.to.pushNamed(AppModule.argame);
             },
-            child: const Text("AR Mode"),
+            child: const Text("Play in AR"),
           ),
         ],
         const SizedBox(
@@ -123,170 +118,6 @@ class HomePageActionButtons extends StatelessWidget {
                       ));
             },
             child: const Text("Settings")),
-        ElevatedButton(
-          onPressed: () async {
-            final bytes = await rootBundle.load("assets/models/t_rex.vox");
-            final file =
-                MagicaVoxReader(InputStream(bytes, "All File content: "))
-                    .read();
-
-            //  final palette = file.getPalette();
-            //  for (var model in file.getModelInstances()) {
-            //    model.model.voxels
-            //  }
-            final mesh = MagicaVoxelFactory(file).construct(); //
-            // final mesh = VoxelMeshFactory(testTree2).construct();
-            // final chunks = ReducingAlgorithm(mesh.blocks).construct();
-            showDialog(
-              context: context,
-              builder: (context) => Dialog(
-                child: Scaffold(
-                  body: Center(
-                    child: DepthTransformer(
-                        rotationController: viewModel.boardRotationController,
-                        child: VoxelBuilder(
-                            mesh: mesh,
-                            rotationController:
-                                viewModel.boardRotationController)),
-                  ),
-                ),
-              ),
-            );
-          },
-          child: const Text("T-rex"),
-        ),
-        ElevatedButton(
-          onPressed: () async {
-            final bytes = await rootBundle.load("assets/models/monu2.vox");
-            final file =
-                MagicaVoxReader(InputStream(bytes, "All File content: "))
-                    .read();
-
-            //  final palette = file.getPalette();
-            //  for (var model in file.getModelInstances()) {
-            //    model.model.voxels
-            //  }
-            final mesh = MagicaVoxelFactory(file).construct(); //
-            // final mesh = VoxelMeshFactory(testTree2).construct();
-            // final chunks = ReducingAlgorithm(mesh.blocks).construct();
-            showDialog(
-              context: context,
-              builder: (context) => Dialog(
-                child: Scaffold(
-                  backgroundColor: Colors.white,
-                  body: Center(
-                    child: DepthTransformer(
-                        rotationController: viewModel.boardRotationController,
-                        child: VoxelBuilder(
-                            mesh: mesh,
-                            rotationController:
-                                viewModel.boardRotationController)),
-                  ),
-                ),
-              ),
-            );
-          },
-          child: const Text("Monument"),
-        ),
-        ElevatedButton(
-          onPressed: () async {
-            final bytes = await rootBundle.load("assets/models/deer.vox");
-            final file =
-                MagicaVoxReader(InputStream(bytes, "All File content: "))
-                    .read();
-
-            //  final palette = file.getPalette();
-            //  for (var model in file.getModelInstances()) {
-            //    model.model.voxels
-            //  }
-            final mesh = MagicaVoxelFactory(file).construct(); //
-            // final mesh = VoxelMeshFactory(testTree2).construct();
-            // final chunks = ReducingAlgorithm(mesh.blocks).construct();
-            showDialog(
-              context: context,
-              builder: (context) => Dialog(
-                child: Scaffold(
-                  backgroundColor: Colors.white,
-                  body: Center(
-                    child: DepthTransformer(
-                        rotationController: viewModel.boardRotationController,
-                        child: VoxelBuilder(
-                            mesh: mesh,
-                            rotationController:
-                                viewModel.boardRotationController)),
-                  ),
-                ),
-              ),
-            );
-          },
-          child: const Text("deer"),
-        ),
-        ElevatedButton(
-          onPressed: () async {
-            final bytes = await rootBundle.load("assets/models/teapot.vox");
-            final file =
-                MagicaVoxReader(InputStream(bytes, "All File content: "))
-                    .read();
-
-            //  final palette = file.getPalette();
-            //  for (var model in file.getModelInstances()) {
-            //    model.model.voxels
-            //  }
-            final mesh = MagicaVoxelFactory(file).construct(); //
-            // final mesh = VoxelMeshFactory(testTree2).construct();
-            // final chunks = ReducingAlgorithm(mesh.blocks).construct();
-            showDialog(
-              context: context,
-              builder: (context) => Dialog(
-                child: Scaffold(
-                  backgroundColor: Colors.white,
-                  body: Center(
-                    child: DepthTransformer(
-                        rotationController: viewModel.boardRotationController,
-                        child: VoxelBuilder(
-                            mesh: mesh,
-                            rotationController:
-                                viewModel.boardRotationController)),
-                  ),
-                ),
-              ),
-            );
-          },
-          child: const Text("teapot"),
-        ),
-        ElevatedButton(
-          onPressed: () async {
-            final bytes = await rootBundle.load("assets/models/castle.vox");
-            final file =
-                MagicaVoxReader(InputStream(bytes, "All File content: "))
-                    .read();
-
-            //  final palette = file.getPalette();
-            //  for (var model in file.getModelInstances()) {
-            //    model.model.voxels
-            //  }
-            final mesh = MagicaVoxelFactory(file).construct(); //
-            // final mesh = VoxelMeshFactory(testTree2).construct();
-            // final chunks = ReducingAlgorithm(mesh.blocks).construct();
-            showDialog(
-              context: context,
-              builder: (context) => Dialog(
-                child: Scaffold(
-                  backgroundColor: Colors.white,
-                  body: Center(
-                    child: DepthTransformer(
-                        rotationController: viewModel.boardRotationController,
-                        child: VoxelBuilder(
-                            mesh: mesh,
-                            rotationController:
-                                viewModel.boardRotationController)),
-                  ),
-                ),
-              ),
-            );
-          },
-          child: const Text("castle"),
-        ),
       ],
     );
   }
@@ -300,7 +131,7 @@ class HomePageTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      "Puzzle Hack",
+      "Slide Z",
       style: Theme.of(context).textTheme.headline2,
       textAlign: TextAlign.center,
     );

@@ -17,6 +17,7 @@ class JungleThemeElements {
     Assets.models.jungle.rock3,
   ];
 
+  static List<String> get elements =>[..._trees,..._rock];
  static String get rock {
     return _rock[Random().nextInt(_rock.length)];
   }

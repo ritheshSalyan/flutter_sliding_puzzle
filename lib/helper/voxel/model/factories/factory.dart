@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:sliding_puzzle/helper/voxel/model/voxel_block.dart';
 import 'package:sliding_puzzle/helper/voxel/model/voxel_mesh.dart';
 
-import '../parser/optimizer/greedy_meshing.dart';
+import '../../parser/optimizer/greedy_meshing.dart';
 
 class VoxelMeshFactory {
   final String text;

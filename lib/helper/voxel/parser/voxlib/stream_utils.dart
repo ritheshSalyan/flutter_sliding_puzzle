@@ -36,7 +36,7 @@ class StreamUtils {
   }
 
   static GridPoint3 readVector3i(InputStream stream) {
-    log("Read Vector3i");
+    // log("Read Vector3i");
     return GridPoint3(readIntLE(stream, "readVector3i"),
         readIntLE(stream, "readVector3i"), readIntLE(stream, "readVector3i"));
   }
@@ -54,7 +54,7 @@ class StreamUtils {
   }
 
   static String readString(InputStream stream) {
-    log("Reading String");
+    // log("Reading String");
 
     int n = readIntLE(stream, "readString");
     if (n < 0) {
@@ -70,7 +70,7 @@ class StreamUtils {
   }
 
   static Map<String, String> readDictionary(InputStream stream) {
-    log("Reading readDictionary");
+    // log("Reading readDictionary");
 
     int n = readIntLE(stream, "readDictionary");
     if (n < 0) {

@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sliding_puzzle/helper/voxel/model/magica_voxel_factory.dart';
+import 'package:sliding_puzzle/helper/voxel/model/factories/magica_voxel_factory.dart';
 import 'package:sliding_puzzle/helper/voxel/model/voxel_mesh.dart';
 import 'package:sliding_puzzle/helper/voxel/parser/voxlib/input_stream.dart';
 

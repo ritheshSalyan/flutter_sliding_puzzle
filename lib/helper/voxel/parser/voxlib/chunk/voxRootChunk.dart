@@ -49,8 +49,8 @@ class VoxRootChunk extends VoxChunk {
     }
 
     while (childrenStream.available() > 0) {
-      log("childrenStream.available() = " +
-          childrenStream.available().toString());
+      // log("childrenStream.available() = " +
+      //     childrenStream.available().toString());
       VoxChunk? chunk1;
 
       if (first != null) {

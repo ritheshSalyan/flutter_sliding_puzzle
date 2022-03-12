@@ -37,7 +37,7 @@ abstract class VoxChunk {
 
     List<int> chunkBytes = List.generate(length, (index) => 0);
     List<int> childrenChunkBytes = List.generate(childrenLength, (index) => 0);
-    log("$id length and children Lenght: $length $childrenLength");
+    // log("$id length and children Lenght: $length $childrenLength");
     // log("Reading Chunk $id");
 
     if (length > 0 && stream.read(chunkBytes) != length) {

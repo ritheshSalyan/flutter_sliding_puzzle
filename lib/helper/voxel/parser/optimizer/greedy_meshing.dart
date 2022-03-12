@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:sliding_puzzle/helper/voxel/model/factory.dart';
+import 'package:sliding_puzzle/helper/voxel/model/factories/factory.dart';
 
 import '../../model/voxel_block.dart';
 import '../../model/voxel_chunk.dart';
@@ -159,7 +159,6 @@ class ReducingAlgorithm {
       }
     }
 
-    log(chunks.toString());
     return chunks;
   }
 }

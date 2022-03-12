@@ -7,7 +7,7 @@ class BoardLogicController extends StateNotifier<PuzzleBoard> {
 //   return BoardRepository.square(4).board;
 // });
   BoardLogicController({int dimension = 3})
-      : super(BoardRepository.square(dimension).board);
+      : super(BoardRepository.square(dimension));
 
   static final provider =
       StateNotifierProvider<BoardLogicController, PuzzleBoard>((ref) {
@@ -15,6 +15,9 @@ class BoardLogicController extends StateNotifier<PuzzleBoard> {
   });
 
 List<Tile> get tiles =>state.tiles;
+
+int get xDim => state.xDim;
+int get yDim => state.yDim;
 
   bool moveTile(Tile tile) {
     final canMove = state.canMoveTile(tile);
@@ -42,5 +45,9 @@ List<Tile> get tiles =>state.tiles;
 
   bool isComplete() {
     return state.isComplete();
+  }
+
+  void generateCorrectBoard(){
+    state = BoardRepository.correctSquare(3);
   }
 }

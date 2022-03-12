@@ -19,7 +19,7 @@ class VoxSizeChunk extends VoxChunk {
 
   static VoxSizeChunk read(InputStream stream) {
     var size = StreamUtils.readVector3i(stream);
-    log("Read size of " + size.toString());
+    // log("Read size of " + size.toString());
     return VoxSizeChunk(size);
   }
 

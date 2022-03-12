@@ -13,7 +13,7 @@ class VoxShapeChunk extends VoxChunk {
   VoxShapeChunk(this.id) : super(ChunkFactory.nSHP);
 
   static VoxShapeChunk read(InputStream stream) {
-    log("VoxShapeChunk : Reading Int For Id");
+    // log("VoxShapeChunk : Reading Int For Id");
     var id = StreamUtils.readIntLE(stream);
     var chunk = VoxShapeChunk(id);
 

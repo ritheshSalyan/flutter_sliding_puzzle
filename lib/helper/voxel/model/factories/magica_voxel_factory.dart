@@ -3,9 +3,9 @@ import 'dart:developer';
 import 'package:sliding_puzzle/helper/voxel/model/voxel_block.dart';
 import 'package:sliding_puzzle/helper/voxel/parser/voxlib/voxel.dart';
 
-import '../parser/optimizer/greedy_meshing.dart';
-import '../parser/voxlib/vox_file.dart';
-import 'voxel_mesh.dart';
+import '../../parser/optimizer/greedy_meshing.dart';
+import '../../parser/voxlib/vox_file.dart';
+import '../voxel_mesh.dart';
 
 class MagicaVoxelFactory {
   final VoxFile file;
@@ -21,7 +21,7 @@ class MagicaVoxelFactory {
     List<VoxelBlock> blocks = [];
 
     final colors = file.getMaterials();
-    log(colors.toString());
+    // log(colors.toString());
     var modelInstances = file.getModelInstances();
     if (file.root.models.isEmpty) {
       for (var model in modelInstances) {
@@ -96,7 +96,7 @@ class MagicaVoxelFactory {
   }
 
   void _buildVoxel(List<Voxel> voxels2, List<VoxelBlock> blocks) {
-    log(voxels2.length.toString());
+    // log(voxels2.length.toString());
     for (var voxel in voxels2) {
       final x = voxel.position.x;
       final y = voxel.position.y;

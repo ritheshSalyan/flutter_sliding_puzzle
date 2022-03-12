@@ -187,9 +187,9 @@ class JustAudioPlatformPlayer
       subscription.cancel();
       sub2.cancel();
     } catch (e) {
-      log("AUDIO PLAYER Error $this $e ", name: "audio_player");
+      // log("AUDIO PLAYER Error $this $e ", name: "audio_player");
     }
-    log("AUDIO PLAYER PLAY Started $this ", name: "audio_player");
+    // log("AUDIO PLAYER PLAY Started $this ", name: "audio_player");
   }
 
   @override

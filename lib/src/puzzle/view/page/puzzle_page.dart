@@ -20,11 +20,7 @@ class PuzzlePage extends ConsumerWidget {
         small: (context, constraints) {
           return Column(
             children: [
-              InkWell(
-                  onTap: () {
-                    ref.read(BoardUIController.provider).triggerEndAnimation();
-                  },
-                  child: const TitleWidget()),
+              const TitleWidget(),
               Expanded(
                 child: _BoardSection(screensize: screensize),
               )

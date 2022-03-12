@@ -8,11 +8,14 @@ class AppTheme {
   final BoardTheme boardTheme;
   final AudioThemes audios;
 
+  final List<String> elements;
+
   AppTheme({
     required this.backgroundColor,
     required this.foregroundColor,
     required this.boardTheme,
     required this.audios,
+    required this.elements,
   });
 }
 

@@ -58,6 +58,8 @@ class BoardUIController extends ChangeNotifier
     });
   }
 
+
+
   void moveTile(Tile tile) {
     if (isCompleted) return;
     saveState(_ref.read(BoardLogicController.provider));
@@ -103,6 +105,9 @@ class BoardUIController extends ChangeNotifier
 
   BoardLogicController get boardController =>
       _ref.read(BoardLogicController.provider.notifier);
+  
+  int get xDim => boardController.xDim;
+  int get yDim => boardController.yDim;
 
   @override
   void moveUp() {

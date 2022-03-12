@@ -17,9 +17,10 @@ class BoardView extends HookConsumerWidget {
   // Offset _offset = Offset.zero;
   @override
   Widget build(BuildContext context, ref) {
-    final board = ref.watch(BoardLogicController.provider);
+    // final board = ref.watch(BoardLogicController.provider);
+    var uiController = ref.watch(BoardUIController.provider);
     var rotationController =
-        ref.watch(BoardUIController.provider).boardRotationController;
+        uiController.boardRotationController;
     return AbsorbPointer(
       absorbing: ref.watch(BoardUIController.provider).isCompleted,
       child: Stack(
@@ -31,8 +32,8 @@ class BoardView extends HookConsumerWidget {
                 final width = constraints.maxWidth;
                 final height = constraints.maxHeight;
 
-                final tileWidth = (width / board.xDim);
-                final tileHeight = (height / board.yDim);
+                final tileWidth = (width / uiController.xDim);
+                final tileHeight = (height / uiController.yDim);
                 var list = List<TileBuilder>.from((ref
                         .read(BoardLogicController.provider)
                         .tiles
