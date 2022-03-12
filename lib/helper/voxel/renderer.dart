@@ -30,7 +30,7 @@ class _VoxelBuilderState extends State<VoxelBuilder> {
     return AspectRatio(
       aspectRatio: 1,
       child: LayoutBuilder(builder: (context, snapshot) {
-        final perBlockWidth = snapshot.maxWidth / (widget.mesh.maxAxis + 1);
+        final perBlockWidth = snapshot.maxWidth / (widget.mesh.maxAxis - 1);
 
         final List<_VoxelChild> children = [];
         if (widget.mesh.chunks.isEmpty) {
