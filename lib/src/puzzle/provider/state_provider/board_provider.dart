@@ -70,7 +70,7 @@ class BoardUIController extends ChangeNotifier
   }
 
   void moveTile(Tile tile) {
-    if (isCompleted) return;
+    if (isCompleted || boardMode != BoardMode.started) return;
     saveState(_ref.read(BoardLogicController.provider));
     final previousPos = tile.currentPos;
     final camMove =
@@ -81,16 +81,16 @@ class BoardUIController extends ChangeNotifier
           .tiles
           .firstWhere((element) => element.correctPos == tile.correctPos);
 
-      if (newTile.correctPos == newTile.currentPos) {
-        _ref.read(AudioController.provider).correctSound();
-      } else {
-        _ref.read(AudioController.provider).moveSound();
-      }
       _ref
           .read(TileStateNotifier.provider(tile.correctPos).notifier)
           .changeState(newTile.currentPos, previousPos);
       bool completed = boardController.isComplete();
       isCompleted = completed;
+      if (newTile.correctPos == newTile.currentPos) {
+        _ref.read(AudioController.provider).correctSound();
+      } else {
+        _ref.read(AudioController.provider).moveSound();
+      }
       notifyListeners();
       if (completed) {
         triggerEndAnimation();

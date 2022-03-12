@@ -1,16 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sliding_puzzle/gen/assets.gen.dart';
-import 'package:sliding_puzzle/helper/depth/depth_resolver.dart';
-import 'package:sliding_puzzle/helper/voxel/renderer.dart';
 import 'package:sliding_puzzle/src/common/common.dart';
-import 'package:sliding_puzzle/src/common/provider/voxel_mesh_provider.dart';
 import 'package:sliding_puzzle/src/common/ui/theme/available/jungle_theme/elements.dart';
 import 'package:sliding_puzzle/src/common/ui/widgets/elements/element.dart';
-import 'package:sliding_puzzle/src/puzzle/provider/input/board_rotation_controller.dart';
-import 'package:sliding_puzzle/src/puzzle/provider/provider.dart';
 
 import '../../audio_theme.dart';
 
@@ -48,8 +42,8 @@ AppTheme jungleTheme = AppTheme(
       if (canHaveTree) {
         _elements.add(
           // TopElement(
-          //   assetPath: 
-            JungleThemeElements.tree,
+          //   assetPath:
+          JungleThemeElements.tree,
           //   position: Offset(0.1 + Random().nextDouble() * 0.8,
           //       0.1 + Random().nextDouble() * 0.8),
           // ),
@@ -59,7 +53,7 @@ AppTheme jungleTheme = AppTheme(
       // if (canHaveRock && _elements.isEmpty) {
       //   _elements.add(
       //     // TopElement(
-      //     //   assetPath: 
+      //     //   assetPath:
       //       JungleThemeElements.rock,
       //     //   position: Offset(0.1 + Random().nextDouble() * 0.8,
       //     //       0.1 + Random().nextDouble() * 0.8),
@@ -68,39 +62,39 @@ AppTheme jungleTheme = AppTheme(
       // }
       return CubeTheme.symetric(
           CubeFaceTheme(
-            baseColor: JungleColorSystem.tileGreen,
-            spotPainter: JungleTileTopPainter(),
-            child: _elements.isEmpty
-                ? Container()
-                : TopElementWidget( element: _elements.first)
-                // LayoutBuilder(builder: (context, constraints) {
-                //     // dev.log("Rbuild $constraints ");
-                //     List<TopElementWidget> elementWidgets = [];
-                //     for (var position in _elements) {
-                //       elementWidgets.add(TopElementWidget(
-                //         constraints: constraints,
-                //         element: position,
-                //       ));
-                //     }
-                //     return Consumer(builder: (context, ref, widget) {
-                //       return DepthResolver(
-                //         objects: elementWidgets,
-                //         rotationController: ref
-                //             .watch(BoardUIController.provider)
-                //             .boardRotationController,
-                //       );
-                //     });
-                //     // return Container(
-                //     //   color: Colors.red,
-                //     //   child: Stack(
-                //     //     clipBehavior: Clip.none,
-                //     //     children: [],
-                //     //   ),
-                //     // );
-                //   }
-                  
-                //   ),
-          ),
+              baseColor: JungleColorSystem.tileGreen,
+              spotPainter: JungleTileTopPainter(),
+              child: _elements.isEmpty
+                  ? Container()
+                  : TopElementWidget(element: _elements.first)
+              // LayoutBuilder(builder: (context, constraints) {
+              //     // dev.log("Rbuild $constraints ");
+              //     List<TopElementWidget> elementWidgets = [];
+              //     for (var position in _elements) {
+              //       elementWidgets.add(TopElementWidget(
+              //         constraints: constraints,
+              //         element: position,
+              //       ));
+              //     }
+              //     return Consumer(builder: (context, ref, widget) {
+              //       return DepthResolver(
+              //         objects: elementWidgets,
+              //         rotationController: ref
+              //             .watch(BoardUIController.provider)
+              //             .boardRotationController,
+              //       );
+              //     });
+              //     // return Container(
+              //     //   color: Colors.red,
+              //     //   child: Stack(
+              //     //     clipBehavior: Clip.none,
+              //     //     children: [],
+              //     //   ),
+              //     // );
+              //   }
+
+              //   ),
+              ),
           CubeFaceTheme(
             baseColor: JungleColorSystem.tileGreen,
             spotPainter: JungleTileSidePainter(true),

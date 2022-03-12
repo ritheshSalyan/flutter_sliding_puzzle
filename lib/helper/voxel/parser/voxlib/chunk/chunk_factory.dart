@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import '../input_stream.dart';
 import 'voxMATLChunk.dart';
 import 'voxMATTChunk.dart';
@@ -96,7 +94,7 @@ class ChunkFactory {
       // break;
 
       default:
-        // log("Ignoring " + type);
+      // log("Ignoring " + type);
     }
 
     return chunk;

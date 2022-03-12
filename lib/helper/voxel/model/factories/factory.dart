@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:sliding_puzzle/helper/voxel/model/voxel_block.dart';
 import 'package:sliding_puzzle/helper/voxel/model/voxel_mesh.dart';
 
@@ -158,7 +156,6 @@ class VoxelMeshFactory {
     return block.copyWith(visibleFaces: visibleFaces);
   }
 }
-
 
 class VoxelVertex {
   final VoxelBlock block;

@@ -8,11 +8,10 @@ class AudioPlayer {
   late PlatformAudioPlayer audioPlayer;
   bool isPlaying = false;
   late int uid;
-final bool repeat;  
+  final bool repeat;
   AudioPlayer({this.repeat = false}) {
     audioPlayer = PlatformAudioPlayer();
     uid = Random().nextInt(100);
-    
   }
 
   Duration startTime = Duration.zero;
@@ -45,24 +44,23 @@ final bool repeat;
   }
 
   Future<void> loadAsset(String assetPath) async {
-   _duration =  await audioPlayer.setAssetPath(assetPath);
+    _duration = await audioPlayer.setAssetPath(assetPath);
 
-   audioPlayer.positionStream.listen((event) {
-     if(event >=_duration){
-       if(repeat){
-         seekTo(Duration.zero);
-       }
-       else{
-         pause();
-       }
-     }
-   });
+    audioPlayer.positionStream.listen((event) {
+      if (event >= _duration) {
+        if (repeat) {
+          seekTo(Duration.zero);
+        } else {
+          pause();
+        }
+      }
+    });
   }
 
   Future<void> load(String audioUrl) async {
     audioUrl = audioUrl;
     // audioPlayer = PlatformAudioPlayer();
-    DateTime start = DateTime.now();
+    // DateTime start = DateTime.now();
     final cacheManager = DefaultCacheManager();
 
     if (cacheManager != null) {
@@ -71,7 +69,7 @@ final bool repeat;
       _duration = await audioPlayer.setUrl(audioUrl, initialPosition: offset);
     }
 
-    var end = DateTime.now();
+    // var end = DateTime.now();
   }
 
   Duration get duration => _duration;
@@ -86,8 +84,6 @@ final bool repeat;
         Duration(milliseconds: milliseconds - startTime.inMilliseconds));
     isPlaying = true;
   }
-
- 
 
   int retry = 4;
   Future<void> _downloadAudio(BaseCacheManager cacheManager, audioUrl) async {

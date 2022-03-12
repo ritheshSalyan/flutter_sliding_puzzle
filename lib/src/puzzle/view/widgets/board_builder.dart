@@ -12,16 +12,18 @@ import '../../puzzle.dart';
 class BoardView extends HookConsumerWidget {
   const BoardView({
     Key? key,
-    required this.uiController,
+    // required this.uiController,
   }) : super(key: key);
-final BoardUIController uiController;
+// final BoardUIController uiController;
   // Offset _offset = Offset.zero;
   @override
   Widget build(BuildContext context, ref) {
     // final board = ref.watch(BoardLogicController.provider);
-    var rotationController = uiController.boardRotationController;
+    var rotationController = ref.watch(BoardUIController.provider).boardRotationController;
+    var absorbing2 = ref.watch(BoardUIController.provider).isCompleted ||
+          ref.watch(BoardUIController.provider).boardMode != BoardMode.started;
     return AbsorbPointer(
-      absorbing: uiController.isCompleted,
+      absorbing: absorbing2,
       child: Stack(
         children: [
           Center(
@@ -31,8 +33,8 @@ final BoardUIController uiController;
                 final width = constraints.maxWidth;
                 final height = constraints.maxHeight;
 
-                final tileWidth = (width / uiController.xDim);
-                final tileHeight = (height / uiController.yDim);
+                final tileWidth = (width / ref.watch(BoardUIController.provider).xDim);
+                final tileHeight = (height / ref.watch(BoardUIController.provider).yDim);
                 var list = List<TileBuilder>.from((ref
                         .read(BoardLogicController.provider)
                         .tiles

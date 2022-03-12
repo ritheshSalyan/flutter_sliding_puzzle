@@ -27,7 +27,7 @@ class ARPuzzlePage extends ConsumerWidget {
                 WidgetTargetNode(
                   position: const TransformPosition(0.1, -0.1),
                   builder: (context, transform) {
-                    Future.delayed(const Duration(milliseconds: 50), () {
+                    Future.delayed(const Duration(milliseconds: 10), () {
                       var offset = Offset(
                         transform.rotation.y,
                         transform.rotation.x,
@@ -43,9 +43,9 @@ class ARPuzzlePage extends ConsumerWidget {
                 WidgetTargetNode.child(
                     child: SizedBox(
                         width: screensize.width,
-                        child: BoardView(
-                          uiController: ref.read(BoardUIController.provider),
-                        )))
+                        child: const BoardView(
+                            // uiController: ref.watch(BoardUIController.provider),
+                            )))
               ])
             ]),
       ),

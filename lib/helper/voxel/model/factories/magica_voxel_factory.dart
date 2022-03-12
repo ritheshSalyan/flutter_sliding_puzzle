@@ -107,7 +107,7 @@ class MagicaVoxelFactory {
     }
   }
 
-  final Map<int, String> _colors = {};
+  // final Map<int, String> _colors = {};
   String getColor(int value) {
     var palette = file.getPalette()[value];
     return palette;

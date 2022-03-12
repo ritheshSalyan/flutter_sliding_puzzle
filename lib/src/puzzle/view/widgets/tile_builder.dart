@@ -13,30 +13,34 @@ import '../../puzzle.dart';
 
 class TileBuilder extends HookConsumerWidget with DepthObject {
   final Tile tile;
-  const TileBuilder({
+  TileBuilder({
     Key? key,
     required this.tile,
     required this.tileHeight,
     required this.tileWidth,
     required this.rotationController,
-  }) : super(key: key);
+  })  : currentPosition = tile.currentPos,
+        super(key: key);
   final double tileHeight;
   final double tileWidth;
   final BoardRotationController rotationController;
   // final MovablePosition _movablePosition = MovablePosition.none;
 
   @override
-  double get centerX => tile.currentPos.y * 1.0;
+  double get centerX => (currentPosition.y) * 1.0;
 
   @override
-  double get centerY => tile.currentPos.x * 1.0;
+  double get centerY => (currentPosition).x * 1.0;
+
   double top(BoardPosition position) => tileHeight * position.x;
   double left(BoardPosition position) => tileWidth * position.y;
   int get index => tile.correctPos.x * 3 + tile.correctPos.y;
+  late BoardPosition currentPosition;
   @override
   Widget build(BuildContext context, ref) {
     var tileState =
         ref.watch(TileStateNotifier.provider(tile.correctPos)).state;
+    currentPosition = tileState.currentPosition;
     final _animationController = useAnimationController(
       duration:
           tileState is StartTileState || tileState is CompleteProgressTileState

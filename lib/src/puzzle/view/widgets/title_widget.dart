@@ -20,7 +20,7 @@ class TitleWidget extends ConsumerWidget {
             ///
             ///TODO: Remove this Shortcut
             ///
-            ref.read(BoardUIController.provider).triggerEndAnimation();
+            // ref.read(BoardUIController.provider).triggerEndAnimation();
           },
           child: Text(
             ref.watch(BoardUIController.provider).moves.toString(),
