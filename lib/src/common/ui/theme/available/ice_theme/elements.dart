@@ -7,7 +7,7 @@ class IceLandElements {
     Assets.models.ice.iceLandIgloo,
     Assets.models.ice.iceLandTreeV1,
     Assets.models.ice.iceLandV1,
-    Assets.models.ice.iceLandPolarBearPenguin,
+    // Assets.models.ice.iceLandPolarBearPenguin,
   ];
 
   static List<String> get elements => [..._elements];
