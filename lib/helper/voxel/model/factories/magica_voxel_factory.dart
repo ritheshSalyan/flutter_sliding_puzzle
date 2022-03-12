@@ -60,37 +60,8 @@ class MagicaVoxelFactory {
     } else {
       shiftedBlocks.addAll(blocks);
     }
-    // List<List<List<VoxelBlock?>>> blocksGridMatrix = List.generate(
-    //     maxZ + 2,
-    //     (i) => List.generate(
-    //             maxY + 2,
-    //             (index) =>
-    //                 List<VoxelBlock?>.generate(maxX + 2, (i) => null).toList())
-    //         .toList());
-    // List<VoxelBlock> visibleBlocks = [];
-
-    // List<List<List<VoxelBlock?>>> visibleblocksGridMatrix = List.generate(
-    //   maxZ + 2,
-    //   (i) => List.generate(
-    //     maxY + 2,
-    //     (index) => List<VoxelBlock?>.generate(
-    //       maxX + 2,
-    //       (i) => null,
-    //     ),
-    //   ),
-    // );
-    // for (var block in blocks) {
-    //   blocksGridMatrix[block.z][block.y][block.x] = block;
-    // }
-    // for (var block in blocks) {
-    //   final updated = _updateFaceCover(blocksGridMatrix, block);
-    //   if (!updated.visibleFaces.isCompletelyCovered) {
-    //     visibleBlocks.add(updated);
-    //     visibleblocksGridMatrix[block.z][block.y][block.x] = updated;
-    //   }
-    // }
-
-    var construct = ReducingAlgorithm(shiftedBlocks).construct();
+   
+    var construct = GreedyMeshingAlgorithm(shiftedBlocks).construct();
     return VoxelMesh(
         blocks: blocks, maxX: maxX, maxY: maxY, maxZ: maxZ, chunks: construct);
   }

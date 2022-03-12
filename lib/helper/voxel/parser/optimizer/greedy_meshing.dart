@@ -5,7 +5,7 @@ import 'package:sliding_puzzle/helper/voxel/model/factories/factory.dart';
 import '../../model/voxel_block.dart';
 import '../../model/voxel_chunk.dart';
 
-class ReducingAlgorithm {
+class GreedyMeshingAlgorithm {
   final Map<int, Map<int, Map<int, VoxelVertex>>> blockGrid = {};
   int startingX = 9999;
   int startingY = 9999;
@@ -14,7 +14,7 @@ class ReducingAlgorithm {
   int maxX = -1;
   int maxY = -1;
   int maxZ = -1;
-  ReducingAlgorithm(List<VoxelBlock> blocks) {
+  GreedyMeshingAlgorithm(List<VoxelBlock> blocks) {
     for (var block in blocks) {
       blockGrid[block.z] ??= {};
       blockGrid[block.z]![block.y] ??= {};

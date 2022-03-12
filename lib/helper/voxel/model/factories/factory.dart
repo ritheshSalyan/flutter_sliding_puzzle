@@ -110,7 +110,7 @@ class VoxelMeshFactory {
         maxX: maxX,
         maxY: maxY,
         maxZ: maxZ,
-        chunks: ReducingAlgorithm(blocks).construct());
+        chunks: GreedyMeshingAlgorithm(blocks).construct());
   }
 
   // List<List<VoxelBlock>> _groupInXAxis(List<VoxelBlock?> blocks) {}
