@@ -7,6 +7,7 @@ import 'package:sliding_puzzle/src/puzzle/provider/input/keyboard/keyboard_contr
 import 'package:sliding_puzzle/src/puzzle/provider/state_provider/tile_state.dart';
 
 import '../../puzzle.dart';
+import '../audio/audio_controller.dart';
 import '../board_controller.dart';
 import '../input/gyro/gyro_controller.dart';
 import '../observer/state_tracker.dart';
@@ -68,6 +69,14 @@ class BoardUIController extends ChangeNotifier
           .read(BoardLogicController.provider)
           .tiles
           .firstWhere((element) => element.correctPos == tile.correctPos);
+      
+      if(newTile.correctPos == newTile.currentPos){
+            _ref.read(AudioController.provider).correctSound();
+
+      }else{
+            _ref.read(AudioController.provider).moveSound();
+
+      }
       _ref
           .read(TileStateNotifier.provider(tile.correctPos).notifier)
           .changeState(newTile.currentPos, previousPos);
@@ -81,6 +90,8 @@ class BoardUIController extends ChangeNotifier
   }
 
   void triggerEndAnimation() {
+            _ref.read(AudioController.provider).completionSound();
+
     for (var tile in boardController.tiles) {
       _ref
           .read(TileStateNotifier.provider(tile.correctPos).notifier)

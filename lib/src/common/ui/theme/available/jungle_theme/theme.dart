@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sliding_puzzle/gen/assets.gen.dart';
 import 'package:sliding_puzzle/helper/depth/depth_resolver.dart';
 import 'package:sliding_puzzle/helper/voxel/renderer.dart';
 import 'package:sliding_puzzle/src/common/common.dart';
@@ -11,9 +12,16 @@ import 'package:sliding_puzzle/src/common/ui/theme/available/jungle_theme/elemen
 import 'package:sliding_puzzle/src/puzzle/provider/input/board_rotation_controller.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/provider.dart';
 
+import '../../audio_theme.dart';
+
 AppTheme jungleTheme = AppTheme(
   backgroundColor: JungleColorSystem.backgroundColor,
   foregroundColor: JungleColorSystem.accentColor,
+  audios: AudioThemes(
+      tileMove: Assets.audio.nature.tileMove,
+      correctPos: Assets.audio.nature.correctPos,
+      completion: Assets.audio.nature.completion,
+      background: Assets.audio.nature.background),
   boardTheme: BoardTheme(
     baseTheme: CubeTheme.symetric(
       CubeFaceTheme(

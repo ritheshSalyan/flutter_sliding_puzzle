@@ -3,6 +3,7 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  libwinmedia
   permission_handler_windows
 )
 

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sliding_puzzle/src/common/ui/theme/app_theme.dart';
 import 'package:sliding_puzzle/src/common/ui/theme/theme_provider.dart';
 import 'package:sliding_puzzle/src/puzzle/model/model.dart';
+import 'package:sliding_puzzle/src/puzzle/provider/audio/audio_controller.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/board_controller.dart';
 
 class TileStateNotifier extends ChangeNotifier {
@@ -16,10 +17,11 @@ class TileStateNotifier extends ChangeNotifier {
           .firstWhere((tile) => tile.correctPos == position)
           .currentPos,
       ref.watch(ThemeNotifier.provider).boardTheme.tileTheme.call(),
+
     );
   });
   final CubeTheme style;
-  TileStateNotifier(BoardPosition initialPosition, this.style)
+  TileStateNotifier(BoardPosition initialPosition, this.style,)
       : state = TileIdleState(initialPosition);
   TileState state;
   void changeState(

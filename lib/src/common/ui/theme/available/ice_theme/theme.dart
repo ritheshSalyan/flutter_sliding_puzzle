@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sliding_puzzle/gen/assets.gen.dart';
 import 'package:sliding_puzzle/src/common/ui/theme/app_theme.dart';
+import 'package:sliding_puzzle/src/common/ui/theme/audio_theme.dart';
 import 'package:sliding_puzzle/src/common/ui/theme/available/jungle_theme/widgets/particles.dart';
 
 import 'colors.dart';
@@ -10,6 +11,7 @@ import 'painter/tile_painter.dart';
 AppTheme iceTheme = AppTheme(
   backgroundColor: IceColorSystem.background,
   foregroundColor: IceColorSystem.accentColor,
+  audios: AudioThemes(tileMove: Assets.audio.ice.tileMove, correctPos: Assets.audio.ice.correctPos, completion: Assets.audio.ice.completion, background: Assets.audio.ice.background),
   boardTheme: BoardTheme(
     baseTheme: CubeTheme.symetric(
       CubeFaceTheme(

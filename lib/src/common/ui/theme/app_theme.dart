@@ -1,14 +1,18 @@
 import 'package:flutter/cupertino.dart';
 
+import 'audio_theme.dart';
+
 class AppTheme {
   final Color backgroundColor;
   final Color foregroundColor;
   final BoardTheme boardTheme;
+  final AudioThemes audios;
 
   AppTheme({
     required this.backgroundColor,
-    required this.boardTheme,
     required this.foregroundColor,
+    required this.boardTheme,
+    required this.audios,
   });
 }
 

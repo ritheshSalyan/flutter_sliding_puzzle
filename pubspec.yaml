@@ -34,19 +34,21 @@ dependencies:
     git:
       url: git@gitlab.com:dreamsoftin/core/DreamXR/flutter/dream_xr.git
       ref: develop
-  # equatable: ^1.2.5
   flutter:
     sdk: flutter
+  flutter_cache_manager: ^3.3.0
   flutter_hooks: ^0.18.2
   flutter_modular: ^4.4.0
   flutter_riverpod: ^1.0.3
   google_fonts: ^2.3.1
   hooks_riverpod: ^1.0.3
+  just_audio: ^0.9.20
+  # libwinmedia: ^0.0.7
+  just_audio_libwinmedia: ^0.0.4
   sensors_plus: ^1.2.1
   touchable: ^1.0.0
   universal_platform: ^1.0.0+1
   vector_math: ^2.1.1
-  # flutter_sinusoidals: ^0.1.4
   wave: ^0.2.0
 
 dev_dependencies:
@@ -69,6 +71,8 @@ flutter:
     - assets/models/
     - assets/models/jungle/
     - assets/models/ice/
+    - assets/audio/ice/
+    - assets/audio/nature/
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
