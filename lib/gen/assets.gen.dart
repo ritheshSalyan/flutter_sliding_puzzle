@@ -17,20 +17,12 @@ class $AssetsAudioGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
-  /// File path: assets/images/lava.jpg
-  AssetGenImage get lava => const AssetGenImage('assets/images/lava.jpg');
-
-  /// File path: assets/images/lava_a.jpg
-  AssetGenImage get lavaA => const AssetGenImage('assets/images/lava_a.jpg');
-
-  /// File path: assets/images/rock.jpg
-  AssetGenImage get rock => const AssetGenImage('assets/images/rock.jpg');
+  /// File path: assets/images/app_icon.png
+  AssetGenImage get appIcon =>
+      const AssetGenImage('assets/images/app_icon.png');
 
   /// File path: assets/images/wave.png
   AssetGenImage get wave => const AssetGenImage('assets/images/wave.png');
-
-  /// File path: assets/images/wave_1.png
-  AssetGenImage get wave1 => const AssetGenImage('assets/images/wave_1.png');
 }
 
 class $AssetsMarkerGen {

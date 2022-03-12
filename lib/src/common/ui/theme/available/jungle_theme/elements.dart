@@ -4,9 +4,9 @@ import 'package:sliding_puzzle/gen/assets.gen.dart';
 
 class JungleThemeElements {
   static final List<String> _trees = [
-    Assets.models.jungle.grassLand,
-    Assets.models.jungle.grassLandV,
-    Assets.models.jungle.grassLandV2,
+    // Assets.models.jungle.grassLand,
+    // Assets.models.jungle.grassLandV,
+    // Assets.models.jungle.grassLandV2,
     Assets.models.jungle.grassLandTreeV1,
     Assets.models.jungle.grassLandTreeV2,
     Assets.models.jungle.grassLandTreeV3,
