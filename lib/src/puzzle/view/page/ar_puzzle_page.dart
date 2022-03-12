@@ -34,7 +34,10 @@ class ARPuzzlePage extends ConsumerWidget {
                 ),
                 WidgetTargetNode.child(
                     child: SizedBox(
-                        width: screensize.width, child: const BoardView()))
+                        width: screensize.width,
+                        child: BoardView(
+                          uiController: ref.read(BoardUIController.provider),
+                        )))
               ])
             ]),
       ),

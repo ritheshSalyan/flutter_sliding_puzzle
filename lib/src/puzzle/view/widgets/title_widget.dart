@@ -36,7 +36,9 @@ class TitleWidget extends ConsumerWidget {
                 ref.read(BoardUIController.provider).shuffle();
               },
               icon: const Icon(Icons.refresh_rounded),
-              label: const Text("Shuffle"),
+              label: Text(
+                ref.read(BoardUIController.provider).boardMode == BoardMode.yetToStart ? 
+                 "Start": "Shuffle"),
               style: ButtonStyle(
                   foregroundColor: MaterialStateProperty.all(
                       ref.watch(ThemeNotifier.provider).foregroundColor)),

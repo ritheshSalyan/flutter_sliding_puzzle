@@ -45,17 +45,23 @@ AppTheme jungleTheme = AppTheme(
       List<TopElement> _elements = [];
 
       if (canHaveTree) {
-        _elements.add(TopElement(
+        _elements.add(
+          TopElement(
             assetPath: JungleThemeElements.tree,
             position: Offset(0.1 + Random().nextDouble() * 0.8,
-                0.1 + Random().nextDouble() * 0.8)));
+                0.1 + Random().nextDouble() * 0.8),
+          ),
+        );
       }
       bool canHaveRock = Random().nextBool();
-      if (canHaveRock) {
-        _elements.add(TopElement(
+      if (canHaveRock && _elements.isEmpty) {
+        _elements.add(
+          TopElement(
             assetPath: JungleThemeElements.rock,
             position: Offset(0.1 + Random().nextDouble() * 0.8,
-                0.1 + Random().nextDouble() * 0.8)));
+                0.1 + Random().nextDouble() * 0.8),
+          ),
+        );
       }
       return CubeTheme.symetric(
           CubeFaceTheme(

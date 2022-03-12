@@ -89,11 +89,12 @@ class _BoardSection extends ConsumerWidget {
                         ..rotateY(angleX)
                         ..translate(0.0, 0.0, 0),
                       alignment: FractionalOffset.center,
-                      child: const BoardView());
+                      child: BoardView(
+                        uiController: ref.read(BoardUIController.provider),
+                      ));
                 }),
           ),
         ),
-      
       ],
     );
   }

@@ -17,6 +17,12 @@ enum PageMode {
   widget,
 }
 
+enum BoardMode {
+  tutorial,
+  yetToStart,
+  started,
+}
+
 class BoardUIController extends ChangeNotifier
     with StackTracker<PuzzleBoard>, KeyboardController, GyroController {
   final Ref _ref;
@@ -24,7 +30,7 @@ class BoardUIController extends ChangeNotifier
     this._ref,
   ) {
     initializeGyro();
-    shuffle();
+    // shuffle();
   }
 
   static final provider = ChangeNotifierProvider<BoardUIController>((ref) {
@@ -34,6 +40,10 @@ class BoardUIController extends ChangeNotifier
       BoardRotationController();
   PageMode _mode = PageMode.widget;
 
+  BoardMode _boardMode = BoardMode.yetToStart;
+
+  BoardMode get boardMode => _boardMode;
+
   PageMode get mode => _mode;
 
   void changeMode(PageMode mode) {
@@ -41,7 +51,8 @@ class BoardUIController extends ChangeNotifier
   }
 
   void shuffle() {
-    _ref.refresh(BoardLogicController.provider);
+    _boardMode = BoardMode.started;
+    _ref.read(BoardLogicController.provider.notifier).generateRandomBoard();
     isCompleted = boardController.isComplete();
     clearStack();
     notifyListeners();
@@ -58,8 +69,6 @@ class BoardUIController extends ChangeNotifier
     });
   }
 
-
-
   void moveTile(Tile tile) {
     if (isCompleted) return;
     saveState(_ref.read(BoardLogicController.provider));
@@ -71,13 +80,11 @@ class BoardUIController extends ChangeNotifier
           .read(BoardLogicController.provider)
           .tiles
           .firstWhere((element) => element.correctPos == tile.correctPos);
-      
-      if(newTile.correctPos == newTile.currentPos){
-            _ref.read(AudioController.provider).correctSound();
 
-      }else{
-            _ref.read(AudioController.provider).moveSound();
-
+      if (newTile.correctPos == newTile.currentPos) {
+        _ref.read(AudioController.provider).correctSound();
+      } else {
+        _ref.read(AudioController.provider).moveSound();
       }
       _ref
           .read(TileStateNotifier.provider(tile.correctPos).notifier)
@@ -92,7 +99,7 @@ class BoardUIController extends ChangeNotifier
   }
 
   void triggerEndAnimation() {
-            _ref.read(AudioController.provider).completionSound();
+    _ref.read(AudioController.provider).completionSound();
 
     for (var tile in boardController.tiles) {
       _ref
@@ -105,7 +112,7 @@ class BoardUIController extends ChangeNotifier
 
   BoardLogicController get boardController =>
       _ref.read(BoardLogicController.provider.notifier);
-  
+
   int get xDim => boardController.xDim;
   int get yDim => boardController.yDim;
 

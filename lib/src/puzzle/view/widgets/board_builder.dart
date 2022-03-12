@@ -12,17 +12,16 @@ import '../../puzzle.dart';
 class BoardView extends HookConsumerWidget {
   const BoardView({
     Key? key,
+    required this.uiController,
   }) : super(key: key);
-
+final BoardUIController uiController;
   // Offset _offset = Offset.zero;
   @override
   Widget build(BuildContext context, ref) {
     // final board = ref.watch(BoardLogicController.provider);
-    var uiController = ref.watch(BoardUIController.provider);
-    var rotationController =
-        uiController.boardRotationController;
+    var rotationController = uiController.boardRotationController;
     return AbsorbPointer(
-      absorbing: ref.watch(BoardUIController.provider).isCompleted,
+      absorbing: uiController.isCompleted,
       child: Stack(
         children: [
           Center(
