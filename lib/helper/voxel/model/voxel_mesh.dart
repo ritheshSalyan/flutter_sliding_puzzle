@@ -1,4 +1,5 @@
-import 'package:sliding_puzzle/helper/voxel/model/factories/factory.dart';
+import 'dart:math';
+
 import 'package:sliding_puzzle/helper/voxel/model/voxel_block.dart';
 
 import 'voxel_chunk.dart';
@@ -9,6 +10,8 @@ class VoxelMesh {
   final int maxX;
   final int maxY;
   final int maxZ;
+
+  int get maxAxis => max(max(maxX, maxY), maxZ);
   VoxelMesh({
     required this.blocks,
     required this.chunks,

@@ -145,8 +145,8 @@ class _TopElements extends ConsumerWidget with DepthObject {
                   y,
                 ),
               child: SizedBox(
-                width: constraints.maxWidth / 2,
-                height: constraints.maxHeight / 2,
+                width: constraints.maxWidth * 0.5,
+                height: constraints.maxHeight * 0.5,
                 child: VoxelBuilder(
                   mesh: data,
                   rotationController: BoardRotationController(),
