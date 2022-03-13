@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:sliding_puzzle/gen/assets.gen.dart';
 import 'package:sliding_puzzle/src/common/common.dart';
@@ -35,7 +33,9 @@ AppTheme jungleTheme = AppTheme(
       ),
     ),
     tileTheme: () {
-      bool canHaveTree = Random().nextBool();
+      bool canHaveTree = true;
+
+      /// Random().nextBool();
 
       List<String> _elements = [];
 

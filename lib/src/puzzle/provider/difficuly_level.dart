@@ -7,7 +7,7 @@ enum DifficulyLevel {
 }
 
 class DifficultyNotifier extends StateNotifier<DifficulyLevel> {
-  DifficultyNotifier() : super(DifficulyLevel.easy);
+  DifficultyNotifier() : super(DifficulyLevel.medium);
 
   static final provider =
       StateNotifierProvider<DifficultyNotifier, DifficulyLevel>((ref) {

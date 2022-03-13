@@ -4,7 +4,6 @@ import 'package:sliding_puzzle/helper/depth/depth_resolver.dart';
 import 'package:sliding_puzzle/src/common/ui/theme/theme_provider.dart';
 import 'package:sliding_puzzle/src/common/ui/widgets/cube.dart';
 import 'package:sliding_puzzle/src/common/ui/widgets/cube_face_widget.dart';
-import 'package:sliding_puzzle/src/puzzle/provider/board_controller.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/input/board_rotation_controller.dart';
 
 import '../../puzzle.dart';
@@ -19,9 +18,10 @@ class BoardView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     // final board = ref.watch(BoardLogicController.provider);
-    var rotationController = ref.watch(BoardUIController.provider).boardRotationController;
+    var rotationController =
+        ref.watch(BoardUIController.provider).boardRotationController;
     var absorbing2 = ref.watch(BoardUIController.provider).isCompleted ||
-          ref.watch(BoardUIController.provider).boardMode != BoardMode.started;
+        ref.watch(BoardUIController.provider).boardMode != BoardMode.started;
     return AbsorbPointer(
       absorbing: absorbing2,
       child: Stack(
@@ -33,10 +33,13 @@ class BoardView extends HookConsumerWidget {
                 final width = constraints.maxWidth;
                 final height = constraints.maxHeight;
 
-                final tileWidth = (width / ref.watch(BoardUIController.provider).xDim);
-                final tileHeight = (height / ref.watch(BoardUIController.provider).yDim);
+                final tileWidth =
+                    (width / ref.watch(BoardUIController.provider).xDim);
+                final tileHeight =
+                    (height / ref.watch(BoardUIController.provider).yDim);
                 var list = List<TileBuilder>.from((ref
-                        .read(BoardLogicController.provider)
+                        .read(BoardUIController.provider)
+                        .boardController
                         .tiles
                       ..sort((a, b) => a.currentPos.compareTo(b.currentPos)))
                     .map((tile) {

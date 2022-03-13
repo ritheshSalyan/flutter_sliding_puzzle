@@ -6,7 +6,10 @@ class IceLandElements {
   static final List<String> _elements = [
     Assets.models.ice.iceLandIgloo,
     Assets.models.ice.iceLandTreeV1,
-    Assets.models.ice.iceLandV1,
+    Assets.models.ice.iceTree1,
+    Assets.models.ice.iceTree2,
+    Assets.models.ice.iceTree3,
+    Assets.models.ice.iceTree4,
     // Assets.models.ice.iceLandPolarBearPenguin,
   ];
 

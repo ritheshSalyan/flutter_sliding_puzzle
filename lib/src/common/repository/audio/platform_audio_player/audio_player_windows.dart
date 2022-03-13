@@ -1,12 +1,16 @@
-import 'package:sliding_puzzle/src/common/repository/audio/platform_audio_player/audio_players/desktop/dummy_windows_player.dart';
+
 
 import 'audio_player.dart';
+import 
+      'audio_players/desktop/libwinmedia_platfrom_player.dart'
+      if(dart.library.html) 'audio_players/desktop/dummy_windows_player.dart'
+      ;
 // import 'audio_players/desktop/flutter_audio_desktop_player.dart';
 
 abstract class PlatformAudioPlayerWindows implements PlatformAudioPlayer {
   // IsolateHandler isolateHandler;
   factory PlatformAudioPlayerWindows() =>
-      JustAudioPlatformPlayer(); //  DartVlcDesktopPlayer();// KPlayerPlatfromAudioPlayer(); // //IsolatedWidnowsPlayer(); //DartVlcDesktopPlayer(); //FlutterAudioDesktopPlayer();
+      LibWinMediaPlayer(); //  DartVlcDesktopPlayer();// KPlayerPlatfromAudioPlayer(); // //IsolatedWidnowsPlayer(); //DartVlcDesktopPlayer(); //FlutterAudioDesktopPlayer();
 
   // initialize() async {
   //   isolateHandler = IsolateHandler(IsolatePlayer(FlutterAudioDesktopPlayer()));

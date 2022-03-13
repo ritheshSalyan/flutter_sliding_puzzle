@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sliding_puzzle/helper/depth/depth_resolver.dart';
-import 'package:sliding_puzzle/src/common/ui/theme/theme_provider.dart';
 import 'package:sliding_puzzle/src/common/ui/widgets/cube.dart';
 import 'package:sliding_puzzle/src/common/ui/widgets/cube_face_widget.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/difficuly_level.dart';
@@ -146,15 +145,17 @@ class TileBuilder extends HookConsumerWidget with DepthObject {
     final faceChild =
         ref.watch(DifficultyNotifier.provider) == DifficulyLevel.easy
             ? (isInCorrectPos
-                ? Icon(
+                ? const Icon(
                     Icons.check,
-                    color: ref.watch(ThemeNotifier.provider).foregroundColor,
+                    color: Colors
+                        .black, //ref.watch(ThemeNotifier.provider).foregroundColor,
                   )
                 : Text(
                     "${index + 1}",
-                    style: TextStyle(
-                      color: ref.watch(ThemeNotifier.provider).foregroundColor,
-                    ),
+                    style: const TextStyle(
+                        color: Colors
+                            .black //ref.watch(ThemeNotifier.provider).foregroundColor,
+                        ),
                   ))
             : const SizedBox();
     return AnimatedBuilder(

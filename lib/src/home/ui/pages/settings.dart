@@ -1,101 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sliding_puzzle/src/common/common.dart';
-import 'package:sliding_puzzle/src/puzzle/provider/difficuly_level.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/input/board_rotation_controller.dart';
-
-class Settings extends ConsumerWidget {
-  const Settings({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, ref) {
-    return CommonScaffold(
-      // backgroundColor: Colors.white,
-      // appBar: AppBar(),
-      large: (context, constraints) => Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListView(
-          // crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              "Settings",
-              style: context.textTheme.displaySmall,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            const Divider(),
-            const SizedBox(
-              height: 20,
-            ),
-            Text(
-              "Select Theme",
-              style: context.textTheme.bodyLarge,
-            ),
-            Wrap(
-              runAlignment: WrapAlignment.spaceEvenly,
-              alignment: WrapAlignment.spaceEvenly,
-              runSpacing: 20,
-              children: [
-                ThemeSelector(
-                  appTheme: jungleTheme,
-                  lable: "Enviornment",
-                ),
-                ThemeSelector(
-                  appTheme: iceTheme,
-                  lable: "Ice Age",
-                ),
-                // ElevatedButton(
-                //   onPressed: () {
-                //     ref
-                //         .read(ThemeNotifier.provider.notifier)
-                //         .changeTheme(context, jungleTheme);
-                //   },
-                //   child: const Text("Jungle"),
-                // ),
-                // ElevatedButton(
-                //   onPressed: () {
-                //     ref
-                //         .read(ThemeNotifier.provider.notifier)
-                //         .changeTheme(context, iceTheme);
-                //   },
-                //   child: const Text("Ice"),
-                // ),
-              ],
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Text(
-              "Select Difficulty",
-              style: context.textTheme.bodyLarge,
-            ),
-            Wrap(
-              runAlignment: WrapAlignment.spaceEvenly,
-              alignment: WrapAlignment.spaceEvenly,
-              runSpacing: 20,
-              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: const [
-                DifficultyStage(
-                  level: DifficulyLevel.easy,
-                  lable: "Easy",
-                ),
-                DifficultyStage(
-                  level: DifficulyLevel.medium,
-                  lable: "Medium",
-                ),
-                DifficultyStage(
-                  level: DifficulyLevel.hard,
-                  lable: "Hard",
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 class ThemeSelector extends ConsumerStatefulWidget {
   const ThemeSelector({
@@ -190,31 +96,5 @@ class _ThemeSelectorState extends ConsumerState<ThemeSelector> {
         ),
       );
     });
-  }
-}
-
-class DifficultyStage extends ConsumerWidget {
-  const DifficultyStage({
-    Key? key,
-    required this.lable,
-    required this.level,
-  }) : super(key: key);
-  final String lable;
-  final DifficulyLevel level;
-  @override
-  Widget build(BuildContext context, ref) {
-    var isSelected = ref.watch(DifficultyNotifier.provider) == level;
-    return InkWell(
-      onTap: () {
-        ref.read(DifficultyNotifier.provider.notifier).changeDifficulty(level);
-      },
-      child: Chip(
-        backgroundColor: isSelected
-            ? ref.watch(ThemeNotifier.provider).foregroundColor
-            : null,
-        avatar: isSelected ? const Icon(Icons.check) : null,
-        label: Text(lable),
-      ),
-    );
   }
 }

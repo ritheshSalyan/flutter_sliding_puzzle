@@ -10,12 +10,14 @@ class CommonScaffold extends ConsumerWidget {
       this.small,
       this.medium,
       required this.large,
+      this.title,
       this.actions = const []})
       : super(key: key);
   final ResponsiveWidgetBuilder? small;
   final ResponsiveWidgetBuilder? medium;
   final ResponsiveWidgetBuilder large;
   final List<Widget> actions;
+  final String? title;
   @override
   Widget build(BuildContext context, ref) {
     return DeferredPointerHandler(
@@ -28,6 +30,7 @@ class CommonScaffold extends ConsumerWidget {
         child: Scaffold(
           appBar: AppBar(
             actions: actions,
+            title: Text(title ?? ""),
           ),
           backgroundColor: ref
               .watch(ThemeNotifier.provider)

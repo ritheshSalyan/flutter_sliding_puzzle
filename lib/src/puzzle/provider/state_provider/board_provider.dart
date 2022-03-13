@@ -50,6 +50,16 @@ class BoardUIController extends ChangeNotifier
     _mode = mode;
   }
 
+  void initializeBoard() {
+    _boardMode = BoardMode.yetToStart;
+    _ref.read(BoardLogicController.provider.notifier).generateCorrectBoard();
+    isCompleted = boardController.isComplete();
+    clearStack();
+    // saveState(_ref.read(BoardLogicController.provider));
+
+    notifyListeners();
+  }
+
   void shuffle() {
     _boardMode = BoardMode.started;
     _ref.read(BoardLogicController.provider.notifier).generateRandomBoard();
