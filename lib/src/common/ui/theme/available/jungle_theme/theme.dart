@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:sliding_puzzle/gen/assets.gen.dart';
 import 'package:sliding_puzzle/src/common/common.dart';
@@ -34,6 +36,7 @@ AppTheme jungleTheme = AppTheme(
     ),
     tileTheme: () {
       bool canHaveTree = true;
+      int rotation = Random().nextInt(4);
 
       /// Random().nextBool();
 
@@ -66,7 +69,10 @@ AppTheme jungleTheme = AppTheme(
               spotPainter: JungleTileTopPainter(),
               child: _elements.isEmpty
                   ? Container()
-                  : TopElementWidget(element: _elements.first)
+                  : RotatedBox(
+                      quarterTurns: rotation,
+                      child: TopElementWidget(element: _elements.first),
+                    )
               // LayoutBuilder(builder: (context, constraints) {
               //     // dev.log("Rbuild $constraints ");
               //     List<TopElementWidget> elementWidgets = [];
