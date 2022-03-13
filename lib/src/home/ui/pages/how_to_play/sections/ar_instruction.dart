@@ -3,7 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ARInstruction extends StatelessWidget {
   const ARInstruction({Key? key}) : super(key: key);
-  static const String _targetImage = "https://picsum.photos/200/300";
+  static const String _targetImage = "https://i.ytimg.com/vi/ue2qa2L5CF4/maxresdefault.jpg";
   @override
   Widget build(BuildContext context) {
     return Column(
