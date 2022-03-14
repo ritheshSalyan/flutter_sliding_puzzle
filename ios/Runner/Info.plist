@@ -43,5 +43,10 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
+	<key>NSMicrophoneUsageDescription</key>
+<string>Ar Functionality of app requires Microphone permission</string>
+
+<key>NSCameraUsageDescription</key>
+<string>Ar Functionality of app requires camera permission</string>
 </dict>
 </plist>

@@ -3,7 +3,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ARInstruction extends StatelessWidget {
   const ARInstruction({Key? key}) : super(key: key);
-  static const String _targetImage = "https://i.ytimg.com/vi/ue2qa2L5CF4/maxresdefault.jpg";
+  static const String _targetImage =
+      "https://puzzlehack.b-cdn.net/maxresdefault.jpeg";
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -21,12 +22,6 @@ class ARInstruction extends StatelessWidget {
           endIndent: 30,
           indent: 30,
         ),
-        Expanded(child: Image.network(_targetImage)),
-        const Divider(
-          thickness: 2,
-          endIndent: 30,
-          indent: 30,
-        ),
         Text(
           "Download Marker from",
           style: Theme.of(context).textTheme.headline6,
@@ -36,8 +31,14 @@ class ARInstruction extends StatelessWidget {
           onTap: () {
             launch(_targetImage);
           },
-          child: const SelectableText(_targetImage),
+          child: const Text(_targetImage),
         ),
+        const Divider(
+          thickness: 2,
+          endIndent: 30,
+          indent: 30,
+        ),
+        Expanded(child: Image.network(_targetImage)),
       ],
     );
   }
