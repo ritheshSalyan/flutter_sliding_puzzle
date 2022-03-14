@@ -1,6 +1,8 @@
+import 'package:defer_pointer/defer_pointer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sliding_puzzle/src/common/ui/theme/theme_provider.dart';
+import 'package:sliding_puzzle/src/home/ui/widgets/buttons.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/state_provider/board_provider.dart';
 
 class TitleWidget extends ConsumerWidget {
@@ -36,9 +38,10 @@ class TitleWidget extends ConsumerWidget {
                 ref.read(BoardUIController.provider).shuffle();
               },
               icon: const Icon(Icons.refresh_rounded),
-              label: Text(
-                ref.read(BoardUIController.provider).boardMode == BoardMode.yetToStart ? 
-                 "Start": "Shuffle"),
+              label: Text(ref.read(BoardUIController.provider).boardMode ==
+                      BoardMode.yetToStart
+                  ? "Start"
+                  : "Shuffle"),
               style: ButtonStyle(
                   foregroundColor: MaterialStateProperty.all(
                       ref.watch(ThemeNotifier.provider).foregroundColor)),
@@ -71,6 +74,38 @@ class TitleWidget extends ConsumerWidget {
           ],
         )
       ],
+    );
+  }
+}
+
+class StartButtonOverlay extends ConsumerWidget {
+  const StartButtonOverlay({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ref) {
+    var isStarted =
+        ref.watch(BoardUIController.provider).boardMode == BoardMode.yetToStart;
+    if (isStarted) {
+      return DeferredPointerHandler(
+        child: Material(
+          color: Colors.black45,
+          child: Center(
+            child: PuzzleFilledButton(
+              rotationController:
+                  ref.watch(BoardUIController.provider).boardRotationController,
+              onTap: () {
+                ref.read(BoardUIController.provider).shuffle();
+              },
+              child: const Text("Start"),
+            ),
+          ),
+        ),
+      );
+    }
+
+    return const SizedBox(
+      width: 0,
+      height: 0,
     );
   }
 }

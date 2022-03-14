@@ -12,47 +12,49 @@ class PuzzlePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screensize = MediaQuery.of(context).size;
-    return BoardInputWrapper(
-      child: CommonScaffold(
-        actions: const [
-          GyroButton(),
-        ],
-        small: (context, constraints) {
-          return Column(
-            children: [
-              const TitleWidget(),
-              Expanded(
-                child: _BoardSection(screensize: screensize),
-              )
+    return Stack(
+      children: [
+        BoardInputWrapper(
+          child: CommonScaffold(
+            actions: const [
+              GyroButton(),
             ],
-          );
-        },
-        medium: (context, constraints) {
-          return CustomScrollView(
-            slivers: [
-              SliverList(
-                  delegate: SliverChildListDelegate([
-                const TitleWidget(),
-              ])),
-              SliverFillRemaining(
-                child: _BoardSection(screensize: screensize),
-              )
-            ],
-          );
-        },
-        large: (context, constraints) {
-          return Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Expanded(child: TitleWidget()),
-              Expanded(
-                flex: 2,
-                child: _BoardSection(screensize: screensize),
-              )
-            ],
-          );
-        },
-      ),
+            small: (context, constraints) {
+              return Column(
+                children: [
+                  const TitleWidget(),
+                  Expanded(
+                    child: _BoardSection(screensize: screensize),
+                  )
+                ],
+              );
+            },
+            medium: (context, constraints) {
+              return Column(
+                children: [
+                  const TitleWidget(),
+                  Expanded(
+                    child: _BoardSection(screensize: screensize),
+                  )
+                ],
+              );
+            },
+            large: (context, constraints) {
+              return Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Expanded(child: TitleWidget()),
+                  Expanded(
+                    flex: 2,
+                    child: _BoardSection(screensize: screensize),
+                  )
+                ],
+              );
+            },
+          ),
+        ),
+        const StartButtonOverlay()
+      ],
     );
   }
 }

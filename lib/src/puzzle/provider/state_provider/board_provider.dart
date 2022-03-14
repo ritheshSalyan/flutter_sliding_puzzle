@@ -55,6 +55,11 @@ class BoardUIController extends ChangeNotifier
     _ref.read(BoardLogicController.provider.notifier).generateCorrectBoard();
     isCompleted = boardController.isComplete();
     clearStack();
+    for (var tile in boardController.tiles) {
+      _ref
+          .read(TileStateNotifier.provider(tile.correctPos).notifier)
+          .changeState(tile.currentPos, tile.currentPos);
+    }
     // saveState(_ref.read(BoardLogicController.provider));
 
     notifyListeners();

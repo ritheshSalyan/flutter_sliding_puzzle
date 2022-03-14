@@ -1,8 +1,11 @@
 import 'package:cube_transition_plus/cube_transition_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:sliding_puzzle/app_module.dart';
 import 'package:sliding_puzzle/src/common/common.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/difficuly_level.dart';
+import 'package:sliding_puzzle/src/puzzle/provider/provider.dart';
 
 // class DifficultySelection extends ConsumerWidget {
 //   const DifficultySelection({Key? key}) : super(key: key);
@@ -176,7 +179,10 @@ class PlayButton extends ConsumerWidget {
                           ref
                               .read(DifficultyNotifier.provider.notifier)
                               .changeDifficulty(DifficulyLevel.values[level]);
-                          Navigator.of(context).pop();
+                          ref
+                              .read(BoardUIController.provider)
+                              .initializeBoard();
+                          Modular.to.pushNamed(AppModule.game);
                         },
                         child: const Text("Play"),
                         style: ButtonStyle(

@@ -71,7 +71,8 @@ class ARPuzzlePage extends ConsumerWidget {
                   child: const TitleWidget(),
                 ),
               ),
-            )
+            ),
+            const StartButtonOverlay()
           ],
         ),
       ),

@@ -121,8 +121,7 @@ class HomePageActionButtons extends ConsumerWidget {
               await showDialog(
                   context: context,
                   builder: (context) => const DifficultySelection());
-              ref.read(BoardUIController.provider).initializeBoard();
-              Modular.to.pushNamed(AppModule.game);
+
             },
             child: const Text("Play")),
         if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS) ...[
@@ -131,8 +130,10 @@ class HomePageActionButtons extends ConsumerWidget {
           ),
           PuzzleFilledButton(
             rotationController: viewModel.boardRotationController,
-            onTap: () {
-              Modular.to.pushNamed(AppModule.argame);
+            onTap: () async {
+              await showDialog(
+                  context: context,
+                  builder: (context) => const DifficultySelection());
             },
             child: const Text("Play in AR"),
           ),
