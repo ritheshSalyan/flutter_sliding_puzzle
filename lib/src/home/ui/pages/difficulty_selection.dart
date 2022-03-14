@@ -2,7 +2,6 @@ import 'package:cube_transition_plus/cube_transition_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:sliding_puzzle/app_module.dart';
 import 'package:sliding_puzzle/src/common/common.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/difficuly_level.dart';
 import 'package:sliding_puzzle/src/puzzle/provider/provider.dart';
@@ -17,8 +16,11 @@ import 'package:sliding_puzzle/src/puzzle/provider/provider.dart';
 // }
 
 class DifficultySelection extends ConsumerStatefulWidget {
-  const DifficultySelection({Key? key}) : super(key: key);
-
+  const DifficultySelection({
+    Key? key,
+    required this.route,
+  }) : super(key: key);
+  final String route;
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
       _DifficultySelectionState();
@@ -57,6 +59,7 @@ class _DifficultySelectionState extends ConsumerState<DifficultySelection> {
               ),
               PlayButton(
                 pageController: pageController,
+                route: widget.route,
               )
             ],
           ),
@@ -95,6 +98,7 @@ class _DifficultySelectionState extends ConsumerState<DifficultySelection> {
               ),
               PlayButton(
                 pageController: pageController,
+                route: widget.route,
               )
             ],
           ),
@@ -133,6 +137,7 @@ class _DifficultySelectionState extends ConsumerState<DifficultySelection> {
               ),
               PlayButton(
                 pageController: pageController,
+                route: widget.route,
               )
             ],
           ),
@@ -146,9 +151,10 @@ class PlayButton extends ConsumerWidget {
   const PlayButton({
     Key? key,
     required this.pageController,
+    required this.route,
   }) : super(key: key);
   final PageController pageController;
-
+  final String route;
   @override
   Widget build(BuildContext context, ref) {
     return AnimatedBuilder(
@@ -182,7 +188,8 @@ class PlayButton extends ConsumerWidget {
                           ref
                               .read(BoardUIController.provider)
                               .initializeBoard();
-                          Modular.to.pushNamed(AppModule.game);
+                          Navigator.pop(context);
+                          Modular.to.pushNamed(route);
                         },
                         child: const Text("Play"),
                         style: ButtonStyle(

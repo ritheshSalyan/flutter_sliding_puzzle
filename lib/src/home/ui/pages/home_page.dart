@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sliding_puzzle/app_module.dart';
 import 'package:sliding_puzzle/src/common/common.dart';
 import 'package:sliding_puzzle/src/home/viewmodel/homepage_viewmodel.dart';
-import 'package:sliding_puzzle/src/puzzle/provider/provider.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 import '../widgets/buttons.dart';
@@ -118,10 +116,12 @@ class HomePageActionButtons extends ConsumerWidget {
         PuzzleFilledButton(
             rotationController: viewModel.boardRotationController,
             onTap: () async {
-              await showDialog(
-                  context: context,
-                  builder: (context) => const DifficultySelection());
-
+              Navigator.of(
+                context,
+              ).push(MaterialPageRoute(
+                  builder: (context) => const DifficultySelection(
+                        route: AppModule.game,
+                      )));
             },
             child: const Text("Play")),
         if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS) ...[
@@ -131,9 +131,15 @@ class HomePageActionButtons extends ConsumerWidget {
           PuzzleFilledButton(
             rotationController: viewModel.boardRotationController,
             onTap: () async {
-              await showDialog(
-                  context: context,
-                  builder: (context) => const DifficultySelection());
+              Navigator.of(
+                context,
+              ).push(
+                MaterialPageRoute(
+                  builder: (context) => const DifficultySelection(
+                    route: AppModule.argame,
+                  ),
+                ),
+              );
             },
             child: const Text("Play in AR"),
           ),
@@ -182,5 +188,3 @@ class HomePageTitle extends StatelessWidget {
     );
   }
 }
-
-
