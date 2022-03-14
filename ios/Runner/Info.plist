@@ -24,6 +24,10 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Ar Functionality of app requires camera permission</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Ar Functionality of app requires Microphone permission</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -43,10 +47,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
-	<key>NSMicrophoneUsageDescription</key>
-<string>Ar Functionality of app requires Microphone permission</string>
-
-<key>NSCameraUsageDescription</key>
-<string>Ar Functionality of app requires camera permission</string>
 </dict>
 </plist>
