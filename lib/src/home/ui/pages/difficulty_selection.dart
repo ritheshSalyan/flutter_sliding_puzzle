@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cube_transition_plus/cube_transition_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -26,33 +24,195 @@ class DifficultySelection extends ConsumerStatefulWidget {
 class _DifficultySelectionState extends ConsumerState<DifficultySelection> {
   @override
   Widget build(BuildContext context) {
-    return CommonScaffold(large: (context, constraints) {
-      var index2 = ref.watch(DifficultyNotifier.provider).index;
-      var pageController = PageController(initialPage: 0);
-      Future.delayed(const Duration(milliseconds: 50), () {
-        if (pageController.hasClients) {
-          pageController.jumpToPage(
-            index2,
-          );
-        }
-      });
-      return SizedBox(
-        width: constraints.maxWidth,
-        height: constraints.maxHeight,
-        child: CubePageView(
-          controller: pageController,
-          // startPage: index2,
-          children: [
-            for (var e in DifficulyLevel.values) ...{
-              DifficultyLevelWidget(level: e)
-            }
-          ],
-        ),
-      );
-    });
-  }
+    var selectedLevel = ref.watch(DifficultyNotifier.provider).index;
 
-  double getRadian(double degree) => degree * pi / 180.0;
+    return CommonScaffold(
+      small: (context, constraints) {
+        var pageController = PageController(initialPage: 0);
+        Future.delayed(const Duration(milliseconds: 50), () {
+          if (pageController.hasClients) {
+            pageController.jumpToPage(
+              selectedLevel,
+            );
+          }
+        });
+        return SizedBox(
+          width: constraints.maxWidth,
+          height: constraints.maxHeight,
+          child: Column(
+            children: [
+              Expanded(
+                child: CubePageView(
+                  controller: pageController,
+                  // startPage: index2,
+                  children: [
+                    for (var e in DifficulyLevel.values) ...{
+                      DifficultyLevelWidget(level: e)
+                    }
+                  ],
+                ),
+              ),
+              PlayButton(
+                pageController: pageController,
+              )
+            ],
+          ),
+        );
+      },
+      medium: (context, constraints) {
+        var pageController = PageController(initialPage: 0);
+        Future.delayed(const Duration(milliseconds: 50), () {
+          if (pageController.hasClients) {
+            pageController.jumpToPage(
+              selectedLevel,
+            );
+          }
+        });
+        return SizedBox(
+          width: constraints.maxWidth,
+          height: constraints.maxHeight,
+          child: Column(
+            children: [
+              Expanded(
+                child: Center(
+                  child: Container(
+                    constraints:
+                        const BoxConstraints(maxWidth: 500, minWidth: 500),
+                    child: CubePageView(
+                      controller: pageController,
+                      // startPage: index2,
+                      children: [
+                        for (var e in DifficulyLevel.values) ...{
+                          DifficultyLevelWidget(level: e)
+                        }
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              PlayButton(
+                pageController: pageController,
+              )
+            ],
+          ),
+        );
+      },
+      large: (context, constraints) {
+        var pageController = PageController(initialPage: 0);
+        Future.delayed(const Duration(milliseconds: 50), () {
+          if (pageController.hasClients) {
+            pageController.jumpToPage(
+              selectedLevel,
+            );
+          }
+        });
+        return SizedBox(
+          width: constraints.maxWidth,
+          height: constraints.maxHeight,
+          child: Column(
+            children: [
+              Expanded(
+                child: Center(
+                  child: Container(
+                    constraints:
+                        const BoxConstraints(maxWidth: 500, minWidth: 500),
+                    child: CubePageView(
+                      controller: pageController,
+                      // startPage: index2,
+                      children: [
+                        for (var e in DifficulyLevel.values) ...{
+                          DifficultyLevelWidget(level: e)
+                        }
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              PlayButton(
+                pageController: pageController,
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+class PlayButton extends ConsumerWidget {
+  const PlayButton({
+    Key? key,
+    required this.pageController,
+  }) : super(key: key);
+  final PageController pageController;
+
+  @override
+  Widget build(BuildContext context, ref) {
+    return AnimatedBuilder(
+        animation: pageController,
+        builder: (context, snapshot) {
+          int level = pageController.positions.isNotEmpty
+              ? pageController.page?.toInt() ?? 0
+              : 0;
+          return Column(
+            children: [
+              Row(
+                children: [
+                  Opacity(
+                      opacity: level > 0 ? 1 : 0,
+                      child: IconButton(
+                          onPressed: () {
+                            if (level > 0) {
+                              pageController.previousPage(
+                                  duration: const Duration(milliseconds: 500),
+                                  curve: Curves.linear);
+                            }
+                          },
+                          icon: const Icon(Icons.swipe_left))),
+                  Expanded(
+                    child: Center(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          ref
+                              .read(DifficultyNotifier.provider.notifier)
+                              .changeDifficulty(DifficulyLevel.values[level]);
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text("Play"),
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(ref
+                                .watch(ThemeNotifier.provider)
+                                .foregroundColor),
+                            elevation: MaterialStateProperty.all(0.0),
+                            shape: MaterialStateProperty.all(
+                                const BeveledRectangleBorder())),
+                      ),
+                    ),
+                  ),
+                  Opacity(
+                    opacity: level < DifficulyLevel.values.length - 1 ? 1 : 0,
+                    child: IconButton(
+                      onPressed: () {
+                        if (level < DifficulyLevel.values.length - 1) {
+                          pageController.nextPage(
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.linear);
+                        }
+                      },
+                      icon: const Icon(
+                        Icons.swipe_right,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 50,
+              )
+            ],
+          );
+        });
+  }
 }
 
 class DifficultyLevelWidget extends ConsumerWidget {
@@ -113,41 +273,6 @@ class DifficultyLevelWidget extends ConsumerWidget {
               ),
             ],
           )),
-          Row(
-            children: [
-              Opacity(
-                  opacity: level.index > 0 ? 1 : 0,
-                  child: const Icon(Icons.arrow_back_ios_new_rounded)),
-              Expanded(
-                child: Center(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      ref
-                          .read(DifficultyNotifier.provider.notifier)
-                          .changeDifficulty(level);
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text("Play"),
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(
-                            ref.watch(ThemeNotifier.provider).foregroundColor),
-                        elevation: MaterialStateProperty.all(0.0),
-                        shape: MaterialStateProperty.all(
-                            const BeveledRectangleBorder())),
-                  ),
-                ),
-              ),
-              Opacity(
-                opacity: level.index < DifficulyLevel.values.length - 1 ? 1 : 0,
-                child: const Icon(
-                  Icons.arrow_forward_ios_rounded,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 50,
-          )
         ],
       )),
     );

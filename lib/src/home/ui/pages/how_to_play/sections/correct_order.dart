@@ -22,6 +22,10 @@ class OrderOfBoard extends StatelessWidget {
           SizedBox(
             height: constraints.biggest.shortestSide * 0.2,
           ),
+          const Text("Above is the Correct Order of Board, Drag to rotate"),
+          SizedBox(
+            height: constraints.biggest.shortestSide * 0.2,
+          ),
           Expanded(
             child: Center(
               child: SizedBox(
@@ -30,10 +34,7 @@ class OrderOfBoard extends StatelessWidget {
               ),
             ),
           ),
-          const Text("Above is the Correct Order of Board, Drag to rotate"),
-          SizedBox(
-            height: constraints.biggest.shortestSide * 0.2,
-          ),
+          
         ],
       );
     });

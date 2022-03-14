@@ -8,6 +8,7 @@ import 'package:universal_platform/universal_platform.dart';
 import 'sections/ar_instruction.dart';
 import 'sections/controls.dart';
 import 'sections/correct_order.dart';
+import 'sections/movement_instruction.dart';
 
 class HowToPlay extends ConsumerStatefulWidget {
   const HowToPlay({Key? key}) : super(key: key);
@@ -21,6 +22,7 @@ class _HowToPlayState extends ConsumerState<HowToPlay> {
   @override
   Widget build(BuildContext context) {
     final sections = [
+      const MovementInstructions(),
       const OrderOfBoard(),
       const Controls(),
       if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS)
