@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sliding_puzzle/src/common/common.dart';
-import 'package:sliding_puzzle/src/puzzle/provider/input/board_rotation_controller.dart';
+import 'package:sliding_puzzle/src/home/viewmodel/homepage_viewmodel.dart';
 
 class ThemeSelector extends ConsumerStatefulWidget {
   const ThemeSelector({
@@ -17,11 +17,10 @@ class ThemeSelector extends ConsumerStatefulWidget {
 }
 
 class _ThemeSelectorState extends ConsumerState<ThemeSelector> {
-  var boardRotationController = BoardRotationController();
   late final CubeTheme tileTheme;
   @override
   void initState() {
-    boardRotationController.rotateTo(const Offset(0.25, -0.25));
+    // boardRotationController.rotateTo(const Offset(0.25, -0.25));
     tileTheme = widget.appTheme.boardTheme.tileTheme.call();
 
     super.initState();
@@ -49,7 +48,9 @@ class _ThemeSelectorState extends ConsumerState<ThemeSelector> {
             Transform.translate(
               offset: Offset(width / 2, height / 2),
               child: DepthTransformer(
-                rotationController: boardRotationController,
+                rotationController: ref
+                    .watch(HomePageViewModel.provider)
+                    .boardRotationController,
                 child: CustomCube(
                   onTap: () {
                     ref
@@ -84,7 +85,9 @@ class _ThemeSelectorState extends ConsumerState<ThemeSelector> {
                       cubeTheme: tileTheme.down,
                     ),
                   ),
-                  boardRotaioncontroller: boardRotationController,
+                  boardRotaioncontroller: ref
+                      .watch(HomePageViewModel.provider)
+                      .boardRotationController,
                 ),
               ),
             ),

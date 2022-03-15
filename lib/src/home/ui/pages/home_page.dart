@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sliding_puzzle/app_module.dart';
+import 'package:sliding_puzzle/gen/assets.gen.dart';
 import 'package:sliding_puzzle/src/common/common.dart';
 import 'package:sliding_puzzle/src/home/viewmodel/homepage_viewmodel.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -158,46 +159,48 @@ class HomePageActionButtons extends ConsumerWidget {
         const SizedBox(
           height: 20,
         ),
-        PuzzleFilledButton(
-            rotationController: viewModel.boardRotationController,
-            onTap: () {
-              showDialog(
-                  context: context,
-                  builder: (context) => Dialog(
-                        backgroundColor: Colors.transparent,
-                        elevation: 0,
-                        child: AlertDialog(
-                          title: const Text("Get It On"),
-                          content: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              IconButton(
-                                onPressed: () {
-                                  launch(
-                                      "https://play.google.com/store/apps/details?id=dev.dsi.slidez");
-                                },
-                                icon: const Icon(Icons.android),
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  launch(
-                                      "https://drive.google.com/file/d/1pJUuiTLJ5B3EA9DrDe3tMgcjeRvOx8Oj/view?usp=sharing");
-                                },
-                                icon: const Icon(Icons.laptop_windows),
-                              ),
-                            ],
-                          ),
-                          actions: [
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text("Close"))
-                          ],
-                        ),
-                      ));
-            },
-            child: const Text("Get Apps")),
+        const GetAppsOnWidget()
+
+        // PuzzleFilledButton(
+        //     rotationController: viewModel.boardRotationController,
+        //     onTap: () {
+        //       showDialog(
+        //           context: context,
+        //           builder: (context) => Dialog(
+        //                 backgroundColor: Colors.transparent,
+        //                 elevation: 0,
+        //                 child: AlertDialog(
+        //                   title: const Text("Get It On"),
+        //                   content: Row(
+        //                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        //                     children: [
+        //                       IconButton(
+        //                         onPressed: () {
+        // launch(
+        //     "https://play.google.com/store/apps/details?id=dev.dsi.slidez");
+        //                         },
+        //                         icon: const Icon(Icons.android),
+        //                       ),
+        //                       IconButton(
+        //                         onPressed: () {
+        //                           launch(
+        //                               "https://drive.google.com/file/d/1pJUuiTLJ5B3EA9DrDe3tMgcjeRvOx8Oj/view?usp=sharing");
+        //                         },
+        //                         icon: const Icon(Icons.laptop_windows),
+        //                       ),
+        //                     ],
+        //                   ),
+        //                   actions: [
+        //                     TextButton(
+        //                         onPressed: () {
+        //                           Navigator.pop(context);
+        //                         },
+        //                         child: const Text("Close"))
+        //                   ],
+        //                 ),
+        //               ));
+        //     },
+        //     child: const Text("Get Apps")),
       ],
     );
   }
@@ -215,5 +218,34 @@ class HomePageTitle extends StatelessWidget {
       style: Theme.of(context).textTheme.headline2,
       textAlign: TextAlign.center,
     );
+  }
+}
+
+class GetAppsOnWidget extends StatelessWidget {
+  const GetAppsOnWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if (UniversalPlatform.isWeb) {
+      return Wrap(
+        children: [
+          InkWell(
+            onTap: () {
+              launch(
+                  "https://play.google.com/store/apps/details?id=dev.dsi.slidez");
+            },
+            child: Assets.images.getOnPlaystore.image(width: 200),
+          ),
+          InkWell(
+            onTap: () {
+              launch(
+                  "https://drive.google.com/file/d/1pJUuiTLJ5B3EA9DrDe3tMgcjeRvOx8Oj/view?usp=sharing");
+            },
+            child: Assets.images.windows.image(width: 200),
+          )
+        ],
+      );
+    }
+    return Container();
   }
 }

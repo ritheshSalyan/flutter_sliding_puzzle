@@ -65,6 +65,7 @@ AppTheme iceTheme = AppTheme(
     ),
     tileTheme: () {
       bool canHaveTree = Random().nextBool();
+      int rotation = Random().nextInt(4);
 
       List<String> _elements = [];
 
@@ -85,7 +86,9 @@ AppTheme iceTheme = AppTheme(
               child: Container(
                 child: _elements.isEmpty
                     ? const Center()
-                    : TopElementWidget(element: _elements.first),
+                    : RotatedBox(
+                        quarterTurns: rotation,
+                        child: TopElementWidget(element: _elements.first)),
                 color: Colors.white,
               )
 

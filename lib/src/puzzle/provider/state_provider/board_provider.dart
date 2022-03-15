@@ -174,7 +174,7 @@ class BoardUIController extends ChangeNotifier
     boardRotationController.reset();
   }
 
-  final _sensitivity = 0.5;
+  final _sensitivity = 0.1;
   void toggleGyro() {
     gyroEnabled = !gyroEnabled;
     notifyListeners();

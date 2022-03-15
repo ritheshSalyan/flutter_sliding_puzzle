@@ -8,8 +8,9 @@ class IceLandElements {
     Assets.models.ice.iceLandTreeV1,
     Assets.models.ice.iceTree1,
     Assets.models.ice.iceTree2,
-    Assets.models.ice.iceTree3,
-    Assets.models.ice.iceTree4,
+    // Assets.models.ice.iceTree3,
+    // Assets.models.ice.iceTree4,
+    Assets.models.ice.iceLandPolarBear,
     // Assets.models.ice.iceLandPolarBearPenguin,
   ];
 
