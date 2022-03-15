@@ -4,6 +4,7 @@ import 'package:sliding_puzzle/app_module.dart';
 import 'package:sliding_puzzle/src/common/common.dart';
 import 'package:sliding_puzzle/src/home/viewmodel/homepage_viewmodel.dart';
 import 'package:universal_platform/universal_platform.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../widgets/buttons.dart';
 import 'difficulty_selection.dart';
@@ -157,18 +158,46 @@ class HomePageActionButtons extends ConsumerWidget {
         const SizedBox(
           height: 20,
         ),
-        // PuzzleFilledButton(
-        //     rotationController: viewModel.boardRotationController,
-        //     onTap: () {
-        //       showDialog(
-        //           context: context,
-        //           builder: (context) => const Dialog(
-        //                 backgroundColor: Colors.transparent,
-        //                 elevation: 0,
-        //                 child: Settings(),
-        //               ));
-        //     },
-        //     child: const Text("Settings")),
+        PuzzleFilledButton(
+            rotationController: viewModel.boardRotationController,
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (context) => Dialog(
+                        backgroundColor: Colors.transparent,
+                        elevation: 0,
+                        child: AlertDialog(
+                          title: const Text("Get It On"),
+                          content: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  launch(
+                                      "https://play.google.com/store/apps/details?id=dev.dsi.slidez");
+                                },
+                                icon: const Icon(Icons.android),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  launch(
+                                      "https://drive.google.com/file/d/1pJUuiTLJ5B3EA9DrDe3tMgcjeRvOx8Oj/view?usp=sharing");
+                                },
+                                icon: const Icon(Icons.laptop_windows),
+                              ),
+                            ],
+                          ),
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text("Close"))
+                          ],
+                        ),
+                      ));
+            },
+            child: const Text("Get Apps")),
       ],
     );
   }
