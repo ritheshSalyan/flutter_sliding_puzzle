@@ -227,7 +227,7 @@ class GetAppsOnWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (UniversalPlatform.isWeb) {
-      return Wrap(
+      return Column(
         children: [
           InkWell(
             onTap: () {
@@ -238,8 +238,7 @@ class GetAppsOnWidget extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              launch(
-                  "https://drive.google.com/file/d/1pJUuiTLJ5B3EA9DrDe3tMgcjeRvOx8Oj/view?usp=sharing");
+              launch("https://puzzlehack.b-cdn.net/Slide_Z_Windows.zip");
             },
             child: Assets.images.windows.image(width: 200),
           )
