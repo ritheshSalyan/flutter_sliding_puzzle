@@ -14,6 +14,8 @@ class JungleThemeElements {
     Assets.models.jungle.grasslandTree2,
     Assets.models.jungle.grasslandTree3,
     Assets.models.jungle.grasslandTree4,
+    // Assets.models.jungle.dino,
+    Assets.models.jungle.deer,
     // Assets.models.jungle.tree1,
     // Assets.models.jungle.tree2,
     // Assets.models.jungle.tree3,

@@ -96,6 +96,9 @@ class $AssetsModelsIceGen {
   /// File path: assets/models/ice/ice_land_igloo.vox
   String get iceLandIgloo => 'assets/models/ice/ice_land_igloo.vox';
 
+  /// File path: assets/models/ice/ice_land_penguin.vox
+  String get iceLandPenguin => 'assets/models/ice/ice_land_penguin.vox';
+
   /// File path: assets/models/ice/ice_land_polar_bear.vox
   String get iceLandPolarBear => 'assets/models/ice/ice_land_polar_bear.vox';
 
@@ -114,6 +117,15 @@ class $AssetsModelsIceGen {
 
 class $AssetsModelsJungleGen {
   const $AssetsModelsJungleGen();
+
+  /// File path: assets/models/jungle/T-Rex.vox
+  String get tRex => 'assets/models/jungle/T-Rex.vox';
+
+  /// File path: assets/models/jungle/deer.vox
+  String get deer => 'assets/models/jungle/deer.vox';
+
+  /// File path: assets/models/jungle/dino.vox
+  String get dino => 'assets/models/jungle/dino.vox';
 
   /// File path: assets/models/jungle/grass_land_tree_v1.vox
   String get grassLandTreeV1 => 'assets/models/jungle/grass_land_tree_v1.vox';
