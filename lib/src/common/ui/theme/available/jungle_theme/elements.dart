@@ -10,6 +10,7 @@ class JungleThemeElements {
     Assets.models.jungle.grassLandTreeV1,
     Assets.models.jungle.grassLandTreeV2,
     Assets.models.jungle.grassLandTreeV3,
+    Assets.models.jungle.deer,
     Assets.models.jungle.grasslandTree1,
     Assets.models.jungle.grasslandTree2,
     Assets.models.jungle.grasslandTree3,
