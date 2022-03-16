@@ -115,6 +115,9 @@ class $AssetsModelsIceGen {
 class $AssetsModelsJungleGen {
   const $AssetsModelsJungleGen();
 
+  /// File path: assets/models/jungle/deer.vox
+  String get deer => 'assets/models/jungle/deer.vox';
+
   /// File path: assets/models/jungle/grass_land_tree_v1.vox
   String get grassLandTreeV1 => 'assets/models/jungle/grass_land_tree_v1.vox';
 
