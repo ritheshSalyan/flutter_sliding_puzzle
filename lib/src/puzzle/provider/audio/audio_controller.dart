@@ -18,7 +18,7 @@ class AudioController extends ChangeNotifier {
     await movePlayer.loadAsset(audioThemes.tileMove);
     await correctPlayer.loadAsset(audioThemes.correctPos);
     await backgroundPlayer.loadAsset(audioThemes.background);
-    backgroundMusic();
+    // backgroundMusic();
     await completionPlayer.loadAsset(audioThemes.completion);
   }
 

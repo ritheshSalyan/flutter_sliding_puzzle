@@ -22,7 +22,7 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    ref.read(AudioController.provider).backgroundMusic();
+    ref.read(AudioController.provider);
     // VoxelMesh mesh = VoxelMeshFactory(voxelTree).construct();
     // final viewModel = ref.watch(HomePageViewModel.provider);
     return CommonScaffold(
@@ -124,6 +124,8 @@ class HomePageActionButtons extends ConsumerWidget {
         PuzzleFilledButton(
             rotationController: viewModel.boardRotationController,
             onTap: () async {
+              ref.read(AudioController.provider).backgroundMusic();
+
               Navigator.of(
                 context,
               ).push(MaterialPageRoute(

@@ -8,7 +8,7 @@
             "name": "sliding_puzzle",
             "request": "launch",
             "type": "dart",
-            // "flutterMode": "release"
+            "flutterMode": "release"
         },
         {
             "name": "sliding_puzzle (profile mode)",
