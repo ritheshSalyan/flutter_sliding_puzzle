@@ -21,6 +21,10 @@ class $AssetsImagesGen {
   AssetGenImage get appIcon =>
       const AssetGenImage('assets/images/app_icon.png');
 
+  /// File path: assets/images/get_on_apple.png
+  AssetGenImage get getOnApple =>
+      const AssetGenImage('assets/images/get_on_apple.png');
+
   /// File path: assets/images/get_on_playstore.png
   AssetGenImage get getOnPlaystore =>
       const AssetGenImage('assets/images/get_on_playstore.png');
@@ -58,33 +62,33 @@ class $AssetsModelsGen {
 class $AssetsAudioIceGen {
   const $AssetsAudioIceGen();
 
-  /// File path: assets/audio/ice/background.wav
-  String get background => 'assets/audio/ice/background.wav';
+  /// File path: assets/audio/ice/background.mp3
+  String get background => 'assets/audio/ice/background.mp3';
 
-  /// File path: assets/audio/ice/completion.wav
-  String get completion => 'assets/audio/ice/completion.wav';
+  /// File path: assets/audio/ice/completion.mp3
+  String get completion => 'assets/audio/ice/completion.mp3';
 
-  /// File path: assets/audio/ice/correct_pos.wav
-  String get correctPos => 'assets/audio/ice/correct_pos.wav';
+  /// File path: assets/audio/ice/correct-pos.mp3
+  String get correctPos => 'assets/audio/ice/correct-pos.mp3';
 
-  /// File path: assets/audio/ice/tile_move.wav
-  String get tileMove => 'assets/audio/ice/tile_move.wav';
+  /// File path: assets/audio/ice/tile-move.mp3
+  String get tileMove => 'assets/audio/ice/tile-move.mp3';
 }
 
 class $AssetsAudioNatureGen {
   const $AssetsAudioNatureGen();
 
-  /// File path: assets/audio/nature/background.wav
-  String get background => 'assets/audio/nature/background.wav';
+  /// File path: assets/audio/nature/background.mp3
+  String get background => 'assets/audio/nature/background.mp3';
 
-  /// File path: assets/audio/nature/completion.wav
-  String get completion => 'assets/audio/nature/completion.wav';
+  /// File path: assets/audio/nature/completion.mp3
+  String get completion => 'assets/audio/nature/completion.mp3';
 
-  /// File path: assets/audio/nature/correct_pos.wav
-  String get correctPos => 'assets/audio/nature/correct_pos.wav';
+  /// File path: assets/audio/nature/correct-pos.mp3
+  String get correctPos => 'assets/audio/nature/correct-pos.mp3';
 
-  /// File path: assets/audio/nature/tile_move.wav
-  String get tileMove => 'assets/audio/nature/tile_move.wav';
+  /// File path: assets/audio/nature/tile-move.mp3
+  String get tileMove => 'assets/audio/nature/tile-move.mp3';
 }
 
 class $AssetsModelsIceGen {
@@ -117,9 +121,6 @@ class $AssetsModelsIceGen {
 
 class $AssetsModelsJungleGen {
   const $AssetsModelsJungleGen();
-
-  /// File path: assets/models/jungle/T-Rex.vox
-  String get tRex => 'assets/models/jungle/T-Rex.vox';
 
   /// File path: assets/models/jungle/deer.vox
   String get deer => 'assets/models/jungle/deer.vox';

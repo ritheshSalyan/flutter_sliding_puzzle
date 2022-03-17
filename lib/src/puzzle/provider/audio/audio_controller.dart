@@ -14,12 +14,12 @@ class AudioController extends ChangeNotifier {
   AudioController(this.audioThemes) {
     _init();
   }
-  _init() {
-    movePlayer.loadAsset(audioThemes.tileMove);
-    correctPlayer.loadAsset(audioThemes.correctPos);
-    backgroundPlayer.loadAsset(audioThemes.background);
-    completionPlayer.loadAsset(audioThemes.completion);
+  _init() async {
+    await movePlayer.loadAsset(audioThemes.tileMove);
+    await correctPlayer.loadAsset(audioThemes.correctPos);
+    await backgroundPlayer.loadAsset(audioThemes.background);
     backgroundMusic();
+    await completionPlayer.loadAsset(audioThemes.completion);
   }
 
   final AudioPlayer movePlayer = AudioPlayer();

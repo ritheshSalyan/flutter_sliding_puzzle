@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sliding_puzzle/helper/voxel/renderer.dart';
+import 'package:sliding_puzzle/src/puzzle/provider/audio/audio_controller.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -21,6 +22,7 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
+    ref.read(AudioController.provider).backgroundMusic();
     // VoxelMesh mesh = VoxelMeshFactory(voxelTree).construct();
     // final viewModel = ref.watch(HomePageViewModel.provider);
     return CommonScaffold(
@@ -211,10 +213,16 @@ class GetAppsOnWidget extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
+              launch("https://testflight.apple.com/join/BFU0tIjB");
+            },
+            child: Assets.images.getOnApple.image(width: 200),
+          ),
+          InkWell(
+            onTap: () {
               launch("https://puzzlehack.b-cdn.net/Slide_Z_Windows.zip");
             },
             child: Assets.images.windows.image(width: 200),
-          )
+          ),
         ],
       );
     }
