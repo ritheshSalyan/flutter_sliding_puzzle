@@ -104,8 +104,8 @@ packages:
     description:
       path: "."
       ref: develop
-      resolved-ref: "8ce671f86e4b04811706fd2ebda3837363a342ef"
-      url: "git@gitlab.com:dreamsoftin/core/DreamXR/flutter/dream_xr.git"
+      resolved-ref: afc16a0a278447ca72e37d52d6534ade1e742fa7
+      url: "git@github.com:dreamsoftin/dream_xr.git"
     source: git
     version: "0.0.1"
   equatable:

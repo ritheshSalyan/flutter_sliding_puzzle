@@ -33,7 +33,7 @@ dependencies:
   defer_pointer: ^0.0.2
   dream_xr:
     git:
-      url: git@gitlab.com:dreamsoftin/core/DreamXR/flutter/dream_xr.git
+      url: git@github.com:dreamsoftin/dream_xr.git
       ref: develop
   flutter:
     sdk: flutter
