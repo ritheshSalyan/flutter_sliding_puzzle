@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sliding_puzzle/app_module.dart';
-import 'package:sliding_puzzle/gen/assets.gen.dart';
-import 'package:sliding_puzzle/src/common/common.dart';
-import 'package:sliding_puzzle/src/home/viewmodel/homepage_viewmodel.dart';
+import 'package:sliding_puzzle/helper/voxel/renderer.dart';
+import 'package:sliding_puzzle/src/puzzle/provider/audio/audio_controller.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'package:sliding_puzzle/app_module.dart';
+import 'package:sliding_puzzle/gen/assets.gen.dart';
+import 'package:sliding_puzzle/src/common/common.dart';
+import 'package:sliding_puzzle/src/common/ui/widgets/elements/element.dart';
+import 'package:sliding_puzzle/src/home/viewmodel/homepage_viewmodel.dart';
+
+import '../../../common/provider/voxel_mesh_provider.dart';
 import '../widgets/buttons.dart';
 import 'difficulty_selection.dart';
 import 'how_to_play/how_to_play.dart';
@@ -17,6 +22,7 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
+    ref.read(AudioController.provider);
     // VoxelMesh mesh = VoxelMeshFactory(voxelTree).construct();
     // final viewModel = ref.watch(HomePageViewModel.provider);
     return CommonScaffold(
@@ -118,6 +124,8 @@ class HomePageActionButtons extends ConsumerWidget {
         PuzzleFilledButton(
             rotationController: viewModel.boardRotationController,
             onTap: () async {
+              ref.read(AudioController.provider).backgroundMusic();
+
               Navigator.of(
                 context,
               ).push(MaterialPageRoute(
@@ -159,45 +167,14 @@ class HomePageActionButtons extends ConsumerWidget {
         const SizedBox(
           height: 20,
         ),
-        const GetAppsOnWidget()
-
+        const GetAppsOnWidget(),
         // PuzzleFilledButton(
         //     rotationController: viewModel.boardRotationController,
         //     onTap: () {
         //       showDialog(
         //           context: context,
-        //           builder: (context) => Dialog(
-        //                 backgroundColor: Colors.transparent,
-        //                 elevation: 0,
-        //                 child: AlertDialog(
-        //                   title: const Text("Get It On"),
-        //                   content: Row(
-        //                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        //                     children: [
-        //                       IconButton(
-        //                         onPressed: () {
-        // launch(
-        //     "https://play.google.com/store/apps/details?id=dev.dsi.slidez");
-        //                         },
-        //                         icon: const Icon(Icons.android),
-        //                       ),
-        //                       IconButton(
-        //                         onPressed: () {
-        //                           launch(
-        //                               "https://drive.google.com/file/d/1pJUuiTLJ5B3EA9DrDe3tMgcjeRvOx8Oj/view?usp=sharing");
-        //                         },
-        //                         icon: const Icon(Icons.laptop_windows),
-        //                       ),
-        //                     ],
-        //                   ),
-        //                   actions: [
-        //                     TextButton(
-        //                         onPressed: () {
-        //                           Navigator.pop(context);
-        //                         },
-        //                         child: const Text("Close"))
-        //                   ],
-        //                 ),
+        //           builder: (context) => ModelViewer(
+        //                 assetPath: Assets.models.jungle.deer,
         //               ));
         //     },
         //     child: const Text("Get Apps")),
@@ -238,13 +215,57 @@ class GetAppsOnWidget extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
+              launch("https://testflight.apple.com/join/BFU0tIjB");
+            },
+            child: Assets.images.getOnApple.image(width: 200),
+          ),
+          InkWell(
+            onTap: () {
               launch("https://puzzlehack.b-cdn.net/Slide_Z_Windows.zip");
             },
             child: Assets.images.windows.image(width: 200),
-          )
+          ),
         ],
       );
     }
     return Container();
+  }
+}
+
+class ModelViewer extends ConsumerWidget {
+  const ModelViewer({
+    Key? key,
+    required this.assetPath,
+  }) : super(key: key);
+  final String assetPath;
+  @override
+  Widget build(BuildContext context, ref) {
+    return Scaffold(
+      body: GestureDetector(
+        onPanUpdate: (details) {
+          ref.read(HomePageViewModel.provider).boardRotationController.rotateBy(
+              Offset(-details.delta.dx * 0.01, details.delta.dy * 0.01));
+        },
+        child: Container(
+            color: Colors.white,
+            child: Center(
+                child: DepthTransformer(
+              rotationController:
+                  ref.read(HomePageViewModel.provider).boardRotationController,
+              child: ref.watch(MeshProvider.provider(assetPath)).when(
+                    data: (data) {
+                      return VoxelBuilder(
+                        mesh: data,
+                        rotationController: ref
+                            .read(HomePageViewModel.provider)
+                            .boardRotationController,
+                      );
+                    },
+                    error: (e, a) => Container(),
+                    loading: () => Container(),
+                  ),
+            ))),
+      ),
+    );
   }
 }
